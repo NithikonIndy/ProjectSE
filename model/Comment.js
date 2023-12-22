@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const blogSchema = new Schema({
+const CommetSchema = new Schema({
     title: {
         type: String,
         require: true,
@@ -11,24 +11,20 @@ const blogSchema = new Schema({
         type: String,
         require: true,
     },
-    image: {
-        type: String,
-        require: true,
-    },
     user: {
         type: mongoose.Types.ObjectId,
         ref:"User",
         require: true,
     },
+    blog: {
+        type: mongoose.Types.ObjectId,
+        ref: "Blog",
+        required: true,
+    },
     likes: {
         type: Array,
         require: true,
     },
-    comments: [{
-        type: mongoose.Types.ObjectId,
-        ref: "Comment",
-        required: true,
-    }],
 });
 
-export default mongoose.model("Blog",blogSchema);
+export default mongoose.model("Comment",CommetSchema);

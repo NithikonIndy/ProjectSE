@@ -115,3 +115,59 @@ export const getByUserId = async (req , res , next) => {
     }
     return res.status(200).json({blogs:userBlogs});
 };
+
+// export const LikeandDislike = async ( req , res ,next ) => {
+//     const userId = req.params.id;
+//     const post = Blog.findById(userId);
+//     try{
+//         if(!post.likes.include(req.body.userId)){
+//             await post.updateOne({ $push: {likes: req.body.userId}});
+//             return res.status(200).json("The post has benn liked");
+//         }else{
+//             await post.updateOne({ $pull: {likes:req.body.userId}});
+//             return res.status(200).json("The post has been disliked");
+//         }
+//     }catch(err){
+//         return console.log(err);
+//     }
+// }
+
+// export const LikeandDislike = async ( req , res ,next ) => {
+//     const { likes } = req.body;
+//     const blogId = req.params.id;
+//     let Count;
+//     try{
+//         Count = await Blog.findByIdAndUpdate(blogId, {
+//             likes,
+//         });
+        
+//         console.log(Count);
+//         if(!Count){
+//             await Count.updateOne({ $push: {likes}});
+//             return res.status(200).json("The post has benn liked");
+//         }else{
+//             await Count.updateOne({ $pull: {likes}});
+//             return res.status(400).json("The post has been disliked");
+//         }
+//     }catch(err){
+//         return console.log(err);
+//     }
+// }
+
+export const LikeandDislike = async (req, res, next) => {
+    const userId = req.params.id;
+    try {
+      const post = await Blog.findById(userId);
+  
+      if (!post.likes.includes(req.body.user)) {
+        await post.updateOne({ $push: { likes: req.body.user } });
+        return res.status(200).json("The post has been liked");
+      } else {
+        await post.updateOne({ $pull: { likes: req.body.user } });
+        return res.status(200).json("The post has been disliked");
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  };

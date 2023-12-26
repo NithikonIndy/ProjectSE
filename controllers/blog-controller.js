@@ -93,6 +93,8 @@ export const deleteBlog = async (req , res, next) => {
         }
         await blog.user.blogs.pull(blog);
         await blog.user.save();
+        // await blog.comment.blogs.pull(blog);
+        // await blog.user.save();
     }catch(err){
         return console.log(err);
     }
@@ -155,15 +157,16 @@ export const getByUserId = async (req , res , next) => {
 // }
 
 export const LikeandDislike = async (req, res, next) => {
-    const userId = req.params.id;
+    const postId = req.params.id;
+    const UserId = req.body.user;
     try {
-      const post = await Blog.findById(userId);
-  
-      if (!post.likes.includes(req.body.user)) {
-        await post.updateOne({ $push: { likes: req.body.user } });
+      const post = await Blog.findById(postId);
+        
+      if (!post.likes.includes(UserId)) {
+        await post.updateOne({ $push: { likes: UserId } });
         return res.status(200).json("The post has been liked");
       } else {
-        await post.updateOne({ $pull: { likes: req.body.user } });
+        await post.updateOne({ $pull: { likes: UserId } });
         return res.status(200).json("The post has been disliked");
       }
     } catch (err) {

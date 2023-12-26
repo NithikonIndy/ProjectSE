@@ -20,7 +20,8 @@ const userSchema=new Schema({
     blogs:[{
         type: mongoose.Types.ObjectId,
         ref:"Blog",
-        required: true}],
+        required: true
+    }],
     comments: [{
         type: mongoose.Types.ObjectId,
         ref: "Comment",

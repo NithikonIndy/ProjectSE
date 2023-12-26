@@ -110,4 +110,22 @@ export const CommentLikeandDislike = async (req, res, next) => {
     }
   };
 
+  export const updateComment = async (req ,res ,next ) => {
+    const { title, description } = req.body;
+    const commentId =req.params.id;
+    let comment;
+    try{
+        comment = await Comment.findByIdAndUpdate(commentId, {
+            title,
+            description,
+        });
+    }catch(err){
+        return console.log(err);
+    }
+    if (!comment){
+        return res.status(500).json({message: "Unable to Update The Blog"});
+    }
+    return res.status(200).json({ comment });
+};
+
 

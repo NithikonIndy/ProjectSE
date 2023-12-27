@@ -36,6 +36,16 @@ const userSchema = mongoose.Schema({
         require: true,
         default: null,
     },
+    blogs:[{
+        type: mongoose.Types.ObjectId,
+        ref:"Blog",
+        required: true
+    }],
+    comments: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Comment",
+        required: true,
+    }],
 }, { timestamps: true });
 
 userSchema.pre('save', async function(next){

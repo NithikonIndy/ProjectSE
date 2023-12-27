@@ -6,6 +6,8 @@ import userRoutes from "./routes/userRoutes.js";
 import { notfound, errorHandler } from "./middleware/errorMiddleware.js";
 import { OAuthCallback } from "./controllers/OAuthController.js";
 import session from "express-session";
+import blogRouter from "../routes/blog-routes.js";
+import commentRouter from "../routes/comment-routes.js";
 
 dotenv.config();
 
@@ -30,6 +32,8 @@ app.use(
 );
 
 app.use("/", userRoutes);
+app.use("/api/blog",blogRouter);
+app.use("/api/comments",commentRouter);
 
 // app.use('/api', function(req, res, next) {
 //     console.log("tffdfjgyhrw7oh");

@@ -37,6 +37,10 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
 
     if (existingUser) {
       // res.send(existingUser);
+      req.session.userID = existingUser._id;
+
+      // log session userID with userID in db
+      console.log("session userID: " + existingUser._id);
       console.log("existingUser: " + existingUser);
     } else {
       //! save to the database
@@ -48,6 +52,10 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
         organizationCode,
       });
       // res.json(newUser);
+      req.session.userID = newUser._id;
+
+      // log session userID with userID in db
+      console.log("session userID: " + newUser._id);
       console.log("newUser: " + newUser);
     }
   } catch (error) {

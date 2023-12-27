@@ -62,15 +62,19 @@ const registerUser = asyncHandler(async (req, res, next) => {
 // @route POST /api/users/logout
 // @access public
 const logout = asyncHandler(async (req, res, next) => {
+  // log user go logout
   console.log("user logged out page");
-  res.send("User logged out page");
-  /*
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    expires: new Date(0),
+
+  //! destroy cookies then redirect to sign in page page
+  req.session.destroy(error => {
+    if(error){
+      next(error);
+    }else{
+      console.log("Session was destroyed");
+    }
   });
-  res.status(200).json({ message: "User logged out" });
-  */
+
+  res.redirect("/signIn");
 });
 
 // @description Get user profile

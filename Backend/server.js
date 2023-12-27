@@ -4,10 +4,10 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import { notfound, errorHandler } from "./middleware/errorMiddleware.js";
-import { OAuthCallback } from "./controllers/OAuthController.js";
 import session from "express-session";
 import blogRouter from "./routes/blog-routes.js";
 import commentRouter from "./routes/comment-routes.js";
+import MongoStore from "connect-mongo";
 
 dotenv.config();
 
@@ -21,13 +21,17 @@ app.use(cookieParser());
 
 app.use(
   session({
-    secret: "jjifijsgjifpsjifpjsipjgipwjighfiupsgifpwngiufipsjgiifipw", // Replace with a strong and secure secret key
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-      secure: false, // Set to true if using HTTPS
-      maxAge: 60000, // Session duration in milliseconds
+      secure: false,
+      maxAge: 60*60*1000,
     },
+    rolling: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URL,
+    }),
   })
 );
 
@@ -35,10 +39,6 @@ app.use("/", userRoutes);
 app.use("/api/blog",blogRouter);
 app.use("/api/comments",commentRouter);
 
-// app.use('/api', function(req, res, next) {
-//     console.log("tffdfjgyhrw7oh");
-//     res.send('Welcome');
-// });
 
 app.use(notfound);
 app.use(errorHandler);

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import Blog from "../model/Blog.js";
-import Comment from "../model/Comment.js";
-import User from "../Backend/models/userModel.js";
+import Blog from "../models/Blog.js";
+import Comment from "../models/Comment.js";
+import User from "../models/userModel.js";
 
 export const getAllCommentByBlog = async ( req, res, next) => {
     const BlogId =req.params.id;

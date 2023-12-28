@@ -1,7 +1,7 @@
 import generateToken from "../utils/generateToken.js";
 import asyncHandler from "express-async-handler";
 import { getOAuthAccessToken, getCMUBasicInfo } from "../OAuthFunct.js";
-import session from "express-session";
+import session, { Session } from "express-session";
 import User from "../models/userModel.js";
 
 // @description GET user info from func OAuthCallback
@@ -37,11 +37,19 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
 
     if (existingUser) {
       // res.send(existingUser);
-      req.session.userID = existingUser._id;
-
+      
+      //! Check user session 
+      // func check session user already same in the database 
+      if(req.sessionID.name !== existingUser.name){
+        req.session.userID = existingUser._id;
+      }else{
+        console.log(`user already exists has session: ${userSession}`);
+      }
+      
+      // req.session.userID = existingUser._id;
       // log session userID with userID in db
-      console.log("session userID: " + existingUser._id);
-      console.log("existingUser: " + existingUser);
+      console.log(`session userID: ${existingUser._id}`);
+      console.log(`existingUser: ${existingUser}`);
     } else {
       //! save to the database
       const newUser = await User.create({
@@ -51,12 +59,19 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
         organization,
         organizationCode,
       });
-      // res.json(newUser);
-      req.session.userID = newUser._id;
+    
+      //! Check user session
+      if(req.sessionID.name !== newUser.name){
+        req.session.userID = newUser._id;
+      }else{
+        console.log(`user already exists has session: ${userSession}`);
+      }
 
+      // res.json(newUser);
+      // req.session.userID = newUser._id;
       // log session userID with userID in db
-      console.log("session userID: " + newUser._id);
-      console.log("newUser: " + newUser);
+      console.log(`session userID: ${newUser._id}`);
+      console.log(`newUser: ${newUser}`);
     }
   } catch (error) {
     console.log(error);
@@ -73,10 +88,10 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
       if (user.role === process.env.OLD_ROLE_ADMIN) {
         await user.updateOne({ role: "ADMIN" });
         // res.json({ role: "ADMIN" });
-        console.log("user role updated to ADMIN");
+        console.log(`${user.name} role updated to ADMIN`);
       } else {
         // res.json(user);
-        console.log("user role is already ADMIN");
+        console.log(`${user.name} role is already ADMIN`);
       }
     }
   } catch (error) {

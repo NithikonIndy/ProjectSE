@@ -37,18 +37,16 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
 
     if (existingUser) {
       // res.send(existingUser);
-      
-      //! Check user session 
-      // func check session user already same in the database 
-      if(req.sessionID.name !== existingUser.name){
-        req.session.userID = existingUser._id;
-      }else{
-        console.log(`user already exists has session: ${userSession}`);
+
+      //! Check existing user session has been set
+      if(req.session.userId !== existingUser._id){
+        console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
+        req.session.userId = existingUser._id;
+        console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
       }
       
-      // req.session.userID = existingUser._id;
       // log session userID with userID in db
-      console.log(`session userID: ${existingUser._id}`);
+      console.log("session userID: " + req.session.userId);
       console.log(`existingUser: ${existingUser}`);
     } else {
       //! save to the database
@@ -60,17 +58,16 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
         organizationCode,
       });
     
-      //! Check user session
-      if(req.sessionID.name !== newUser.name){
-        req.session.userID = newUser._id;
-      }else{
-        console.log(`user already exists has session: ${userSession}`);
+      //! Check new user session has been set
+      if(req.session.userId !== newUser._id){
+        console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
+        req.session.userId = newUser._id;
+        console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
       }
 
       // res.json(newUser);
-      // req.session.userID = newUser._id;
       // log session userID with userID in db
-      console.log(`session userID: ${newUser._id}`);
+      console.log("session userID: " + req.session.userId);
       console.log(`newUser: ${newUser}`);
     }
   } catch (error) {

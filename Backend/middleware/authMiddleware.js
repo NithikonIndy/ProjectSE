@@ -1,25 +1,23 @@
-import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 
-const protect = asyncHandler(async (req, res, next) => {
-    let token;
-    token = req.cookies.jwt;
-
-    if(token){
-        try{
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-            req.user = await User.findById(decoded.userId).select("-password");
-            next();
-        }catch(error){
-            res.status(401);
-            throw new Error("Not authorized, Invalid token");
-        }
+const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
+  const authenticatedUser = await req.session.userId;
+  // log authenticated user id in session
+  console.log(`Authenticated userId in session: ${authenticatedUser}`);
+  
+  try{
+    if (!authenticatedUser || authenticatedUser === undefined) {
+     res.status(401).redirect("/signIn");
+     //.send({ message: `User not authenticated: ${authenticatedUser}`});
     }else{
-        res.status(401);
-        throw new Error("Not authorized, No cookies");
+     const user = await User.findById(authenticatedUser);
+     res.status(200).send({ message: `user: ${user}` });
     }
+  }catch(error){
+    return next(error);
+  }
+
 });
 
-export { protect };
+export { getAuthenticatedUser };

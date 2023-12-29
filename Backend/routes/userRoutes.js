@@ -10,9 +10,8 @@ import {
   profile,
   signIn,
 } from "../controllers/userController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { getAuthenticatedUser } from "../middleware/authMiddleware.js";
 import { OAuthCallback } from "../controllers/OAuthController.js";
-import User from "../models/userModel.js";
 
 const router = express.Router();
 
@@ -42,7 +41,10 @@ router.get("/getUser", async function (req, res) {
  */
 
 //! implement in progress
-router.get("/home", home);
+router
+  .route("/home")
+  .get(getAuthenticatedUser, home);
+  //.get("/home", home);
 router.get("/admin", dashboard);
 router.get("/profile", profile);
 router.get("/logout", logout);

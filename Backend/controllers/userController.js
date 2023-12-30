@@ -6,6 +6,7 @@ import asyncHandler from "express-async-handler";
 // @route POST /api/users/auth
 // @access public
 const authUser = asyncHandler(async (req, res, next) => {
+  /*
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -20,6 +21,7 @@ const authUser = asyncHandler(async (req, res, next) => {
     res.status(401);
     throw new Error("Invalid email or password");
   }
+  */
 });
 
 // @description Register a new user
@@ -81,6 +83,7 @@ const logout = asyncHandler(async (req, res, next) => {
 // @route GET /api/users/profile
 // @access private
 const getUserProfile = asyncHandler(async (req, res, next) => {
+  /*
   //console.log(req.user);
   const user = {
     _id: req.user._id,
@@ -91,12 +94,14 @@ const getUserProfile = asyncHandler(async (req, res, next) => {
     message: "Get user profile",
   };
   res.status(200).json(user);
+  */
 });
 
 // @description Update user profile
 // @route PUT /api/users/profile
 // @access private
 const updateUserProfile = asyncHandler(async (req, res, next) => {
+  /*
   const user = await User.findById(req.user._id);
 
   if (user) {
@@ -119,6 +124,7 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
     res.status(404);
     throw new Error("User profile not found");
   }
+  */
 });
 
 const home = asyncHandler(async (req, res, next) => {

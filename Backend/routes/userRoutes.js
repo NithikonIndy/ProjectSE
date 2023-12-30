@@ -46,7 +46,10 @@ router
   .get(getAuthenticatedUser, home);
   //.get("/home", home);
 router.get("/admin", dashboard);
-router.get("/profile", profile);
+router
+  .route("/profile")
+  //.get(getAuthenticatedUser, profile)
+  .get(getAuthenticatedUser, getUserProfile);
 router.get("/logout", logout);
 router.get("/signIn", signIn);
 

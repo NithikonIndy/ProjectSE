@@ -61,7 +61,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
 });
 
 // @description Logout user
-// @route POST /api/users/logout
+// @route GET /logout
 // @access public
 const logout = asyncHandler(async (req, res, next) => {
   // log user go logout
@@ -80,21 +80,22 @@ const logout = asyncHandler(async (req, res, next) => {
 });
 
 // @description Get user profile
-// @route GET /api/users/profile
+// @route GET /profile
 // @access private
 const getUserProfile = asyncHandler(async (req, res, next) => {
-  /*
-  //console.log(req.user);
-  const user = {
-    _id: req.user._id,
-    account: req.user.accountType,
-    name: req.user.name,
-    email: req.user.email,
-    organization: req.user.organization,
-    message: "Get user profile",
-  };
-  res.status(200).json(user);
-  */
+  // res.redirect("/profile Page");
+
+  try{
+    const user = await User.findById(req.session.userId);
+    res.send(user);
+
+    // log user go profile page
+    console.log(`${user.name} go to profile page`);
+    // log user information in db
+    console.log("User: ", user);
+  }catch(error){
+    throw new Error(`Can not find user in information: ${req.session.userId}`);
+  }
 });
 
 // @description Update user profile

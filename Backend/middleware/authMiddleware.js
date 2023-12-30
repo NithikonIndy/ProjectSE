@@ -12,7 +12,12 @@ const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
      //.send({ message: `User not authenticated: ${authenticatedUser}`});
     }else{
      const user = await User.findById(authenticatedUser);
-     res.status(200).send({ message: `user: ${user}` });
+
+     if(user === null){
+      res.status(401).redirect("/signIn");
+     }else{
+      res.status(200).send({ message: `user: ${user}`});
+     }
     }
   }catch(error){
     return next(error);

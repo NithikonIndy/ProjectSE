@@ -15,8 +15,10 @@ const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
 
      if(user === null){
       res.status(401).redirect("/signIn");
+      next();
      }else{
-      res.status(200).send({ message: `user: ${user}`});
+      res.status(200);//.send({ message: `user: ${user}`});
+      next();
      }
     }
   }catch(error){

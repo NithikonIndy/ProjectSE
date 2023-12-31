@@ -10,7 +10,7 @@ import {
   profile,
   signIn,
 } from "../controllers/userController.js";
-import { getAuthenticatedUser } from "../middleware/authMiddleware.js";
+import { getAuthenticatedUser, getAuthenticatedAdmin } from "../middleware/authMiddleware.js";
 import { OAuthCallback } from "../controllers/OAuthController.js";
 
 const router = express.Router();
@@ -45,7 +45,9 @@ router
   .route("/home")
   .get(getAuthenticatedUser, home);
   //.get("/home", home);
-router.get("/admin", dashboard);
+router
+  .route("/admin")
+  .get(getAuthenticatedAdmin, dashboard);
 router
   .route("/profile")
   //.get(getAuthenticatedUser, profile)

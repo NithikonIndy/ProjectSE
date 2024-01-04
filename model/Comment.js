@@ -25,6 +25,6 @@ const CommetSchema = new Schema({
         type: Array,
         require: true,
     },
-});
+},{ timestamps: true });
 
 export default mongoose.model("Comment",CommetSchema);

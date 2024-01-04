@@ -6,6 +6,7 @@ import asyncHandler from "express-async-handler";
 // @route POST /api/users/auth
 // @access public
 const authUser = asyncHandler(async (req, res, next) => {
+  /*
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -20,6 +21,7 @@ const authUser = asyncHandler(async (req, res, next) => {
     res.status(401);
     throw new Error("Invalid email or password");
   }
+  */
 });
 
 // @description Register a new user
@@ -59,40 +61,48 @@ const registerUser = asyncHandler(async (req, res, next) => {
 });
 
 // @description Logout user
-// @route POST /api/users/logout
+// @route GET /logout
 // @access public
 const logout = asyncHandler(async (req, res, next) => {
+  // log user go logout
   console.log("user logged out page");
-  res.send("User logged out page");
-  /*
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    expires: new Date(0),
+
+  //! destroy cookies then redirect to sign in page page
+  req.session.destroy(error => {
+    if(error){
+      next(error);
+    }else{
+      console.log("Session was destroyed");
+    }
   });
-  res.status(200).json({ message: "User logged out" });
-  */
+
+  res.redirect("/signIn");
 });
 
 // @description Get user profile
-// @route GET /api/users/profile
+// @route GET /profile
 // @access private
 const getUserProfile = asyncHandler(async (req, res, next) => {
-  //console.log(req.user);
-  const user = {
-    _id: req.user._id,
-    account: req.user.accountType,
-    name: req.user.name,
-    email: req.user.email,
-    organization: req.user.organization,
-    message: "Get user profile",
-  };
-  res.status(200).json(user);
+  // res.redirect("/profile Page");
+
+  try{
+    const user = await User.findById(req.session.userId);
+    res.send(user);
+
+    // log user go profile page
+    console.log(`${user.name} go to profile page`);
+    // log user information in db
+    console.log("User: ", user);
+  }catch(error){
+    throw new Error(`Can not find user in information: ${req.session.userId}`);
+  }
 });
 
 // @description Update user profile
 // @route PUT /api/users/profile
 // @access private
 const updateUserProfile = asyncHandler(async (req, res, next) => {
+  /*
   const user = await User.findById(req.user._id);
 
   if (user) {
@@ -115,6 +125,7 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
     res.status(404);
     throw new Error("User profile not found");
   }
+  */
 });
 
 const home = asyncHandler(async (req, res, next) => {

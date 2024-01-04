@@ -1,7 +1,7 @@
 import generateToken from "../utils/generateToken.js";
 import asyncHandler from "express-async-handler";
 import { getOAuthAccessToken, getCMUBasicInfo } from "../OAuthFunct.js";
-import session from "express-session";
+import session, { Session } from "express-session";
 import User from "../models/userModel.js";
 
 // @description GET user info from func OAuthCallback
@@ -37,7 +37,17 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
 
     if (existingUser) {
       // res.send(existingUser);
-      console.log("existingUser: " + existingUser);
+
+      //! Check existing user session has been set
+      if(req.session.userId !== existingUser._id){
+        console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
+        req.session.userId = existingUser._id;
+        console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
+      }
+      
+      // log session userID with userID in db
+      console.log("session userID: " + req.session.userId);
+      console.log(`existingUser: ${existingUser}`);
     } else {
       //! save to the database
       const newUser = await User.create({
@@ -47,8 +57,18 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
         organization,
         organizationCode,
       });
+    
+      //! Check new user session has been set
+      if(req.session.userId !== newUser._id){
+        console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
+        req.session.userId = newUser._id;
+        console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
+      }
+
       // res.json(newUser);
-      console.log("newUser: " + newUser);
+      // log session userID with userID in db
+      console.log("session userID: " + req.session.userId);
+      console.log(`newUser: ${newUser}`);
     }
   } catch (error) {
     console.log(error);
@@ -65,10 +85,10 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
       if (user.role === process.env.OLD_ROLE_ADMIN) {
         await user.updateOne({ role: "ADMIN" });
         // res.json({ role: "ADMIN" });
-        console.log("user role updated to ADMIN");
+        console.log(`${user.name} role updated to ADMIN`);
       } else {
         // res.json(user);
-        console.log("user role is already ADMIN");
+        console.log(`${user.name} role is already ADMIN`);
       }
     }
   } catch (error) {

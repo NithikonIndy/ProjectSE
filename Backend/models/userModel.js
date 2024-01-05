@@ -31,11 +31,13 @@ const userSchema = mongoose.Schema({
         type: String,
         default: 'USER',
     },
+    /*
     password: {
         type: String,
         require: true,
         default: null,
     },
+    */
     blogs:[{
         type: mongoose.Types.ObjectId,
         ref:"Blog",

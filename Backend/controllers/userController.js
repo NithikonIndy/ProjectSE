@@ -98,6 +98,43 @@ const getUserProfile = asyncHandler(async (req, res, next) => {
   }
 });
 
+// @description Get all user information
+// @route GET /users
+// @access private
+const getAllUsers = asyncHandler(async (req, res, next) => {
+  // log if call func getAllUsers
+  const user = await User.findById(req.session.userId);
+  console.log(`Calling getAllUsers by ${user.name}`);
+
+  try{
+    const user = await User.find();
+    res.send(user);
+    // log getAllUsers information
+    console.log(`getAllUsers: ${user}`);
+  }catch(error){
+    throw new Error(`Can not find all user information by: ${error}`);
+  };
+
+});
+
+// @description PATCH update field role on user
+// @route PATCH /updateRole
+// @access private
+const updateRole = asyncHandler(async (req, res, next) => {
+  try{
+    const { id, role } = req.body;
+
+    // update user role from request
+    const updateUserRole = await User.findByIdAndUpdate(id, {role}, {new: true});
+    res.send(updateUserRole);
+    // log updateUserRole information
+    console.log(`updateUserRole: ${updateUserRole}`);
+  }catch(error){
+    throw new Error(`Can not update user role by: ${error}`);
+  }
+});
+
+
 // @description Update user profile
 // @route PUT /api/users/profile
 // @access private
@@ -159,6 +196,8 @@ export {
   updateUserProfile,
   home,
   dashboard,
+  getAllUsers,
+  updateRole,
   profile,
   signIn,
 };

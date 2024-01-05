@@ -7,6 +7,8 @@ import {
   updateUserProfile,
   home,
   dashboard,
+  getAllUsers,
+  updateRole,
   profile,
   signIn,
 } from "../controllers/userController.js";
@@ -47,7 +49,9 @@ router
   //.get("/home", home);
 router
   .route("/admin")
-  .get(getAuthenticatedAdmin, dashboard);
+  /*.get(getAuthenticatedAdmin, dashboard)*/
+  .get(getAuthenticatedAdmin, getAllUsers)
+  .patch(getAuthenticatedAdmin, updateRole)
 router
   .route("/profile")
   //.get(getAuthenticatedUser, profile)

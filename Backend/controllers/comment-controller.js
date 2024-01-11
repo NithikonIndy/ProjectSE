@@ -7,7 +7,6 @@ export const getAllCommentByBlog = async ( req, res, next) => {
     const BlogId =req.params.id;
     let blogcomments;
     try{
-        //blogcomments = await Comment.findById(BlogId);
         blogcomments =await Comment.find();
     }catch(err){
         return console.log(err);
@@ -20,7 +19,12 @@ export const getAllCommentByBlog = async ( req, res, next) => {
 
 
 export const addComment = async (req , res,next) => {
-    const { title,description,user,blog} = req.body;
+    const {description} = req.body;
+
+    const blog =req.params.id;
+
+    const user = await req.session.userId;
+    
 
     let exitstingBlog ;
     let exitstingUser;
@@ -35,7 +39,6 @@ export const addComment = async (req , res,next) => {
         return res.status(400).json({message:"Unable To Find User By This ID"})
     }
     const comment = new Comment ({
-        title,
         description,
         user,
         blog,
@@ -91,9 +94,9 @@ export const deleteComment = async (req, res, next) => {
     return res.status(200).json({message:"Successfully Delete"});
 };
 
-export const CommentLikeandDislike = async (req, res, next) => {
+export const CommentLikeandUnlike = async (req, res, next) => {
     const commentId = req.params.id;
-    const userId = req.body.user;
+    const userId = await req.session.userId;
     try {
       const comment = await Comment.findById(commentId);
         
@@ -111,12 +114,11 @@ export const CommentLikeandDislike = async (req, res, next) => {
   };
 
   export const updateComment = async (req ,res ,next ) => {
-    const { title, description } = req.body;
+    const {description} = req.body;
     const commentId =req.params.id;
     let comment;
     try{
         comment = await Comment.findByIdAndUpdate(commentId, {
-            title,
             description,
         });
     }catch(err){

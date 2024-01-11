@@ -1,12 +1,12 @@
 import express from "express";
-import {updateComment,CommentLikeandDislike,deleteComment,addComment,getAllCommentByBlog} from "../controllers/comment-controller.js";
+import {updateComment,CommentLikeandUnlike,deleteComment,addComment,getAllCommentByBlog} from "../controllers/comment-controller.js";
 
 const commentRouter = express.Router();
 
 commentRouter.get("/blogs/:id",getAllCommentByBlog);
-commentRouter.post("/blog/add",addComment);
+commentRouter.post("/blog/:id/add",addComment);
 commentRouter.delete("/blog/:id",deleteComment);
-commentRouter.put("/blog/:id/like",CommentLikeandDislike);
+commentRouter.put("/blog/:id/like",CommentLikeandUnlike);
 commentRouter.put("/update/:id",updateComment);
 
 export default commentRouter;

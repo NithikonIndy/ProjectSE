@@ -16,8 +16,9 @@ export const getAllBlog = async ( req, res, next) => {
 };
 
 export const addBlog = async ( req, res, next) => {
-    const { title,description, image, user } = req.body;
-    
+    const {description} = req.body;
+    const user = await req.session.userId;
+
     let exitstingUser;
     try{
         exitstingUser = await User.findById(user);
@@ -25,17 +26,13 @@ export const addBlog = async ( req, res, next) => {
         return console.log(err);
     }
     if(!exitstingUser){
-        //console.log(exitstingUser)
         return res.status(400).json({message:"Unable To Find User By This ID"});
     }
     const blog = new Blog({
-        title,
         description,
-        image,
         user,
     });
     try{
-        //await blog.save();
         const session = await mongoose.startSession();
         session.startTransaction();
         await blog.save({session});
@@ -50,12 +47,11 @@ export const addBlog = async ( req, res, next) => {
 };
 
 export const updateBlog = async (req ,res ,next ) => {
-    const { title, description } = req.body;
+    const {description } = req.body;
     const blogId =req.params.id;
     let blog;
     try{
         blog = await Blog.findByIdAndUpdate(blogId, {
-            title,
             description,
         });
     }catch(err){
@@ -93,8 +89,6 @@ export const deleteBlog = async (req , res, next) => {
         }
         await blog.user.blogs.pull(blog);
         await blog.user.save();
-        // await blog.comment.blogs.pull(blog);
-        // await blog.user.save();
     }catch(err){
         return console.log(err);
     }
@@ -118,50 +112,13 @@ export const getByUserId = async (req , res , next) => {
     return res.status(200).json({blogs:userBlogs});
 };
 
-// export const LikeandDislike = async ( req , res ,next ) => {
-//     const userId = req.params.id;
-//     const post = Blog.findById(userId);
-//     try{
-//         if(!post.likes.include(req.body.userId)){
-//             await post.updateOne({ $push: {likes: req.body.userId}});
-//             return res.status(200).json("The post has benn liked");
-//         }else{
-//             await post.updateOne({ $pull: {likes:req.body.userId}});
-//             return res.status(200).json("The post has been disliked");
-//         }
-//     }catch(err){
-//         return console.log(err);
-//     }
-// }
 
-// export const LikeandDislike = async ( req , res ,next ) => {
-//     const { likes } = req.body;
-//     const blogId = req.params.id;
-//     let Count;
-//     try{
-//         Count = await Blog.findByIdAndUpdate(blogId, {
-//             likes,
-//         });
-        
-//         console.log(Count);
-//         if(!Count){
-//             await Count.updateOne({ $push: {likes}});
-//             return res.status(200).json("The post has benn liked");
-//         }else{
-//             await Count.updateOne({ $pull: {likes}});
-//             return res.status(400).json("The post has been disliked");
-//         }
-//     }catch(err){
-//         return console.log(err);
-//     }
-// }
-
-export const LikeandDislike = async (req, res, next) => {
+export const LikeandUnlike = async (req, res, next) => {
     const postId = req.params.id;
-    const UserId = req.body.user;
+
+    const UserId = await req.session.userId;
     try {
       const post = await Blog.findById(postId);
-        
       if (!post.likes.includes(UserId)) {
         await post.updateOne({ $push: { likes: UserId } });
         return res.status(200).json("The post has been liked");

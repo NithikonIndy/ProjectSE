@@ -3,10 +3,6 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const CommetSchema = new Schema({
-    title: {
-        type: String,
-        require: true,
-    },
     description: {
         type: String,
         require: true,

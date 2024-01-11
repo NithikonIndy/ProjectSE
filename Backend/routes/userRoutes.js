@@ -7,11 +7,14 @@ import {
   updateUserProfile,
   home,
   dashboard,
+  getAllUsers,
+  updateRole,
   profile,
   signIn,
 } from "../controllers/userController.js";
 import { getAuthenticatedUser, getAuthenticatedAdmin } from "../middleware/authMiddleware.js";
 import { OAuthCallback } from "../controllers/OAuthController.js";
+import { getAllBlog } from "../controllers/blog-controller.js";
 
 const router = express.Router();
 
@@ -43,11 +46,14 @@ router.get("/getUser", async function (req, res) {
 //! implement in progress
 router
   .route("/home")
-  .get(getAuthenticatedUser, home);
+  .get(getAuthenticatedUser, getAllBlog);
+  //.get(getAuthenticatedUser, home);
   //.get("/home", home);
 router
   .route("/admin")
-  .get(getAuthenticatedAdmin, dashboard);
+  /*.get(getAuthenticatedAdmin, dashboard)*/
+  .get(getAuthenticatedAdmin, getAllUsers)
+  .patch(getAuthenticatedAdmin, updateRole)
 router
   .route("/profile")
   //.get(getAuthenticatedUser, profile)

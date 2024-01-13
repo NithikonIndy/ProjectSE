@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import Blog from "../models/Blog.js";
 import User from "../models/userModel.js";
+import Report from "../models/reportModel.js";
+import constants from "../utils/constants.js";
 
 export const getAllBlog = async ( req, res, next) => {
     let blogs;
@@ -131,3 +133,34 @@ export const LikeandUnlike = async (req, res, next) => {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   };
+
+// POST Method 
+export const report = async (req, res, next) => {
+    try{
+        const postId  = req.params.id;
+        const { reason } = req.body;
+        const fromUser = await req.session.userId;
+
+        // Check reasons is valid or not
+        const allowedReason = Object.values(constants.reasons);
+        // console.log("allowedReason: " + allowedReason);
+
+        if (!allowedReason.includes(reason)) {
+            // Check reason
+            // console.log("reason:", reason);
+            return res.status(400).json({ error: "Invalid reason" });
+        }
+
+        const report = await Report.create({
+            fromUser: fromUser,
+            postId: postId,
+            reason: reason,
+        });
+
+        console.log("Report:",report);
+        res.status(201).json({ message: "Report created successfully" });
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: "Error creating report" });
+    }
+};

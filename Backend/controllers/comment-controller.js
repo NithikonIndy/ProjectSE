@@ -22,15 +22,10 @@ export const getAllCommentByBlog = async (req, res, next) => {
 
 
 export const addComment = async (req, res, next) => {
-    const {user,description } = req.body;
+    const { user,description } = req.body;
 
     const blog = req.params.id;
 
-
-   // const user = req.session.userId;
-  
-
-    //console.log( axios.get('http://localhost:3000/get-session'));
     let exitstingBlog;
     let exitstingUser;
     try {
@@ -102,7 +97,7 @@ export const deleteComment = async (req, res, next) => {
 
 export const CommentLikeandUnlike = async (req, res, next) => {
     const commentId = req.params.id;
-    const userId = await req.session.userId;
+    const {userId} = req.body;
     try {
         const comment = await Comment.findById(commentId);
 
@@ -135,5 +130,19 @@ export const updateComment = async (req, res, next) => {
     }
     return res.status(200).json({ comment });
 };
+
+export const getById = async (req, res , next) => {
+    const id = req.params.id;
+    let comment;
+    try{
+        comment = await Comment.findById(id);
+    }catch(err){
+        return console.log(err);
+    }
+    if(!comment){
+        return res.status(404).json({message:"No Comment Found"});
+    }
+    return res.status(200).json({ comment });
+}
 
 

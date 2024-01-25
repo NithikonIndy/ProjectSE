@@ -4,12 +4,13 @@ import './CommentPage.css'; // Assume a CSS file for styling
 import freebird from './picture/freebird.png';
 import home from './picture/home.png';
 import person from './picture/person.png';
+
 //header component
 const Header = () => (
   <div className="comment-page-header">
     <div className="comment-page-logo">
-      {/* Insert your logo image here */}
-      <img src={freebird} alt="Logo" />
+      {/* Insert your logo image here */} 
+      <img src={freebird} alt="Logo" /> 
     </div>
     <div className="comment-page-search">
       <input type="text" placeholder="Search..." />
@@ -19,6 +20,7 @@ const Header = () => (
       <img src={person} alt="Logo" />
       {/* Insert icons here */}
     </div>
+   
   </div>
 );
 

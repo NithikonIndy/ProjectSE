@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ReportPage.css'; // Reusing the styles from CommentPage
@@ -13,13 +12,14 @@ const Header = () => (
     <div className="comment-page-logo">
       {/* Insert your logo image here */}
       <img src={freebird} alt="Logo" />
+      <span className="logo-text">FREE BIRD</span>
     </div>
     <div className="comment-page-search">
       <input type="text" placeholder="Search..." />
     </div>
     <div className="comment-page-icons">
-      <img src={home} alt="Logo" />
-      <img src={person} alt="Logo" />
+      <img src={home} alt="Home Icon" />
+      <img src={person} alt="Person Icon" />
       {/* Insert icons here */}
     </div>
   </div>

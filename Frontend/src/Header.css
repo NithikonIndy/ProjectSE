@@ -1,0 +1,33 @@
+/* Header.css */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: hsl(190, 100%, 49%);
+  margin-top: 10px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 80px;
+}
+
+.logo-text {
+  margin-bottom: 5px;
+  color: #FFEEBB;
+}
+
+.search {
+  width: 50%;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+}

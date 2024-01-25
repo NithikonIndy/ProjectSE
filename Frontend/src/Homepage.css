@@ -6,9 +6,10 @@
   .centered-card {
     margin-top: 50px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /**/
     align-items: center;
   }
+
   
   .featured-card {
     margin-bottom: 20px;

@@ -1,26 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import './CommentPage.css'; // Assume a CSS file for styling
-import freebird from './picture/freebird.png';
-import home from './picture/home.png';
-import person from './picture/person.png';
+import Header from './Header/Header.js';
+
 //header component
-const Header = () => (
-  <div className="comment-page-header">
-    <div className="comment-page-logo">
-      {/* Insert your logo image here */}
-      <img src={freebird} alt="Logo" />
-    </div>
-    <div className="comment-page-search">
-      <input type="text" placeholder="Search..." />
-    </div>
-    <div className="comment-page-icons">
-      <img src={home} alt="Logo" />
-      <img src={person} alt="Logo" />
-      {/* Insert icons here */}
-    </div>
-  </div>
-);
+
+
+
 
 // นำเข้า Popup และ Comment จากไฟล์นี้
 const Popup = ({ onClose, onReport }) => (

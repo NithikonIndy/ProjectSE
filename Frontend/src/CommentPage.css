@@ -4,8 +4,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #AC87C5; /* Light blue background */
-}
+  background-color: #03ff53; /* Light blue background */
+} 
 
 /* Logo styling */
 .comment-page-logo {
@@ -15,6 +15,7 @@
 
 .comment-page-logo img {
   height: 300px; /* Example size, adjust as needed */
+  width: auto;
 
 }
 

@@ -29,12 +29,13 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
+    "unique-names-generator": "^4.7.1",
     "recharts": "^2.10.4",
     "web-vitals": "^2.1.4",
     "which": "^2.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --port 3001",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

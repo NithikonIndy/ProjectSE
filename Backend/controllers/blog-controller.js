@@ -116,9 +116,10 @@ export const getByUserId = async (req , res , next) => {
 
 
 export const LikeandUnlike = async (req, res, next) => {
+    const {UserId}= req.body;
     const postId = req.params.id;
 
-    const UserId = await req.session.userId;
+
     try {
       const post = await Blog.findById(postId);
       if (!post.likes.includes(UserId)) {

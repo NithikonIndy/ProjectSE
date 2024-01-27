@@ -11,10 +11,12 @@ import {
   updateRole,
   profile,
   signIn,
+
 } from "../controllers/userController.js";
-import { getAuthenticatedUser, getAuthenticatedAdmin } from "../middleware/authMiddleware.js";
+import { getAuthenticatedUser, getAuthenticatedAdmin ,getSession } from "../middleware/authMiddleware.js";
 import { OAuthCallback } from "../controllers/OAuthController.js";
 import { getAllBlog } from "../controllers/blog-controller.js";
+
 
 const router = express.Router();
 
@@ -60,5 +62,8 @@ router
   .get(getAuthenticatedUser, getUserProfile);
 router.get("/logout", logout);
 router.get("/signIn", signIn);
+router.get("/test",getUserProfile);
+router.get("/Userid",getSession);
+
 
 export default router;

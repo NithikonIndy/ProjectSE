@@ -8,6 +8,7 @@ import session from "express-session";
 import blogRouter from "./routes/blog-routes.js";
 import commentRouter from "./routes/comment-routes.js";
 import MongoStore from "connect-mongo";
+import cors from 'cors';
 
 dotenv.config();
 
@@ -25,6 +26,8 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      path: '/',
+      httpOnly: true,
       secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
     },
@@ -34,10 +37,25 @@ app.use(
     }),
   })
 );
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true,
+}));
+
+
+// pull sessionuserid
+app.get("/get-session", (req, res) => {
+  const mySession = req.session.userId;
+  res.send(`Session value: ${mySession}`);
+});
+
+
+
+
 
 app.use("/", userRoutes);
-app.use("/api/blog",blogRouter);
-app.use("/api/comments",commentRouter);
+app.use("/api/blog", blogRouter);
+app.use("/api/comments", commentRouter);
 
 
 app.use(notfound);

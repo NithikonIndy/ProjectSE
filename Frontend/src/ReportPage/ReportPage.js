@@ -1,11 +1,7 @@
-
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './ReportPage.css'; // Reusing the styles from CommentPage
-import Header from'./Header/Header.js';
-
-
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./ReportPage.css"; // Reusing the styles from CommentPage
+import Header from "../Header/Header.js";
 
 const Reason = ({ text, onSelect }) => (
   <div className="reason" onClick={() => onSelect(text)}>
@@ -14,7 +10,7 @@ const Reason = ({ text, onSelect }) => (
 );
 
 const ReportPage = () => {
-  const [selectedReason, setSelectedReason] = useState('');
+  const [selectedReason, setSelectedReason] = useState("");
   let navigate = useNavigate();
   const handleSelectReason = (reason) => {
     setSelectedReason(reason);

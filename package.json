@@ -25,6 +25,7 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "react-router-dom": "^6.21.1",
+    "unique-names-generator": "^4.7.1",
     "which": "^4.0.0"
   },
   "devDependencies": {

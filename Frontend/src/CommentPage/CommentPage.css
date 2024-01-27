@@ -1,52 +1,3 @@
-/* Header styling */
-.comment-page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #00bfff; /* Light blue background */
-}
-
-/* Logo styling */
-.comment-page-logo {
-  display: flex;
-  align-items: center;
-}
-
-.comment-page-logo img {
-  height: 300px; /* Example size, adjust as needed */
-
-}
-
-/* Search bar styling */
-.comment-page-search {
-  
-  flex-grow: 1; /* Let the search bar grow to fill the space */
-  margin: 0 20px;
-}
-
-.comment-page-search input {
-  position: fixed;
-  width: 60%;
-  padding: 10px;
-  border: none;
-  border-radius: 20px; /* Rounded corners for the search bar */
-  margin-right: 10px;
-  right: 270px;
-  top: 38px;
-  background-color: #00bfff;
-}
-
-/* Icons on the right */
-.comment-page-icons {
-  display: flex;
-  align-items: center;
-}
-
-.comment-page-icon {
-  margin-left: 20px;
-  cursor: pointer;
-}
 
 .popup {
   position: fixed;
@@ -116,7 +67,7 @@
   color: #333;
   background-color: #00bfff; /* Light blue background */
   padding: 20px;
-  height: 720px;
+  height: 100vh;
   background-size: cover;
 }
 

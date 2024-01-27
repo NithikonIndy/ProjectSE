@@ -1,73 +1,75 @@
 /* Ensure the header and search bar are properly aligned and responsive */
 .comment-page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #e6f7ff; /* Matching the background color from the image */
-    box-sizing: border-box;
-    width: 100%;
-
-    position: relative; /* Set the header's position to relative */
-  }
-  
-  .comment-page-logo img {
-    height: auto; /* Adjust based on the aspect ratio of your logo image */
-    width: 120px; /* Adjust the logo width as needed */
-  }
-  
-  .comment-page-search {
-    flex-grow: 1;
-    position: relative; /* Relative positioning for the search bar */
-    max-width: 600px; /* Max width for the search input */
-    margin-left: 20px; /* Space between logo and search bar */
-    margin-right: 20px; /* Space between search bar and icons */
-    
-    top:-25px ;
-    position: absolute; /* Position the search bar absolutely within the header */
-    left: 50%; /* Start at the center of the header */
-    
-    width: 60%; /* Adjust the width as needed */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e6f7ff; /* Matching the background color from the image */
+  padding: 10px 20px;
+  width: 100%; /* Ensure the header is full width */
 }
+
+.comment-page-logo img {
+  height: auto; /* Adjust based on the aspect ratio of your logo image */
+  width: 60px; /* Adjust the logo width as needed */
+}
+
+.comment-page-search {
+  flex-grow: 1;
+  position: relative; /* Relative positioning for the search bar */
+  max-width: 600px; /* Max width for the search input */
+  margin-left: 20px; /* Space between logo and search bar */
+  margin-right: 20px; /* Space between search bar and icons */
   
-  .comment-page-search input {
-    width: 100%; /* Full width of its parent */
-    border-radius: 20px; /* Rounded corners */
-    padding: 10px;
-    border: none; /* Remove border */
+  
+  position: absolute; /* Position the search bar absolutely within the header */
+  left: 60%; /* Center the search bar within the header */
+  transform: translateX(-5%); /* Offset the search bar by half its width to truly center it */
+  width: 30%; /* Adjust this to fit the search bar size you want */
+}
+
+.comment-page-search input {
+  width: 100%; /* Full width of its parent */
+  border-radius: 20px; /* Rounded corners */
+  padding: 10px;
+  border: none; /* Remove border */
+  background-color: #00bfff;
+}
+
+.comment-page-icons {
+  display: flex;
+  align-items: center;
+}
+
+.comment-page-icon {
+  margin-left: 20px; /* Space between icons */
+  cursor: pointer;
+}
+
+/* Responsive design for the header */
+@media (max-width: 768px) {
+  .comment-page-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
+
+  .comment-page-search {
+    order: -1; /* Moves search bar to the top in a column layout */
+    width: 100%;
+    margin: 0; /* Removes margin in column layout */
+  }
+
   .comment-page-icons {
-    display: flex;
-    align-items: center;
+    width: 100%; /* Full width on smaller screens */
+    justify-content: center;
+    margin-top: 10px; /* Space between items when stacked */
+    
+    position: static; /* On smaller screens, let it flow naturally in the document */
+    left: auto;
+    transform: none;
   }
-  
-  .comment-page-icon {
-    margin-left: 20px; /* Space between icons */
-    cursor: pointer;
+
+  .comment-page-search input {
+    margin-left: 0; /* Remove margin for full width on smaller screens */
+    margin-right: 0; /* Remove margin for full width on smaller screens */
   }
-  
-  /* Responsive design for the header */
-  @media (max-width: 768px) {
-    .comment-page-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .comment-page-search,
-    .comment-page-icons {
-      width: 100%; /* Full width on smaller screens */
-      justify-content: center;
-      margin-top: 10px; /* Space between items when stacked */
-      
-      position: static; /* On smaller screens, let it flow naturally in the document */
-      left: auto;
-      transform: none;
-    }
-  
-    .comment-page-search input {
-      margin-left: 0; /* Remove margin for full width on smaller screens */
-      margin-right: 0; /* Remove margin for full width on smaller screens */
-    }
-  }
-  
+}

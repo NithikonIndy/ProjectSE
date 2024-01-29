@@ -1,0 +1,41 @@
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    background-color: #00bfff; /* Adjust the color to match your image */
+    height: 100vh;
+  }
+  
+  .login-content {
+    text-align: center;
+    margin-top: 10px; /* Position the content as in the image */
+  }
+  
+  .login-content h1 {
+    font-size: 2.5em;
+    color: #ffffff;
+    margin-bottom: 0.5em;
+  }
+  
+  .login-content p {
+    font-size: 1.5em;
+    color: #ffffff;
+    margin-bottom: 2em;
+  }
+  
+  .login-content button {
+    padding: 15px 45px;
+    font-size: 1.5em;
+    border-radius: 20px;
+    border: none;
+    background-color: #fff;
+    color:#95C949;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-content button:hover {
+    background-color: #ddd;
+  }
+  

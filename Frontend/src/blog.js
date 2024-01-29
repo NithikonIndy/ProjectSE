@@ -1,13 +1,15 @@
-// Blog.js
-
 import React from 'react';
 
-const Blog = ({ blog, onClick }) => (
-  <div className="blog" onClick={onClick}>
-    <p>{blog.user}</p>
-    <p>{blog.description}</p>
-    {/* Add other blog content as needed */}
-  </div>
+const Blog = ({ blog, onLike, onDislike }) => (
+  
+    <div className="blog-item">
+      <p>{blog.content}</p>
+      <div className="like-section">
+        <button onClick={onLike}>Like</button>
+        <button onClick={onDislike}>Dislike</button>
+        {blog.likes > 0 && <span>{blog.likes} ❤️</span>}
+        {blog.dislikes > 0 && <span>{blog.dislikes} 👎</span>}
+      </div>
+    </div>
 );
-
 export default Blog;

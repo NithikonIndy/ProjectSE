@@ -235,9 +235,9 @@ useEffect(() => {
       <div className="comment-page-header">
         <div className="comment-page-logo">
           <img src={freebird} alt="Logo" />
+          <input type="text" placeholder="Search..." className="comment-page-search"/>
         </div>
         <div className="comment-page-search">
-          <input type="text" placeholder="Search..." />
         </div>
         <div className="comment-page-icons">
           <img src={home} alt="Logo" />

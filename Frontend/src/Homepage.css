@@ -1,72 +1,30 @@
-/* HomePage styling */
-.homepage-page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #03ff53; /* Light blue background */
-} 
-
-.homepage-logo {
-  display: flex;
-  align-items: center;
-}
-
-.homepage-logo img {
-  height: 80px; /* Example size, adjust as needed */
-  width: auto;
-}
-
-.homepage-search {
-  flex-grow: 1;
-  margin: 0 20px;
-}
-
-.homepage-search input {
-  width: 100%; /* Take up the full width of the search container */
-  padding: 10px;
-  border: none;
-  border-radius: 20px;
-  background-color: #00bfff;
-}
-
-.homepage-icons {
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  cursor: pointer;
-}
-
-
+/* Homepage.css */
 .homepage {
   font-family: Arial, sans-serif;
   color: #333;
-  background-color: #00bfff; /* Light blue background */
+  background-color: #05f7fb;
   padding: 20px;
-  height: 720px; /* Adjust height as needed */
-  background-size: cover;
+  height: 100vh;
 }
 
-/* Header styling (reuse from CommentPage.css) */
-.homepage-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #f9f9f9; /* Blue header to match button */
-  color: white; /* White text */
-  border-radius: 15px; /* Rounded corners */
-  margin-bottom: 20px; /* Space below header */
+.blog-section {
+  margin-top: 20px;
 }
 
-
-/* Responsive media query */
-@media (max-width: 600px) {
-  .comment-input button {
-    width: 100%; /* Full width on smaller screens */
-    float: none;
-  }
+.blog-section textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none; /* Disable textarea resizing */
+  margin-bottom: 10px;
 }
 
-
-/* Add more styling for other components as needed */
+.blog-section button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}

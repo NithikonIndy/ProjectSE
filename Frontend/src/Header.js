@@ -1,38 +1,28 @@
-// Header.js
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Input, Badge, Button, Group } from '@mantine/core';
+import './Header.css';
 import freebird from './picture/freebird.png';
 import home from './picture/home.png';
 import person from './picture/person.png';
-import './Header.css';
 
 const Header = () => (
-  <Container size="xl" style={{ maxWidth: 'none' }}>
-    <div className="header">
-      <div className="logo">
-        <img src={freebird} alt="Logo" />
-        <p className="logo-text">FREEBIRD</p>
-      </div>
-      <div className="search">
-        <Input
-          placeholder="Search..."
-          icon={<Badge color="indigo">🔍</Badge>}
-          radius="md"
-        />
-      </div>
-      <div className="icons">
-        <Button
-          style={{ marginLeft: '20px' }}
-          icon={<img src={home} alt="Home" />}
-          variant="link"
-        />
-        <Button icon={<img src={person} alt="Profile" />}
-         variant="link" />
-        {/* Insert icons here */}
-      </div>
+  <div className="comment-page-header">
+    <div className="comment-page-logo">
+      {/* Insert your logo image here */}
+      <img src={freebird} alt="Logo" />
+      <span className="title">
+        <span className="free">Free</span>
+      </span>
+      
     </div>
-  </Container>
+    <div className="comment-page-search">
+      <span className="bird">Bird</span>
+    </div>
+    <div className="comment-page-icons">
+      <img src={home} alt="Home" />
+      <img src={person} alt="Person" />
+      {/* Insert icons here */}
+    </div>
+  </div>
 );
 
 export default Header;

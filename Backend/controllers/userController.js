@@ -188,6 +188,7 @@ const signIn = asyncHandler(async (req, res, next) => {
   console.log("redirect to sign in with cmu authentication");
 });
 
+
 export {
   authUser,
   registerUser,

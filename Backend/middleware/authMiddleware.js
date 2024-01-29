@@ -5,7 +5,7 @@ const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
   const authenticatedUser = await req.session.userId;
   // log authenticated user id in session
   console.log(`Authenticated userId in session: ${authenticatedUser}`);
-  
+  console.log("hello");
   try{
     if (!authenticatedUser || authenticatedUser === undefined) {
      res.status(401).redirect("/signIn");
@@ -50,4 +50,16 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { getAuthenticatedUser, getAuthenticatedAdmin};
+const getSession = asyncHandler(async (req, res, next) => {
+  let user;
+  try {
+    user = req.session.userId; // Access session data directly without await
+  } catch (err) {
+    console.error(err);
+    return next(err); // Pass the error to the next middleware
+  }
+  
+  res.status(200).json({ user });
+});
+
+export { getSession,getAuthenticatedUser, getAuthenticatedAdmin};

@@ -1,0 +1,72 @@
+/* HomePage styling */
+.homepage-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #03ff53; /* Light blue background */
+} 
+
+.homepage-logo {
+  display: flex;
+  align-items: center;
+}
+
+.homepage-logo img {
+  height: 80px; /* Example size, adjust as needed */
+  width: auto;
+}
+
+.homepage-search {
+  flex-grow: 1;
+  margin: 0 20px;
+}
+
+.homepage-search input {
+  width: 100%; /* Take up the full width of the search container */
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: #00bfff;
+}
+
+.homepage-icons {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+
+.homepage {
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #00bfff; /* Light blue background */
+  padding: 20px;
+  height: 720px; /* Adjust height as needed */
+  background-size: cover;
+}
+
+/* Header styling (reuse from CommentPage.css) */
+.homepage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f9f9f9; /* Blue header to match button */
+  color: white; /* White text */
+  border-radius: 15px; /* Rounded corners */
+  margin-bottom: 20px; /* Space below header */
+}
+
+
+/* Responsive media query */
+@media (max-width: 600px) {
+  .comment-input button {
+    width: 100%; /* Full width on smaller screens */
+    float: none;
+  }
+}
+
+
+/* Add more styling for other components as needed */

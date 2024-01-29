@@ -42,10 +42,20 @@
 .comment-page-logo {
   display: flex;
   align-items: center;
+  margin-right: 10px; /* Adjust the margin between the logo and text as needed */
 }
 
+
 .comment-page-logo img {
-  height: 50px; /* Example size, adjust as needed */
+  height: 80px; /* Example size, adjust as needed */  
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 16px; /* Adjust the font size as needed */
+  font-weight: bold; /* Adjust the font weight as needed */
+  color: #1e00ff;
+  margin-top: 10px;
 }
 
 /* Search bar styling */
@@ -63,6 +73,7 @@
   margin-right: 10px;
   right: 270px;
   top: 38px;
+  margin-top: 15px;
 }
 
 /* Icons on the right */

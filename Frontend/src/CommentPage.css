@@ -1,11 +1,20 @@
+<<<<<<< HEAD:Frontend/src/CommentPage.css
+=======
+<<<<<<< HEAD:Frontend/src/CommentPage.css
+>>>>>>> f4bb12d4010dc816ee48dc8fa8d2776a4715669b:Frontend/src/CommentPage/CommentPage.css
 /* Header styling */
 .comment-page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+<<<<<<< HEAD:Frontend/src/CommentPage.css
   background-color: #00bfff; /* Light blue background */
 }
+=======
+  background-color: #03ff53; /* Light blue background */
+} 
+>>>>>>> f4bb12d4010dc816ee48dc8fa8d2776a4715669b:Frontend/src/CommentPage/CommentPage.css
 
 /* Logo styling */
 .comment-page-logo {
@@ -14,7 +23,13 @@
 }
 
 .comment-page-logo img {
+<<<<<<< HEAD:Frontend/src/CommentPage.css
   height: 50px; /* Example size, adjust as needed */
+=======
+  height: 300px; /* Example size, adjust as needed */
+  width: auto;
+
+>>>>>>> f4bb12d4010dc816ee48dc8fa8d2776a4715669b:Frontend/src/CommentPage/CommentPage.css
 }
 
 /* Search bar styling */
@@ -46,6 +61,11 @@
   margin-left: 20px;
   cursor: pointer;
 }
+<<<<<<< HEAD:Frontend/src/CommentPage.css
+=======
+=======
+>>>>>>> origin/postport2:Frontend/src/CommentPage/CommentPage.css
+>>>>>>> f4bb12d4010dc816ee48dc8fa8d2776a4715669b:Frontend/src/CommentPage/CommentPage.css
 
 .popup {
   position: fixed;

@@ -4,6 +4,13 @@ import Header from './Header'; // Update the path accordingly
 import './Homepage.css'; // Import your custom styles
 import Blog from './Blog'; // Import the new Blog component
 
+// Assume you have a Card component
+const Card = ({ children }) => (
+  <div className="card">
+    {children}
+  </div>
+);
+
 const Homepage = () => {
   const [blogText, setBlogText] = useState('');
   const [blogs, setBlogs] = useState([]);
@@ -64,12 +71,13 @@ const Homepage = () => {
       {/* Display existing blogs */}
       <div className="existing-blogs">
         {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            onLike={() => handleLikeBlog(blog.id)}
-            onDislike={() => handleDislikeBlog(blog.id)}
-          />
+          <Card key={blog.id}>
+            <Blog
+              blog={blog}
+              onLike={() => handleLikeBlog(blog.id)}
+              onDislike={() => handleDislikeBlog(blog.id)}
+            />
+          </Card>
         ))}
       </div>
       {/* ...other content */}

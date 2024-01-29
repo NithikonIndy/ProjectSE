@@ -7,6 +7,8 @@ import home from './picture/home.png';
 import person from './picture/person.png';
 import { uniqueNamesGenerator, Config, animals } from 'unique-names-generator';
 import { set } from 'mongoose';
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -240,7 +242,9 @@ useEffect(() => {
         <div className="comment-page-search">
         </div>
         <div className="comment-page-icons">
+          <Link to="/home">
           <img src={home} alt="Logo" />
+          </Link>
           <img src={person} alt="Logo" />
         </div>
       </div>

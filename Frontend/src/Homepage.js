@@ -1,4 +1,6 @@
 // Import necessary libraries and components
+// ในไฟล์ JavaScript หรือ React component
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import './Homepage.css'; // Assume a CSS file for styling
@@ -31,12 +33,16 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
+      <div class="container">
+       asfsafsa
+      </div>
       <Header /> {/* Add the header */}
       {/* Add more content for the homepage as needed */}
-      <h1>Welcome to the Homepage</h1>
+      <h1>Blogs</h1>
       {/* Add more sections, features, or content */}
     </div>
   );
 };
+
 
 export default HomePage;

@@ -2,26 +2,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: top;
-    background-color: #00bfff; /* Adjust the color to match your image */
+    background-color: #00bfff;
     height: 100vh;
   }
-  
+
   .login-content {
     text-align: center;
-    margin-top: 10px; /* Position the content as in the image */
+    justify-content: center;
+    display: block;
+    margin-top: 20%;
   }
   
   .login-content h1 {
     font-size: 2.5em;
     color: #ffffff;
-    margin-bottom: 0.5em;
+    margin-bottom: 5%;
   }
   
   .login-content p {
     font-size: 1.5em;
     color: #ffffff;
-    margin-bottom: 2em;
+    margin-bottom: 5%;
   }
   
   .login-content button {

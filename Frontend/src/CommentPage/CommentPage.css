@@ -1,10 +1,8 @@
-<<<<<<< HEAD:Frontend/src/CommentPage.css
 /* Header styling */
 .comment-page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
   background-color: #03ff53; /* Light blue background */
 } 
 
@@ -49,8 +47,6 @@
   margin-left: 20px;
   cursor: pointer;
 }
-=======
->>>>>>> origin/postport2:Frontend/src/CommentPage/CommentPage.css
 
 .popup {
   position: fixed;
@@ -118,10 +114,9 @@
 .comment-page {
   font-family: Arial, sans-serif;
   color: #333;
-  background-color: #00bfff; /* Light blue background */
-  padding: 20px;
+  background-color: #00bfff;
   height: 100vh;
-  background-size: cover;
+  width: 100%;
 }
 
 /* Individual comment styling */

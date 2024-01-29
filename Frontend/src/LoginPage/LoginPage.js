@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header.js";
-import "./LoginPage.css"; // Make sure to create this CSS file with the styles provided below
+import "./LoginPage.css";
 import { Link } from "react-router-dom";
 
 const LoginPage = () => {

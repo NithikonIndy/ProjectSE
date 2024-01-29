@@ -3,73 +3,53 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #e6f7ff; /* Matching the background color from the image */
-  padding: 10px 20px;
-  width: 100%; /* Ensure the header is full width */
+  margin: 0;
+  width: 100%;
 }
 
-.comment-page-logo img {
-  height: auto; /* Adjust based on the aspect ratio of your logo image */
-  width: 60px; /* Adjust the logo width as needed */
+.container-logo{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin: 0;
+  padding: 0 20px 0 20px;
+  cursor: pointer;
 }
 
-.comment-page-search {
-  flex-grow: 1;
-  position: relative; /* Relative positioning for the search bar */
-  max-width: 600px; /* Max width for the search input */
-  margin-left: 20px; /* Space between logo and search bar */
-  margin-right: 20px; /* Space between search bar and icons */
-  
-  
-  position: absolute; /* Position the search bar absolutely within the header */
-  left: 60%; /* Center the search bar within the header */
-  transform: translateX(-5%); /* Offset the search bar by half its width to truly center it */
-  width: 30%; /* Adjust this to fit the search bar size you want */
+.container-logo img{
+  height: 60px;
+  width: auto;
 }
 
-.comment-page-search input {
-  width: 100%; /* Full width of its parent */
-  border-radius: 20px; /* Rounded corners */
-  padding: 10px;
-  border: none; /* Remove border */
-  background-color: #00bfff;
+.container-logo span{
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.comment-page-icons {
+.container-search{
   display: flex;
   align-items: center;
 }
 
-.comment-page-icon {
-  margin-left: 20px; /* Space between icons */
-  cursor: pointer;
+.container-search input{
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  background-color: hsla(195, 100%, 50%, 0.63);
 }
 
-/* Responsive design for the header */
-@media (max-width: 768px) {
-  .comment-page-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.container-icons{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 20px;
+  gap: 20px;
+}
 
-  .comment-page-search {
-    order: -1; /* Moves search bar to the top in a column layout */
-    width: 100%;
-    margin: 0; /* Removes margin in column layout */
-  }
-
-  .comment-page-icons {
-    width: 100%; /* Full width on smaller screens */
-    justify-content: center;
-    margin-top: 10px; /* Space between items when stacked */
-    
-    position: static; /* On smaller screens, let it flow naturally in the document */
-    left: auto;
-    transform: none;
-  }
-
-  .comment-page-search input {
-    margin-left: 0; /* Remove margin for full width on smaller screens */
-    margin-right: 0; /* Remove margin for full width on smaller screens */
-  }
+.container-icons img{
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
 }

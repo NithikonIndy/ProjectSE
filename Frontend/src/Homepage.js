@@ -2,12 +2,16 @@
 import React, { useState } from 'react';
 import Header from './Header'; // Update the path accordingly
 import './Homepage.css'; // Import your custom styles
-import Blog from './Blog'; // Import the new Blog component
 
-// Assume you have a Card component
-const Card = ({ children }) => (
-  <div className="card">
-    {children}
+const MessageContainer = ({ message }) => (
+  <div className="message-container">
+    {message}
+  </div>
+);
+
+const BlogContentContainer = ({ content }) => (
+  <div className="blog-content-container">
+    {content}
   </div>
 );
 
@@ -15,6 +19,7 @@ const Homepage = () => {
   const [blogText, setBlogText] = useState('');
   const [blogs, setBlogs] = useState([]);
   const [blogLikes, setBlogLikes] = useState({}); // New state to keep track of likes for each blog
+  const [postMessage, setPostMessage] = useState('');
 
   const handleBlogChange = (event) => {
     setBlogText(event.target.value);
@@ -26,33 +31,24 @@ const Homepage = () => {
       const newBlog = {
         id: Date.now(), // Unique identifier (using timestamp)
         content: blogText,
-        likes: 0, // Initialize likes count to 0
-        dislikes: 0, // Initialize dislikes count to 0
       };
 
       setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
+      setBlogLikes((prevLikes) => ({ ...prevLikes, [newBlog.id]: 0 })); // Initialize likes count to 0
       setBlogText('');
+      setPostMessage('Blog posted successfully!'); // Set the success message
+    } else {
+      setPostMessage('Please enter a blog before posting.'); // Set an error message
     }
   };
 
+  // Function to handle liking a blog
   const handleLikeBlog = (blogId) => {
-    setBlogs((prevBlogs) =>
-      prevBlogs.map((blog) =>
-        blog.id === blogId
-          ? { ...blog, likes: blog.likes + 1, dislikes: 0 } // Reset dislikes when liking
-          : blog
-      )
-    );
-  };
-
-  const handleDislikeBlog = (blogId) => {
-    setBlogs((prevBlogs) =>
-      prevBlogs.map((blog) =>
-        blog.id === blogId
-          ? { ...blog, dislikes: blog.dislikes + 1, likes: 0 } // Reset likes when disliking
-          : blog
-      )
-    );
+    // Update the likes in the state
+    setBlogLikes((prevLikes) => ({
+      ...prevLikes,
+      [blogId]: prevLikes[blogId] + 1,
+    }));
   };
 
   return (
@@ -67,17 +63,16 @@ const Homepage = () => {
           onChange={handleBlogChange}
         />
         <button onClick={handlePostBlog}>Post Blog</button>
+        {/* Display post message */}
       </div>
       {/* Display existing blogs */}
       <div className="existing-blogs">
         {blogs.map((blog) => (
-          <Card key={blog.id}>
-            <Blog
-              blog={blog}
-              onLike={() => handleLikeBlog(blog.id)}
-              onDislike={() => handleDislikeBlog(blog.id)}
-            />
-          </Card>
+          <div key={blog.id} className="blog-item">
+            <MessageContainer message={blog.content} />
+            <button onClick={() => handleLikeBlog(blog.id)}>Like</button>
+            {blogLikes[blog.id] > 0 && <span>{blogLikes[blog.id]} ❤️</span>}
+          </div>
         ))}
       </div>
       {/* ...other content */}

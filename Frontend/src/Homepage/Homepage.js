@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import './Homepage.css'; // Assume a CSS file for styling
-import freebird from './picture/freebird.png';
-import home from './picture/home.png';
-import person from './picture/person.png';
+import freebird from '../Header/picture/freebird.png'
+import home from '../Header/picture/home.png';
+import person from '../Header/picture/person.png';
 
 // Header component (reuse from CommentPage)
 const Header = () => (

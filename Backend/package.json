@@ -5,15 +5,13 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js --watch"
+    "start": "node Backend/server.js",
+    "server": "nodemon Backend/server.js --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mantine/core": "^7.4.2",
-    "@mantine/hooks": "^7.4.2",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^5.1.0",
@@ -30,9 +28,6 @@
     "which": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2",
-    "postcss": "^8.4.33",
-    "postcss-preset-mantine": "^1.12.3",
-    "postcss-simple-vars": "^7.0.1"
+    "nodemon": "^3.0.2"
   }
 }

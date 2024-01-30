@@ -5,6 +5,7 @@ import ReportPage from './ReportPage/ReportPage';
 import LoginPage from "./LoginPage/LoginPage";
 import HomePage from './Homepage/Homepage';
 import './App.css';
+import ProfilePage from './ProfilePage/ProfilePage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/report" element={<ReportPage />} />
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );

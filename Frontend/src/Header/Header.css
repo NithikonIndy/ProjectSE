@@ -1,10 +1,11 @@
 /* Ensure the header and search bar are properly aligned and responsive */
-.comment-page-header {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0;
   width: 100%;
+  background-color: white;
 }
 
 .container-logo{

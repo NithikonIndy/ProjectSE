@@ -5,7 +5,7 @@ import home from "./picture/home.png";
 import person from "./picture/person.png";
 
 const Header = () => (
-  <div className="comment-page-header">
+  <div className="header">
     <div className="container-logo">
       <img src={freebird} alt="Logo" />
       <span className="free">Free</span>

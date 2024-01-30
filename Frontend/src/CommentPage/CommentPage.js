@@ -8,6 +8,7 @@ import { set } from "mongoose";
 import Blog from "../components/blogs/Blog.js";
 import Comment from "../components/comment/Comment.js";
 import CommentInput from "../components/comment/CommentInput.js";
+import { Container } from "react-bootstrap";
 
 const Popup = ({ onClose, onReport }) => (
   <div className="popup">
@@ -220,70 +221,73 @@ const CommentPage = () => {
   return (
     <div className="comment-page">
       <Header />
-      <Blog
-        randomName="RandomName"
-        cmuAccount="CMU@ACCOUNT"
-        description="This is a sample blog post."
-        likeCount={10}
-        commentCount={5}
-      />
-      {/* Blog */}
-      {Array.isArray(blogs) &&
-        blogs.map((blog) => (
-          <Blog
-            key={blog._id}
-            randomName={generateRandomNameForUserId(blog.user)}
-            cmuAccount={blog.cmu_account}
-            description={blog.description}
-            likeCount={blog.likes.length}
-            commentCount={blog.comments.length}
-            onClickgetblogId={() => onClickgetblogId(blog._id)}
-            togglePopup={togglePopup}
-            showPopup={showPopup}
-          />
-        ))}
-      {/* Comment List */}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Comment
-        randomName="RandomName"
-        cmuAccount="CMU@ACCOUNT"
-        description="This is a sample comment."
-        likeCount={10}
-      />
 
-      {Array.isArray(comments) &&
-        comments.map((comment) => (
-          <Comment
-            key={comment._id}
-            randomName={generateRandomNameForUserId(comment.user)}
-            cmuAccount={comment.cmu_account}
-            description={comment.description}
-            likeCount={comment.likes.length}
-            onClickgetblogId={() => onClickgetblogId(comment._id)}
-            togglePopup={togglePopup}
-            showPopup={showPopup}
-          />
-        ))}
-
-      {/* Comment Input */}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <CommentInput />
-      <div className="comment-input">
-        <textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Add a comment..."
+      <Container className="flex-container">
+        <Blog
+          randomName="RandomName"
+          cmuAccount="CMU@ACCOUNT"
+          description="This is a sample blog post."
+          likeCount={10}
+          commentCount={5}
         />
-        <button onClick={handleAddComment}>Comment</button>
-      </div>
+        {/* Blog */}
+        {Array.isArray(blogs) &&
+          blogs.map((blog) => (
+            <Blog
+              key={blog._id}
+              randomName={generateRandomNameForUserId(blog.user)}
+              cmuAccount={blog.cmu_account}
+              description={blog.description}
+              likeCount={blog.likes.length}
+              commentCount={blog.comments.length}
+              onClickgetblogId={() => onClickgetblogId(blog._id)}
+              togglePopup={togglePopup}
+              showPopup={showPopup}
+            />
+          ))}
+        {/* Comment List */}
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <Comment
+          randomName="RandomName"
+          cmuAccount="CMU@ACCOUNT"
+          description="This is a sample comment."
+          likeCount={10}
+        />
+
+        {Array.isArray(comments) &&
+          comments.map((comment) => (
+            <Comment
+              key={comment._id}
+              randomName={generateRandomNameForUserId(comment.user)}
+              cmuAccount={comment.cmu_account}
+              description={comment.description}
+              likeCount={comment.likes.length}
+              onClickgetblogId={() => onClickgetblogId(comment._id)}
+              togglePopup={togglePopup}
+              showPopup={showPopup}
+            />
+          ))}
+
+        {/* Comment Input */}
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <CommentInput/>
+        <div className="comment-input">
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Add a comment..."
+          />
+          <button onClick={handleAddComment}>Comment</button>
+        </div>
+      </Container>
     </div>
   );
 };

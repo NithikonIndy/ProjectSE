@@ -5,3 +5,12 @@
     background-color: #00bfff;
     height: 100vh;
 }
+
+.container-profile-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: wheat;
+    height: 100vh;
+}

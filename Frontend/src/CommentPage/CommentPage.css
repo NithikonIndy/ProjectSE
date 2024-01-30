@@ -89,7 +89,7 @@
   color: white;
 }
 
-/* This class is for the overlay behind the popup */
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -100,57 +100,16 @@
   z-index: 1; /* Behind the popup but above other items */
 }
 
-/* Styling for the report button in the comment */
-.comment-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-/* Main comment page styling */
 .comment-page {
   font-family: Arial, sans-serif;
   color: #333;
   background-color: #00bfff;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
 }
 
-/* Individual comment styling */
-.comment {
-  background-color: #ffffff; /* White background for comment */
-  border: 1px solid #ccc; /* Light grey border */
-  border-radius: 15px; /* Rounded corners */
-  padding: 15px;
-  margin-bottom: 10px; /* Space between comments */
-  position: relative; /* For absolute positioning of reply arrow */
-}
-
-.comment-actions {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-/* Styling for the like and reply icons/actions */
-.like, .reply {
-  cursor: pointer;
-  user-select: none;
-  margin-right: 10px; /* Space between icons */
-}
-
-/* Timestamp styling */
-.time {
-  color: #999; /* Grey color for timestamp */
-  font-size: 0.85em;
-}
-
-/* 'Add a comment' input area styling */
 .comment-input {
-  margin-top: 20px; /* Space above the input area */
+  margin-top: 20px;
 }
 
 .comment-input textarea {
@@ -170,44 +129,4 @@
   border-radius: 15px; /* Rounded corners */
   padding: 10px 20px;
   cursor: pointer;
-}
-
-/* Clear float */
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-/* Replying arrow styling - assuming this is a 'reply' icon */
-.reply-arrow {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  cursor: pointer;
-}
-
-/* Header styling, if needed */
-.comment-page-header {
-  background-color: #007bff; /* Blue header to match button */
-  color: white; /* White text */
-  padding: 10px 20px;
-  border-radius: 15px; /* Rounded corners */
-  margin-bottom: 20px; /* Space below header */
-  
-}
-
-/* Footer styling, if needed */
-.comment-page-footer {
-  text-align: center;
-  padding: 10px 0;
-  color: #777; /* Darker grey color for footer */
-}
-
-/* Responsive media query */
-@media (max-width: 600px) {
-  .comment-input button {
-    width: 100%; /* Full width on smaller screens */
-    float: none;
-  }
 }

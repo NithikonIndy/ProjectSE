@@ -10,7 +10,7 @@ const Header = () => (
       <div className="comment-page-logo">
         {/* Insert your logo image here */}
         <img src={freebird} alt="Logo" />
-          <span className="title">
+          <span className="title">  
             <span className="free">Free</span><span className="bird">Bird</span>
           </span>
       </div>

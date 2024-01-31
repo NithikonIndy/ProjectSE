@@ -1,83 +1,9 @@
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff; /* White background for popup */
-  padding: 20px;
-  z-index: 2; /* Ensure it's above other items */
-  border-radius: 10px; /* Rounded corners for the popup */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add some shadow for depth */
-}
-
-.popup-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch; /* Align buttons to stretch full width */
-}
-
-.popup-inner button {
-  padding: 10px;
-  margin: 5px 0; /* Add some space between buttons */
-  border: none;
-  border-radius: 5px; /* Rounded corners for buttons */
-  cursor: pointer;
-  font-size: 1em;
-}
-
-.popup-inner button.report {
-  background-color: #dc3545; /* Red color for the report button */
-  color: white;
-}
-
-.popup-inner button.cancel {
-  background-color: #6c757d; /* Grey color for the cancel button */
-  color: white;
-}
-
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  z-index: 1; /* Behind the popup but above other items */
-}
-
 .comment-page {
   font-family: Arial, sans-serif;
   color: #333;
   background-color: #00bfff;
   min-height: 100vh;
   width: 100%;
-}
-
-.comment-input {
-  margin-top: 20px;
-}
-
-.comment-input textarea {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 15px;
-  padding: 10px;
-  font-family: Arial, sans-serif;
-  margin-bottom: 10px;
-}
-
-.comment-input button {
-  float: right;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 15px;
-  padding: 10px 20px;
-  cursor: pointer;
 }
 
 .flex-container {

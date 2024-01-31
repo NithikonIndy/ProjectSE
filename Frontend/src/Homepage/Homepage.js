@@ -2,7 +2,6 @@
 // ในไฟล์ JavaScript หรือ React component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< Updated upstream
 import Header from '../Header/Header';
 import './Homepage.css';
 import ReportPage from '../ReportPage/ReportPage';
@@ -28,6 +27,18 @@ const Header = () => (
       <img src={home} alt="Logo" />
       <img src={person} alt="Logo" />
       {/* Insert icons here */}
+
+const MessageContainer = ({ message }) => (
+  <div className="message-container">
+    {message}
+  </div>
+);
+
+const ReportPopup = ({ onClose, onReport }) => (
+  <div className="popup">
+    <div className="popup-inner">
+      <button onClick={onReport}>Report</button>
+      <button onClick={onClose}>Cancel</button>
     </div>
   </div>
 );
@@ -72,17 +83,57 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      <div class="container">
-       asfsafsa
+      <Header />
+      <h4>Blogs</h4>
+      <div className="blog-section">
+        <textarea
+          placeholder="Write your blog here..."
+          value={blogText}
+          onChange={handleBlogChange}
+        />
+        <button onClick={handlePostBlog}>Post Blog</button>
       </div>
-      <Header /> {/* Add the header */}
-      {/* Add more content for the homepage as needed */}
-      <h1>Blogs</h1>
-      {/* Add more sections, features, or content */}
+      <div className="existing-blogs">
+        {blogs.map((blog) => (
+          <div key={blog.id} className="blog-item">
+            <MessageContainer message={blog.content} />
+            <div className="blog-icons">
+              <button onClick={() => handleLikeBlog(blog.id)}>
+                <FontAwesomeIcon icon={faThumbsUp} />
+              </button>
+              {blogLikes[blog.id] > 0 && <span>{blogLikes[blog.id]} ❤️</span>}
+              <button onClick={() => handleReportBlog(blog)}>
+                <FontAwesomeIcon icon={faFlag} />
+              </button>
+              <button onClick={() => handleEditBlog(blog.id)}>
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
+              <button onClick={() => handleDeleteBlog(blog.id)}>
+                Delete
+              </button>
+              <button onClick={() => onClickGoToCommentPage(blog.id)}>
+                Go to Comment Page
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {showReportPopup && (
+        <ReportPopup onClose={closeReportPopup} onReport={goToReportPage} />
+      )}
+      {editMode && (
+        <div>
+          <textarea
+            placeholder="Edit your blog here..."
+            value={blogText}
+            onChange={(e) => setBlogText(e.target.value)}
+          />
+          <button onClick={handleSaveEdit}>Save Edit</button>
+          <button onClick={handleCancelEdit}>Cancel Edit</button>
+        </div>
+      )}
+      {/* ... (ต่อไป) */}
     </div>
-  </div>
-
-  
   );
 };
 

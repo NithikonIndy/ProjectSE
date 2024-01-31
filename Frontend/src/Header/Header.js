@@ -6,7 +6,6 @@ import person from "./picture/person.png";
 import notify from "./picture/notify.png";
 import { Link } from "react-router-dom";
 
-
 const Header = () => (
   <div className="header">
     <div className="container-logo">

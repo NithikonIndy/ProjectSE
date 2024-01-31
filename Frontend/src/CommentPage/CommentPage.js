@@ -10,6 +10,8 @@ import Comment from "../components/comment/Comment.js";
 import CommentInput from "../components/comment/CommentInput.js";
 import { Container } from "react-bootstrap";
 import { Button, Card, CardBody, CardFooter, CardText } from "react-bootstrap";
+import { useParams } from 'react-router-dom';
+
 
 const Popup = ({ onClose, onReport }) => (
   <div className="popup">
@@ -41,6 +43,7 @@ const CommentPage = () => {
   const [clickedcommentId, setClickedcommentId] = useState([]);
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const  blogIdforget  = useParams().blogId;
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
@@ -88,7 +91,7 @@ const CommentPage = () => {
     const fetchBlogs = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/blog/659f854a2ad66c8e8baf64f0"
+          `http://localhost:3000/api/blog/${blogIdforget}`
         );
         setBlogs([response.data.blog]);
         setBlogComment([response.data.blog._id]);
@@ -106,7 +109,7 @@ const CommentPage = () => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/comments/blogs/659f854a2ad66c8e8baf64f0"
+          `http://localhost:3000/api/comments/blogs/${blogIdforget}`
         );
         let i = 0;
         let end = response.data.blogcomments.length;
@@ -132,7 +135,7 @@ const CommentPage = () => {
   const handleAddComment = () => {
     axios
       .post(
-        "http://localhost:3000/api/comments/blog/659f854a2ad66c8e8baf64f0/add",
+        `http://localhost:3000/api/comments/blog/${blogIdforget}/add`,
         {
           user: users,
           description: newComment,
@@ -273,7 +276,6 @@ const CommentPage = () => {
             />
           ))}
 
-        {/* Comment Input */}
         <br />
         <br />
         <br />

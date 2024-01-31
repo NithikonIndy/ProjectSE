@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@mantine/carousel": "^7.4.2",
     "@mantine/charts": "^7.4.2",
     "@mantine/code-highlight": "^7.4.2",

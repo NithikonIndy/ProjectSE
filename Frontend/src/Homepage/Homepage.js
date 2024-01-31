@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import './Homepage.css';
+import ReportPage from '../ReportPage/ReportPage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faFlag, faEdit } from '@fortawesome/free-solid-svg-icons';
+
 
 const MessageContainer = ({ message }) => (
   <div className="message-container">
@@ -18,6 +22,8 @@ const ReportPopup = ({ onClose, onReport }) => (
   </div>
 );
 
+// ... (imports อื่น ๆ)
+
 const Homepage = () => {
   const [blogText, setBlogText] = useState('');
   const [blogs, setBlogs] = useState([]);
@@ -26,6 +32,8 @@ const Homepage = () => {
   const navigate = useNavigate();
   const [blogToReport, setBlogToReport] = useState(null);
   const [showReportPopup, setShowReportPopup] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editedBlogId, setEditedBlogId] = useState(null);
 
   const handleBlogChange = (event) => {
     setBlogText(event.target.value);
@@ -57,7 +65,6 @@ const Homepage = () => {
   const handleReportBlog = (blog) => {
     setBlogToReport(blog);
     setShowReportPopup(true);
-    navigate('/report'); // เปลี่ยนไปหน้า ReportPage.js
   };
 
   const closeReportPopup = () => {
@@ -65,10 +72,54 @@ const Homepage = () => {
     setShowReportPopup(false);
   };
 
+  const goToReportPage = () => {
+    // ใช้ navigate เพื่อไปที่หน้า ReportPage และส่งข้อมูล blog ที่ต้องการรายงานไปด้วย
+    navigate(`/report/`);
+    closeReportPopup(); // ปิด pop-up เมื่อไปที่หน้า ReportPage
+  };
+
+  const handleEditBlog = (blogId) => {
+    const blogToEdit = blogs.find(blog => blog.id === blogId);
+    if (blogToEdit) {
+      setBlogText(blogToEdit.content);
+      setEditMode(true);
+      setEditedBlogId(blogId);
+    }
+  };
+
+  const handleSaveEdit = () => {
+    if (blogText.trim() !== '') {
+      setBlogs(prevBlogs => prevBlogs.map(blog =>
+        blog.id === editedBlogId ? { ...blog, content: blogText } : blog
+      ));
+      setBlogText('');
+      setPostMessage('Blog edited successfully!');
+      setEditMode(false);
+      setEditedBlogId(null);
+    } else {
+      setPostMessage('Please enter a blog before editing.');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setBlogText('');
+    setEditMode(false);
+    setEditedBlogId(null);
+  };
+
+  const handleDeleteBlog = (blogId) => {
+    // แสดง pop-up ให้เลือกระหว่าง Delete หรือ Cancel
+    if (window.confirm('Are you sure you want to delete this blog?')) {
+      // ลบ Blog ที่ต้องการ
+      setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== blogId));
+      setPostMessage('Blog deleted successfully!');
+    }
+  };
+
   return (
     <div className="homepage">
       <Header />
-      <h1>Blogs</h1>
+      <h4>Blogs</h4>
       <div className="blog-section">
         <textarea
           placeholder="Write your blog here..."
@@ -80,16 +131,40 @@ const Homepage = () => {
       <div className="existing-blogs">
         {blogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <MessageContainer message={blog.content} />
-            <button onClick={() => handleLikeBlog(blog.id)}>Like</button>
+          <MessageContainer message={blog.content} />
+          <div className="blog-icons">
+            <button onClick={() => handleLikeBlog(blog.id)}>
+              <FontAwesomeIcon icon={faThumbsUp} />
+            </button>
             {blogLikes[blog.id] > 0 && <span>{blogLikes[blog.id]} ❤️</span>}
-            <button onClick={() => handleReportBlog(blog)}>Report</button>
+            <button onClick={() => handleReportBlog(blog)}>
+              <FontAwesomeIcon icon={faFlag} />
+            </button>
+            <button onClick={() => handleEditBlog(blog.id)}>
+              <FontAwesomeIcon icon={faEdit} />
+            </button>
+            <button onClick={() => handleDeleteBlog(blog.id)}>
+            Delete
+            </button>
           </div>
+        </div>
         ))}
       </div>
       {showReportPopup && (
-        <ReportPopup onClose={closeReportPopup} onReport={() => handleReportBlog(blogToReport)} />
+        <ReportPopup onClose={closeReportPopup} onReport={goToReportPage} />
       )}
+      {editMode && (
+        <div>
+          <textarea
+            placeholder="Edit your blog here..."
+            value={blogText}
+            onChange={(e) => setBlogText(e.target.value)}
+          />
+          <button onClick={handleSaveEdit}>Save Edit</button>
+          <button onClick={handleCancelEdit}>Cancel Edit</button>
+        </div>
+      )}
+      {/* ... (ต่อไป) */}
     </div>
   );
 };

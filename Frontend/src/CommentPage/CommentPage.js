@@ -17,6 +17,8 @@ import {
   CardText,
   CardHeader,
 } from "react-bootstrap";
+import like from "./picture/like.png";
+import comment from "./picture/comment.png";
 
 const Popup = ({ onClose, onReport }) => (
   <div className="popup">
@@ -256,14 +258,31 @@ const CommentPage = () => {
 
                 <CardFooter>
                   <div className="flex-div">
-                    <span
-                      onClick={() => {
-                        onClickgetblogId(blog._id);
-                      }}
-                    >
-                      ❤️ {likespost}
-                    </span>
-                    <span>💬 {blog.comments.length}</span>
+                    <p>
+                      <img
+                        src={like}
+                        width={25}
+                        height={25}
+                        alt="like icon"
+                        onClick={() => {
+                          onClickgetblogId(blog._id);
+                        }}
+                      />
+                      {likespost}
+                    </p>
+
+                    <p>
+                      <img
+                        src={comment}
+                        width={25}
+                        height={25}
+                        alt="like icon"
+                        onClick={() => {
+                          onClickgetblogId(blog._id);
+                        }}
+                      />
+                      {blog.comments.length}
+                    </p>
                   </div>
                   <Button onClick={togglePopup}>report</Button>
                   {showPopup}
@@ -301,14 +320,18 @@ const CommentPage = () => {
 
                 <CardFooter>
                   <div className="flex-div">
-                    <span
-                      className="like"
-                      onClick={() => {
-                        onClickgetcommentId(comment._id);
-                      }}
-                    >
-                      ❤️ {comment.likes ? comment.likes.length : 0}
-                    </span>
+                    <p>
+                      <img
+                        src={like}
+                        width={25}
+                        height={25}
+                        alt="like icon"
+                        onClick={() => {
+                          onClickgetcommentId(comment._id);
+                        }}
+                      />
+                      {comment.likes ? comment.likes.length : 0}
+                    </p>
                   </div>
                   <Button onClick={togglePopup}>report</Button>
                   {showPopup}

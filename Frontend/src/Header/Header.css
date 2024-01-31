@@ -9,7 +9,7 @@
   height: 100px; /* ปรับความสูงของ Header */
   border-radius: 10px;
   overflow: hidden; /* จำเป็นต้องใส่เพื่อที่จะแสดงขอบโค้งถูกต้อง */
-  margin-bottom: 20px;
+  margin-bottom: 1px;
 }
 
 .container-logo {

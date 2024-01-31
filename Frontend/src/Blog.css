@@ -1,0 +1,19 @@
+.blog-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .blog-item {
+    /* ใส่สไตล์ต่าง ๆ ตามต้องการ */
+  }
+  
+  .like-section {
+    /* ใส่สไตล์ต่าง ๆ ตามต้องการ */
+  }
+  
+  /* อื่น ๆ ที่ต้องการสไตล์ */
+  

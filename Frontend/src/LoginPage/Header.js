@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css';
-import freebird from '../Header/picture/freebird.png';
+import freebird from "../Header/picture/freebird.png";
 
 
 

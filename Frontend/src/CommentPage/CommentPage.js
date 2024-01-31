@@ -17,10 +17,15 @@ import {
   CardText,
   CardHeader,
 } from "react-bootstrap";
-import { useParams } from 'react-router-dom';
-
-import like from "./picture/like.png";
-import comment from "./picture/comment.png";
+import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faThumbsUp,
+  faFlag,
+  faTrash,
+  faComments,
+} from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 const Popup = ({ onClose, onReport }) => (
   <div className="popup">
@@ -52,14 +57,44 @@ const CommentPage = () => {
   const [clickedcommentId, setClickedcommentId] = useState([]);
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
-  const  blogIdforget  = useParams().blogId;
+  const blogIdforget = useParams().blogId;
 
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
+  const AlertDelete = () => {
+    Swal.fire({
+      title: "Firmly to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
-  const handleReportClick = () => {
-    navigate("/report");
+  const AlertReport = () => {
+    Swal.fire({
+      title: "Firmly to report?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, report it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Report!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   const onClickgetblogId = async (blogId) => {
@@ -143,13 +178,10 @@ const CommentPage = () => {
   /*addcomment */
   const handleAddComment = () => {
     axios
-      .post(
-        `http://localhost:3000/api/comments/blog/${blogIdforget}/add`,
-        {
-          user: users,
-          description: newComment,
-        }
-      )
+      .post(`http://localhost:3000/api/comments/blog/${blogIdforget}/add`, {
+        user: users,
+        description: newComment,
+      })
       .then((response) => {
         setComments([...comments, response.data.comment]);
         setNewComment("");
@@ -236,14 +268,6 @@ const CommentPage = () => {
       <Header />
 
       <Container className="flex-container">
-        <Blog
-          randomName="RandomName"
-          cmuAccount="CMU@ACCOUNT"
-          description="This is a sample blog post."
-          likeCount={10}
-          commentCount={5}
-        />
-
         {/* Blog */}
         {Array.isArray(blogs) &&
           blogs.map((blog) => (
@@ -254,7 +278,13 @@ const CommentPage = () => {
                     <p>{generateRandomNameForUserId(blog.user)}</p>
                     <p>{blog.user}</p>
                   </div>
-                  <Button>DELETE</Button>
+                  <Button
+                    onClick={() => {
+                      AlertDelete();
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </Button>
                 </CardHeader>
 
                 <CardText>{blog.description}</CardText>
@@ -262,29 +292,30 @@ const CommentPage = () => {
                 <CardFooter>
                   <div className="flex-div">
                     <p>
-                      <img
-                        src={like}
-                        width={25}
-                        height={25}
-                        alt="like icon"
+                      <Button
                         onClick={() => {
                           onClickgetblogId(blog._id);
                         }}
-                      />
-                      {likespost}
+                      >
+                        <FontAwesomeIcon icon={faThumbsUp} />
+                        {likespost}
+                      </Button>
                     </p>
 
                     <p>
-                      <img
-                        src={comment}
-                        width={25}
-                        height={25}
-                        alt="comment icon"
-                      />
-                      {blog.comments.length}
+                      <Button>
+                        <FontAwesomeIcon icon={faComments} />
+                        {blog.comments.length}
+                      </Button>
                     </p>
                   </div>
-                  <Button onClick={togglePopup}>report</Button>
+                  <Button
+                    onClick={() => {
+                      AlertReport();
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faFlag} />
+                  </Button>
                   {showPopup}
                 </CardFooter>
               </CardBody>
@@ -294,15 +325,6 @@ const CommentPage = () => {
         {/* Comment List */}
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-        <Comment
-          randomName="RandomName"
-          cmuAccount="CMU@ACCOUNT"
-          description="This is a sample comment."
-          likeCount={10}
-        />
 
         {Array.isArray(comments) &&
           comments.map((comment) => (
@@ -313,27 +335,33 @@ const CommentPage = () => {
                     <p>{generateRandomNameForUserId(comment.user)}</p>
                     <p>{comment.user}</p>
                   </div>
-                  <Button>DELETE</Button>
+                  <Button
+                    onClick={() => {
+                      AlertDelete();
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </Button>
                 </CardHeader>
 
                 <CardText>{comment.description}</CardText>
 
                 <CardFooter>
                   <div className="flex-div">
-                    <p>
-                      <img
-                        src={like}
-                        width={25}
-                        height={25}
-                        alt="like icon"
-                        onClick={() => {
-                          onClickgetcommentId(comment._id);
-                        }}
-                      />
+                    <Button
+                      onClick={() => {
+                        onClickgetcommentId(comment._id);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faThumbsUp} />
                       {comment.likes ? comment.likes.length : 0}
-                    </p>
+                    </Button>
                   </div>
-                  <Button onClick={togglePopup}>report</Button>
+                  <Button onClick={() => {
+                    AlertReport();
+                  }}>
+                    <FontAwesomeIcon icon={faFlag} />
+                  </Button>
                   {showPopup}
                 </CardFooter>
               </CardBody>
@@ -342,11 +370,7 @@ const CommentPage = () => {
 
         <br />
         <br />
-        <br />
-        <br />
-        <br />
         {/*<CommentInput />*/}
-
         <Card className="adjust-width">
           <CardBody>
             <CardText className="text-padding adjust-height">

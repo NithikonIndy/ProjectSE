@@ -13,14 +13,9 @@ function App() {
       <Routes>
         <Route path="/post" element={<CommentPage />} />
         <Route path="/report" element={<ReportPage />} />
-<<<<<<< Updated upstream
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
-=======
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/home" element={<HomePage />} /> 
->>>>>>> Stashed changes
       </Routes>
     </Router>
   );

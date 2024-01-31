@@ -62,4 +62,34 @@ const getSession = asyncHandler(async (req, res, next) => {
   res.status(200).json({ user });
 });
 
-export { getSession,getAuthenticatedUser, getAuthenticatedAdmin};
+// Filter the authenticated user role
+const isAuthenticated = asyncHandler(async (req, res, next) => {
+  const sessionId = req.session.userId;
+  //console.log("sessionId:", sessionId);
+  console.log("pass condition have session");
+  try{
+    if (!sessionId || sessionId === undefined || sessionId === null) {
+      res.status(401).json("Can find sessionId:", sessionId);
+      console.log("don't pass condition type session");
+    }else{
+      const user = await User.findById(sessionId);
+      console.log("pass condition find user data");
+      switch (user.role) {
+        case "USER":
+          console.log("pass condition role user is", user.role);
+          return res.status(200).json(user.role);
+        case "ADMIN":
+          console.log("pass condition role user is", user.role);
+          return res.status(200).json(user.role);
+        default:
+          res.status(401).json("Can find user role:", user.role);
+          break;
+      }
+    }
+  }catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+export { getSession, getAuthenticatedUser, getAuthenticatedAdmin, isAuthenticated};

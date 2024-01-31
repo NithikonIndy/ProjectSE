@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import './Homepage.css';
@@ -50,7 +50,9 @@ const Homepage = () => {
   const [Blogs, SetBlogs] = useState([]);
   const [likespost, setLikespost] = useState([]);
   const [clickedBlogId, setClickedBlogId] = useState([]);
-  const { blogIdforget } = useParams();
+
+
+
 
   useEffect(() => {
     const getSession = async () => {
@@ -65,36 +67,11 @@ const Homepage = () => {
     getSession();
   }, []);
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/blog');
-        let i = 0;
-        let end= response.data.blogs.length -1;
-        const Blog = [];
-        while( end >= i){
 
-           Blog.push(response.data.blogs[end]);
-          end--;
-        }
-        
-        
 
-        SetBlogs(Blog);
-
-        // setLikespost([response.data.blog.likes.length]);
-       
-      } catch (error) {
-        console.error('Error fetching blogs:', error);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
-
-  const onClickgetblogId = async(blogId) => {
+  const onClickgetblogId = async (blogId) => {
     console.log('Clicked on blog with ID:', blogId);
-    setClickedBlogId(blogId); // Store the clicked blogId in state
+    setClickedBlogId(blogId); 
     navigate(`/post/${blogId}`);
   };
 
@@ -102,22 +79,23 @@ const Homepage = () => {
   const handleBlogChange = (event) => {
     setBlogText(event.target.value);
   };
-  
 
-  const handlePostBlog = () => {
-    if (blogText.trim() !== '') {
-      const newBlog = {
-        id: Date.now(),
-        content: blogText,
-      };
 
-      setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
-      setBlogLikes((prevLikes) => ({ ...prevLikes, [newBlog.id]: 0 }));
-      setBlogText('');
-      setPostMessage('Blog posted successfully!');
-    } else {
-      setPostMessage('Please enter a blog before posting.');
-    }
+  const handlePostBlog = async () => {
+      await axios.post(
+        `http://localhost:3000/api/blog/add`,
+        {
+          user: users[0], // Assuming users is an array and you want the first user
+          description: blogText,
+        }
+      ).then((response) => {
+          SetBlogs([...Blogs,response.data.blog]);
+          setBlogText('');
+        })
+        .catch((error) => {
+          console.error("Error adding comment:", error);
+        });
+    
   };
 
   const handleLikeBlog = (blogId) => {
@@ -181,6 +159,32 @@ const Homepage = () => {
     }
   };
 
+  const fetchBlogs = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/blog');
+      let i = 0;
+      let end = response.data.blogs.length - 1;
+      const Blog = [];
+      while (end >= i) {
+
+        Blog.push(response.data.blogs[end]);
+        end--;
+      }
+      SetBlogs(Blog);
+     
+
+      // setLikespost([response.data.blog.likes.length]);
+
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+    }
+  };
+
+  useEffect(() => {
+
+    fetchBlogs();
+  }, []);
+
 
 
   return (
@@ -193,36 +197,40 @@ const Homepage = () => {
           value={blogText}
           onChange={handleBlogChange}
         />
-        <button onClick={handlePostBlog}>Post Blog</button>
+       <button onClick={() => { handlePostBlog(); 
+        setTimeout(() => {
+          fetchBlogs();
+        }, 350); }}>
+          Post Blog</button>
       </div>
 
       {/* {blog} */}
       <div className="existing-blogs">
         {Array.isArray(Blogs) &&
-            Blogs.map((blog) => (
-              <div key={blog._id} className="blog-item" >
-                <div onClick={() => {onClickgetblogId(blog._id);}}>
+          Blogs.map((blog) => (
+            <div key={blog._id} className="blog-item" >
+              <div onClick={() => { onClickgetblogId(blog._id); }}>
                 <p>{generateRandomNameForUserId(blog.user)}</p>
                 <p>{blog.description}</p>
-                </div>
-                <div className="blog-icons">
-              <button onClick={() => handleLikeBlog(blog.id)}>
-                <FontAwesomeIcon icon={faThumbsUp} />
-              </button>
-              <button onClick={() => handleReportBlog(blog)}>
-                <FontAwesomeIcon icon={faFlag} />
-              </button>
-              <button onClick={() => handleEditBlog(blog.id)}>
-                <FontAwesomeIcon icon={faEdit} />
-              </button>
-              <button onClick={() => handleDeleteBlog(blog.id)}>
-                Delete
-              </button>
-
-            </div>
+              </div>
+              <div className="blog-icons">
+                <button onClick={() => handleLikeBlog(blog.id)}>
+                  <FontAwesomeIcon icon={faThumbsUp} />
+                </button>
+                <button onClick={() => handleReportBlog(blog)}>
+                  <FontAwesomeIcon icon={faFlag} />
+                </button>
+                <button onClick={() => handleEditBlog(blog.id)}>
+                  <FontAwesomeIcon icon={faEdit} />
+                </button>
+                <button onClick={() => handleDeleteBlog(blog.id)}>
+                  Delete
+                </button>
 
               </div>
-            ))}
+
+            </div>
+          ))}
       </div>
 
 

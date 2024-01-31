@@ -142,8 +142,7 @@ const CommentPage = () => {
 
   /*addcomment */
   const handleAddComment = () => {
-    axios
-      .post(
+    axios.post(
         `http://localhost:3000/api/comments/blog/${blogIdforget}/add`,
         {
           user: users,

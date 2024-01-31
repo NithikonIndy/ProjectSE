@@ -18,8 +18,10 @@ export const getAllBlog = async ( req, res, next) => {
 };
 
 export const addBlog = async ( req, res, next) => {
-    const {description} = req.body;
-    const user = await req.session.userId;
+    const {user,description} = req.body;
+    //const user = await req.session.userId;
+
+    console.log("dfdf")
 
     let exitstingUser;
     try{
@@ -49,7 +51,7 @@ export const addBlog = async ( req, res, next) => {
 };
 
 export const updateBlog = async (req ,res ,next ) => {
-    const {description } = req.body;
+    const { description } = req.body;
     const blogId =req.params.id;
     let blog;
     try{

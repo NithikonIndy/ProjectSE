@@ -22,7 +22,9 @@ const Header = () => (
         <img src={home} alt="home-option" />
       </Link>
 
-      <img src={person} alt="profile-option" />
+      <Link to="/profile">
+        <img src={person} alt="profile-option" />
+      </Link>
     </div>
   </div>
 );

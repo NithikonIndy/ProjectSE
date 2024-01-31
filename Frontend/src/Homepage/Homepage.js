@@ -6,7 +6,6 @@ import ReportPage from '../ReportPage/ReportPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faFlag, faEdit } from '@fortawesome/free-solid-svg-icons';
 
-
 const MessageContainer = ({ message }) => (
   <div className="message-container">
     {message}
@@ -116,6 +115,11 @@ const Homepage = () => {
     }
   };
 
+  const onClickGoToCommentPage = (blogId) => {
+    // ใช้ navigate เพื่อไปที่หน้า CommentPage และส่งข้อมูล blogId ไปด้วย
+    navigate(`/post`);
+  };
+
   return (
     <div className="homepage">
       <Header />
@@ -131,23 +135,26 @@ const Homepage = () => {
       <div className="existing-blogs">
         {blogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-          <MessageContainer message={blog.content} />
-          <div className="blog-icons">
-            <button onClick={() => handleLikeBlog(blog.id)}>
-              <FontAwesomeIcon icon={faThumbsUp} />
-            </button>
-            {blogLikes[blog.id] > 0 && <span>{blogLikes[blog.id]} ❤️</span>}
-            <button onClick={() => handleReportBlog(blog)}>
-              <FontAwesomeIcon icon={faFlag} />
-            </button>
-            <button onClick={() => handleEditBlog(blog.id)}>
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-            <button onClick={() => handleDeleteBlog(blog.id)}>
-            Delete
-            </button>
+            <MessageContainer message={blog.content} />
+            <div className="blog-icons">
+              <button onClick={() => handleLikeBlog(blog.id)}>
+                <FontAwesomeIcon icon={faThumbsUp} />
+              </button>
+              {blogLikes[blog.id] > 0 && <span>{blogLikes[blog.id]} ❤️</span>}
+              <button onClick={() => handleReportBlog(blog)}>
+                <FontAwesomeIcon icon={faFlag} />
+              </button>
+              <button onClick={() => handleEditBlog(blog.id)}>
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
+              <button onClick={() => handleDeleteBlog(blog.id)}>
+                Delete
+              </button>
+              <button onClick={() => onClickGoToCommentPage(blog.id)}>
+                Go to Comment Page
+              </button>
+            </div>
           </div>
-        </div>
         ))}
       </div>
       {showReportPopup && (

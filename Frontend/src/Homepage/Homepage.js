@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< Updated upstream
 import Header from '../Header/Header';
 import './Homepage.css';
 import ReportPage from '../ReportPage/ReportPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faFlag, faEdit } from '@fortawesome/free-solid-svg-icons';
+=======
+import React from 'react';
+import './Homepage.css'; // Assume a CSS file for styling
+import freebird from '../Header/picture/freebird.png';
+import home from '../Header/picture/home.png';
+import person from '../Header/picture/person.png';
+>>>>>>> Stashed changes
 
 const MessageContainer = ({ message }) => (
   <div className="message-container">
@@ -122,6 +130,7 @@ const Homepage = () => {
 
   return (
     <div className="homepage">
+<<<<<<< Updated upstream
       <Header />
       <h4>Blogs</h4>
       <div className="blog-section">
@@ -131,6 +140,9 @@ const Homepage = () => {
           onChange={handleBlogChange}
         />
         <button onClick={handlePostBlog}>Post Blog</button>
+=======
+      <div class="container">
+>>>>>>> Stashed changes
       </div>
       <div className="existing-blogs">
         {blogs.map((blog) => (
@@ -171,7 +183,7 @@ const Homepage = () => {
           <button onClick={handleCancelEdit}>Cancel Edit</button>
         </div>
       )}
-      {/* ... (ต่อไป) */}
+
     </div>
   );
 };

@@ -127,7 +127,7 @@ const CommentPage = () => {
           }
           i++;
         }
-        console.log(response.data);
+        //console.log(response.data);
         setComments(accumulatedComments);
       } catch (err) {
         console.log("Error fetching comments:", err);
@@ -276,10 +276,7 @@ const CommentPage = () => {
                         src={comment}
                         width={25}
                         height={25}
-                        alt="like icon"
-                        onClick={() => {
-                          onClickgetblogId(blog._id);
-                        }}
+                        alt="comment icon"
                       />
                       {blog.comments.length}
                     </p>

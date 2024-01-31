@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import "./ReportPage.css"; // Reusing the styles from CommentPage
 import Header from "../Header/Header.js";

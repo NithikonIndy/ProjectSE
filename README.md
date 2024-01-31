@@ -1,25 +1,32 @@
-# API server tests
+# PROJECT CPE FREE BIRD
 
 It includes the following:
 
-- Backend API with Express & MongoDB
-- Routes for sign in from cmu authentication,
-- Custom error middleware
-- Oauth with CMU account
-- func check new user & old user
-- func update role admin
-- Save data from res to database
+- Backend API with Node Express
+- Frontend with React JS
+- Database with MongoDB
+- OAuth2 with CMU account
 
 ### To start server with API(Backend only)
 
 ```
-1. npm install
-2. npm run server
+$npm install
+$npm run server
 ```
 
-### Remaining task to be done
+### To start client with ReactJS(Frontend only)
 
-- Routes for logout, register, profile, update profile
-- JWT authentication stored in HTTP-only cookie
-- Protected routes and endpoints
-- Custom middleware to check JSON web token and store in cookie
+```
+$npm install
+$npm run start
+```
+
+### Development
+
+- Mr.Kanaphat Prapet
+- Mr.Jirayu Jitprem
+- Mr.Nithikon Jansanitsri
+- Mr. Pongtanate Namsawat
+- Mr.Yodsakorn Likitrungson
+- Mr. Wisarut Sada
+- Miss. Pimkhwan Kamendee

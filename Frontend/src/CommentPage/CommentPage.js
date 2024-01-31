@@ -56,7 +56,6 @@ const CommentPage = () => {
   const [likespost, setLikespost] = useState();
   const [clickedcommentId, setClickedcommentId] = useState([]);
   const navigate = useNavigate();
-  const [showPopup, setShowPopup] = useState(false);
   const blogIdforget = useParams().blogId;
 
   const AlertDelete = () => {
@@ -316,7 +315,6 @@ const CommentPage = () => {
                   >
                     <FontAwesomeIcon icon={faFlag} />
                   </Button>
-                  {showPopup}
                 </CardFooter>
               </CardBody>
             </Card>
@@ -362,7 +360,6 @@ const CommentPage = () => {
                   }}>
                     <FontAwesomeIcon icon={faFlag} />
                   </Button>
-                  {showPopup}
                 </CardFooter>
               </CardBody>
             </Card>

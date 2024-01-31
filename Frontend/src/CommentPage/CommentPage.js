@@ -9,6 +9,7 @@ import Blog from "../components/blogs/Blog.js";
 import Comment from "../components/comment/Comment.js";
 import CommentInput from "../components/comment/CommentInput.js";
 import { Container } from "react-bootstrap";
+import { Button, Card, CardBody, CardFooter, CardText } from "react-bootstrap";
 
 const Popup = ({ onClose, onReport }) => (
   <div className="popup">
@@ -117,7 +118,7 @@ const CommentPage = () => {
           }
           i++;
         }
-
+        console.log(response.data);
         setComments(accumulatedComments);
       } catch (err) {
         console.log("Error fetching comments:", err);
@@ -236,7 +237,7 @@ const CommentPage = () => {
             <Blog
               key={blog._id}
               randomName={generateRandomNameForUserId(blog.user)}
-              cmuAccount={blog.cmu_account}
+              cmuAccount={blog.user}
               description={blog.description}
               likeCount={blog.likes.length}
               commentCount={blog.comments.length}
@@ -263,7 +264,7 @@ const CommentPage = () => {
             <Comment
               key={comment._id}
               randomName={generateRandomNameForUserId(comment.user)}
-              cmuAccount={comment.cmu_account}
+              cmuAccount={comment.user}
               description={comment.description}
               likeCount={comment.likes.length}
               onClickgetblogId={() => onClickgetblogId(comment._id)}
@@ -278,15 +279,26 @@ const CommentPage = () => {
         <br />
         <br />
         <br />
-        <CommentInput/>
-        <div className="comment-input">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment..."
-          />
-          <button onClick={handleAddComment}>Comment</button>
-        </div>
+        {/*<CommentInput />*/ }
+
+        <Card className="adjust-width">
+          <CardBody>
+            <CardText className="text-padding adjust-height">
+              <textarea 
+              type="text" 
+              placeholder="Comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+
+               />
+            </CardText>
+            <CardFooter>
+              <div className="margin-left">
+                <Button onClick={handleAddComment}>COMMENT</Button>
+              </div>
+            </CardFooter>
+          </CardBody>
+        </Card>
       </Container>
     </div>
   );

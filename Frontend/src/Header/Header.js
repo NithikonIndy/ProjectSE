@@ -3,6 +3,7 @@ import "./Header.css";
 import freebird from "./picture/freebird.png";
 import home from "./picture/home.png";
 import person from "./picture/person.png";
+import { Link } from "react-router-dom";
 
 const Header = () => (
   <div className="header">
@@ -17,7 +18,10 @@ const Header = () => (
     </div>
 
     <div className="container-icons">
-      <img src={home} alt="home-option" />
+      <Link to="/home">
+        <img src={home} alt="home-option" />
+      </Link>
+
       <img src={person} alt="profile-option" />
     </div>
   </div>

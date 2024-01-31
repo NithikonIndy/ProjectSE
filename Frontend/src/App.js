@@ -1,11 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CommentPage from './CommentPage';
-import ReportPage from './ReportPage';
-import Homepage from './Homepage';
-import Header from './Header';
+import CommentPage from './CommentPage/CommentPage';
+import ReportPage from './ReportPage/ReportPage';
+import LoginPage from "./LoginPage/LoginPage";
+import HomePage from './Homepage/Homepage';
 import './App.css';
-import '@mantine/core/styles.css';
 
 function App() {
   return (
@@ -13,8 +12,8 @@ function App() {
       <Routes>
         <Route path="/post" element={<CommentPage />} />
         <Route path="/report" element={<ReportPage />} />
-        <Route path="/home" element={<Homepage/>} />
-        <Route path="/hd" element={<Header/>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/home" element={<HomePage />} />
       </Routes>
     </Router>
   );

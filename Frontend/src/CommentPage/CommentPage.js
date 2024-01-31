@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CommentPage.css';
-import freebird from './picture/freebird.png';
-import home from './picture/home.png';
-import person from './picture/person.png';
+import Header from '../Header/Header.js';
 import { uniqueNamesGenerator, Config, animals } from 'unique-names-generator';
 import { set } from 'mongoose';
-import { Link } from 'react-router-dom';
-
 
 
 
@@ -233,21 +229,7 @@ useEffect(() => {
 
   return (
     <div className="comment-page">
-      {/* Header Component */}
-      <div className="comment-page-header">
-        <div className="comment-page-logo">
-          <img src={freebird} alt="Logo" />
-          <input type="text" placeholder="Search..." className="comment-page-search"/>
-        </div>
-        <div className="comment-page-search">
-        </div>
-        <div className="comment-page-icons">
-          <Link to="/home">
-          <img src={home} alt="Logo" />
-          </Link>
-          <img src={person} alt="Logo" />
-        </div>
-      </div>
+      <Header /> {/* Add the header */}
 
     
       

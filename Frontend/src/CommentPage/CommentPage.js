@@ -9,7 +9,14 @@ import Blog from "../components/blogs/Blog.js";
 import Comment from "../components/comment/Comment.js";
 import CommentInput from "../components/comment/CommentInput.js";
 import { Container } from "react-bootstrap";
-import { Button, Card, CardBody, CardFooter, CardText } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardText,
+  CardHeader,
+} from "react-bootstrap";
 
 const Popup = ({ onClose, onReport }) => (
   <div className="popup">
@@ -231,21 +238,40 @@ const CommentPage = () => {
           likeCount={10}
           commentCount={5}
         />
+
         {/* Blog */}
         {Array.isArray(blogs) &&
           blogs.map((blog) => (
-            <Blog
-              key={blog._id}
-              randomName={generateRandomNameForUserId(blog.user)}
-              cmuAccount={blog.user}
-              description={blog.description}
-              likeCount={blog.likes.length}
-              commentCount={blog.comments.length}
-              onClickgetblogId={() => onClickgetblogId(blog._id)}
-              togglePopup={togglePopup}
-              showPopup={showPopup}
-            />
+            <Card key={blog._id}>
+              <CardBody>
+                <CardHeader>
+                  <div className="flex-div">
+                    <p>{generateRandomNameForUserId(blog.user)}</p>
+                    <p>{blog.user}</p>
+                  </div>
+                  <Button>DELETE</Button>
+                </CardHeader>
+
+                <CardText>{blog.description}</CardText>
+
+                <CardFooter>
+                  <div className="flex-div">
+                    <span
+                      onClick={() => {
+                        onClickgetblogId(blog._id);
+                      }}
+                    >
+                      ❤️ {likespost}
+                    </span>
+                    <span>💬 {blog.comments.length}</span>
+                  </div>
+                  <Button onClick={togglePopup}>report</Button>
+                  {showPopup}
+                </CardFooter>
+              </CardBody>
+            </Card>
           ))}
+
         {/* Comment List */}
         <br />
         <br />
@@ -261,16 +287,34 @@ const CommentPage = () => {
 
         {Array.isArray(comments) &&
           comments.map((comment) => (
-            <Comment
-              key={comment._id}
-              randomName={generateRandomNameForUserId(comment.user)}
-              cmuAccount={comment.user}
-              description={comment.description}
-              likeCount={comment.likes.length}
-              onClickgetblogId={() => onClickgetblogId(comment._id)}
-              togglePopup={togglePopup}
-              showPopup={showPopup}
-            />
+            <Card className="adjust-width margin-bottom" key={comment._id}>
+              <CardBody>
+                <CardHeader>
+                  <div className="flex-div">
+                    <p>{generateRandomNameForUserId(comment.user)}</p>
+                    <p>{comment.user}</p>
+                  </div>
+                  <Button>DELETE</Button>
+                </CardHeader>
+
+                <CardText>{comment.description}</CardText>
+
+                <CardFooter>
+                  <div className="flex-div">
+                    <span
+                      className="like"
+                      onClick={() => {
+                        onClickgetcommentId(comment._id);
+                      }}
+                    >
+                      ❤️ {comment.likes ? comment.likes.length : 0}
+                    </span>
+                  </div>
+                  <Button onClick={togglePopup}>report</Button>
+                  {showPopup}
+                </CardFooter>
+              </CardBody>
+            </Card>
           ))}
 
         {/* Comment Input */}
@@ -279,18 +323,17 @@ const CommentPage = () => {
         <br />
         <br />
         <br />
-        {/*<CommentInput />*/ }
+        {/*<CommentInput />*/}
 
         <Card className="adjust-width">
           <CardBody>
             <CardText className="text-padding adjust-height">
-              <textarea 
-              type="text" 
-              placeholder="Comment..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-
-               />
+              <textarea
+                type="text"
+                placeholder="Comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
             </CardText>
             <CardFooter>
               <div className="margin-left">

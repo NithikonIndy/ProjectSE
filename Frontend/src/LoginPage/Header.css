@@ -3,88 +3,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #e6f7ff; /* Matching the background color from the image */
-    box-sizing: border-box;
     width: 100%;
-
-    position: relative; /* Set the header's position to relative */
   }
   
   .comment-page-logo img {
-    height: auto; /* Adjust based on the aspect ratio of your logo image */
-    width: 60px; /* Adjust the logo width as needed */
-  }
-  
-  .comment-page-search {
-    flex-grow: 1;
-    position: relative; /* Relative positioning for the search bar */
-    max-width: 600px; /* Max width for the search input */
-    margin-left: 20px; /* Space between logo and search bar */
-    margin-right: 20px; /* Space between search bar and icons */
-    
-    top:-25px ;
-    position: absolute; /* Position the search bar absolutely within the header */
-    left: 50%; /* Start at the center of the header */
-    
-    width: 60%; /* Adjust the width as needed */
-}
-  
-  .comment-page-search input {
-    width: 100%; /* Full width of its parent */
-    border-radius: 20px; /* Rounded corners */
-    padding: 10px;
-    border: none; /* Remove border */
-  }
-  
-  .comment-page-icons {
-    display: flex;
-    align-items: center;
-  }
-  
-  .comment-page-icon {
-    margin-left: 20px; /* Space between icons */
-    cursor: pointer;
+    height: 60px;
+    width: auto;
   }
 
-  .title {
-    display: inline-block; /* or 'inline' depending on your layout */
-    margin-left: 10px; /* Adjust the spacing as needed */
+  .free {
+    color: #00bfff;
+    font-size: 20px;
+    font-weight: bold;
   }
   
- .free {
-    color: #00bfff; /* Your specified color for 'Free' */
-  }
-  
-.bird {
-    color: #95C949; /* Your specified color for 'Bird' */
-  }
-
-
-
-  
-  /* Responsive design for the header */
-  @media (max-width: 768px) {
-    .comment-page-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .comment-page-search,
-
-    .comment-page-icons {
-      width: 100%; /* Full width on smaller screens */
-      justify-content: center;
-      margin-top: 10px; /* Space between items when stacked */
-      
-      position: static; /* On smaller screens, let it flow naturally in the document */
-      left: auto;
-      transform: none;
-    }
-  
-    .comment-page-search input {
-      margin-left: 0; /* Remove margin for full width on smaller screens */
-      margin-right: 0; /* Remove margin for full width on smaller screens */
-    }
+  .bird {
+    color: #95C949;
+    font-size: 20px;
+    font-weight: bold;
   }
   

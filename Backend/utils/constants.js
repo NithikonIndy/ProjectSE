@@ -5,8 +5,8 @@ const roles = {
 }
 
 const reasons = {
-    reasons_one: 'reasons_one',
-    reasons_two: 'reasons_two',
-    reasons_three: 'reasons_three',
+    reasons_one: 'Spam',
+    reasons_two: 'Inappropriate behavior',
+    reasons_three: 'Other',
 }
 export default { roles, reasons }

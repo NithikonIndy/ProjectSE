@@ -85,13 +85,25 @@ const CommentPage = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, report it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Report!",
-          text: "Your file has been deleted.",
-          icon: "success",
+        const { value: accept } = await Swal.fire({
+          title: "Please select your reasons",
+          input: "checkbox",
+          inputValue: 1,
+          inputPlaceholder: "I agree to the terms and conditions",
+          showCancelButton: true,
+          inputValidator: (result) => {
+            return !result && "You need to select the reason!";
+          },
         });
+        if (accept) {
+          Swal.fire({
+            title: "Report!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        }
       }
     });
   };
@@ -310,7 +322,7 @@ const CommentPage = () => {
                   </div>
                   <Button
                     onClick={() => {
-                      AlertReport();
+                      AlertReport(blog._id);
                     }}
                   >
                     <FontAwesomeIcon icon={faFlag} />
@@ -355,11 +367,6 @@ const CommentPage = () => {
                       {comment.likes ? comment.likes.length : 0}
                     </Button>
                   </div>
-                  <Button onClick={() => {
-                    AlertReport();
-                  }}>
-                    <FontAwesomeIcon icon={faFlag} />
-                  </Button>
                 </CardFooter>
               </CardBody>
             </Card>

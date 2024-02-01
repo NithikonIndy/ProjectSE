@@ -18,10 +18,13 @@ export const getAllBlog = async ( req, res, next) => {
 };
 
 export const addBlog = async ( req, res, next) => {
-    const {description} = req.body;
-    const user = await req.session.userId;
+    const {user,description} = req.body;
 
-    let exitstingUser;
+    if (!description || /^\s*$/.test(description)) {
+        console.log("Empty or whitespace text");
+        return res.status(400).json({ message: "Description cannot be empty or contain only spaces" });
+    }else{
+        let exitstingUser;
     try{
         exitstingUser = await User.findById(user);
     }catch(err){
@@ -46,10 +49,13 @@ export const addBlog = async ( req, res, next) => {
         return res.status(500).json({message: err});
     }
     return res.status(200).json({ blog });
+    }
+
+    
 };
 
 export const updateBlog = async (req ,res ,next ) => {
-    const {description } = req.body;
+    const { description } = req.body;
     const blogId =req.params.id;
     let blog;
     try{

@@ -81,6 +81,7 @@ const CommentPage = () => {
     try {
       // deconstruct the response to get the data //* console.log(fetchReasons); *//
       const { data : fetchReasons } = await axios.get("http://localhost:3000/reportReasons");
+      console.log(fetchReasons);
 
       Swal.fire({
         title: "Firmly to report?",
@@ -92,6 +93,7 @@ const CommentPage = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           //console.log(blogs[0]._id);
+          //console.log(users[0]);
           const { value: reasons } = await Swal.fire({
             title: "Please select your reasons",
             input: "select",
@@ -99,14 +101,23 @@ const CommentPage = () => {
             inputPlaceholder: "Please select your reasons",
             showCancelButton: true,
             inputValidator: (result) => {
+              console.log("inputValidator:" ,result);
               return !result && "You need to select the reason!";
             },
           });
           if (reasons) {
-            // fetch the reasons from the backend
+            // fetch the POST reasons from the backend
+            console.log(`reasons[${reasons}]`);
+            try {
+              const reason = fetchReasons[reasons];
+              console.log(`reasons ${reason}`);
+              await axios.post(`http://localhost:3000/api/blog/${blogs[0]._id}/report`, {reason} , {withCredentials: true});
+            }catch(error) {
+              console.error(error);
+            }
             Swal.fire({
               title: "Report!",
-              text: `Your report reason ${reasons} has submitted.`,
+              text: `Your report reason[${reasons}] has submitted.`,
               icon: "success",
             });
           }

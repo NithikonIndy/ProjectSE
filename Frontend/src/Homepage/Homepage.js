@@ -51,6 +51,8 @@ const Homepage = () => {
   const [Blogs, SetBlogs] = useState([]);
   const [likespost, setLikespost] = useState([]);
   const [clickedBlogId, setClickedBlogId] = useState([]);
+  const [showDeleteButton, setShowDeleteButton] = useState(true);
+
 
   const AlertDelete = (blogid) => {
     Swal.fire({
@@ -67,6 +69,7 @@ const Homepage = () => {
           text: "Your file has been deleted.",
           icon: "success",
         });
+        setShowDeleteButton(false);
         handleDeleteBlog(blogid);
       }
     });
@@ -211,8 +214,19 @@ const Homepage = () => {
     setEditedBlogId(null);
   };
 
+  const hidedeletebutton = async () => {
+
+  }
+
   const handleDeleteBlog = (blogId) => {
-   const response = axios.delete(`http://localhost:3000/api/blog/${blogId}`)
+    const apiurl = `http://localhost:3000/api/blog/${blogId}`
+    axios.delete(apiurl)
+    .then(response => {
+      console.log('Delete successful', response.data);
+    })
+    .catch(error => {
+      console.error('Error deleting resource', error);
+    });
    console.log("hello" , blogId);
   };
 

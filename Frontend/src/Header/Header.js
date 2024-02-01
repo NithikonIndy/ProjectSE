@@ -1,10 +1,14 @@
 import React from "react";
 import "./Header.css";
 import freebird from "./picture/freebird.png";
-import home from "./picture/home.png";
-import person from "./picture/person.png";
-import notify from "./picture/notify.png";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBell,
+  faHome,
+  faRightFromBracket,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => (
   <div className="header">
@@ -20,15 +24,19 @@ const Header = () => (
 
     <div className="container-icons">
       <Link to="/home">
-        <img src={notify} alt="home-option" />
+        <FontAwesomeIcon icon={faBell} alt="notify-icon" />
       </Link>
 
       <Link to="/home">
-        <img src={home} alt="home-option" />
+        <FontAwesomeIcon icon={faHome} alt="home-icon" />
       </Link>
 
       <Link to="/profile">
-        <img src={person} alt="profile-option" />
+        <FontAwesomeIcon icon={faUser} alt="profile-icon" />
+      </Link>
+
+      <Link to="http://localhost:3000/logout">
+        <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
       </Link>
     </div>
   </div>

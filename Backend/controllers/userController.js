@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
-import generateToken from "../utils/generateToken.js";
 import asyncHandler from "express-async-handler";
+import constants from "../utils/constants.js";
 
 // @description Logout user
 // @route GET /logout
@@ -101,6 +101,17 @@ const signIn = asyncHandler(async (req, res, next) => {
 });
 
 
+const getReportReasons = async (req, res, next) => {
+  try{
+      const reportReason = Object.values(constants.reasons);
+      console.log(reportReason);
+      res.send(reportReason);
+  }catch(error){
+      console.error(error);
+      res.status(500).json({ error: "Error getting report reasons" });
+  }
+};
+
 export {
   logout,
   getUserProfile,
@@ -110,4 +121,5 @@ export {
   updateRole,
   profile,
   signIn,
+  getReportReasons,
 };

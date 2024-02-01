@@ -77,35 +77,44 @@ const CommentPage = () => {
     });
   };
 
-  const AlertReport = () => {
-    Swal.fire({
-      title: "Firmly to report?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, report it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const { value: accept } = await Swal.fire({
-          title: "Please select your reasons",
-          input: "checkbox",
-          inputValue: 1,
-          inputPlaceholder: "I agree to the terms and conditions",
-          showCancelButton: true,
-          inputValidator: (result) => {
-            return !result && "You need to select the reason!";
-          },
-        });
-        if (accept) {
-          Swal.fire({
-            title: "Report!",
-            text: "Your file has been deleted.",
-            icon: "success",
+  const AlertReport = async () => {
+    try {
+      // deconstruct the response to get the data //* console.log(fetchReasons); *//
+      const { data : fetchReasons } = await axios.get("http://localhost:3000/reportReasons");
+
+      Swal.fire({
+        title: "Firmly to report?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, report it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          //console.log(blogs[0]._id);
+          const { value: reasons } = await Swal.fire({
+            title: "Please select your reasons",
+            input: "select",
+            inputOptions: fetchReasons,
+            inputPlaceholder: "Please select your reasons",
+            showCancelButton: true,
+            inputValidator: (result) => {
+              return !result && "You need to select the reason!";
+            },
           });
+          if (reasons) {
+            // fetch the reasons from the backend
+            Swal.fire({
+              title: "Report!",
+              text: `Your report reason ${reasons} has submitted.`,
+              icon: "success",
+            });
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onClickgetblogId = async (blogId) => {

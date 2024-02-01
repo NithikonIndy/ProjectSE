@@ -55,6 +55,7 @@ const Homepage = () => {
 
 
   const AlertDelete = (blogid) => {
+    setShowDeleteButton(false);
     Swal.fire({
       title: "Firmly to delete?",
       icon: "warning",
@@ -69,7 +70,6 @@ const Homepage = () => {
           text: "Your file has been deleted.",
           icon: "success",
         });
-        setShowDeleteButton(false);
         handleDeleteBlog(blogid);
       }
     });
@@ -90,7 +90,7 @@ const Homepage = () => {
           text: "Your file has been deleted.",
           icon: "success",
         });
-        
+
       }
     });
   };
@@ -112,13 +112,13 @@ const Homepage = () => {
 
 
   const onClickgetblogId = async (blogId) => {
-    setClickedBlogId(blogId); 
+    setClickedBlogId(blogId);
     navigate(`/post/${blogId}`);
   };
 
   const onClicklikeblog = async (blogId) => {
-    console.log("Clicked on blog with ID:", blogId); 
-    handleLikeBlog(blogId); 
+    console.log("Clicked on blog with ID:", blogId);
+    handleLikeBlog(blogId);
     setTimeout(() => {
       fetchBlogs();
     }, 250);
@@ -131,41 +131,41 @@ const Homepage = () => {
 
 
   const handlePostBlog = async () => {
-      await axios.post(
-        `http://localhost:3000/api/blog/add`,
-        {
-          user: users[0], // Assuming users is an array and you want the first user
-          description: blogText,
-        }
-      ).then((response) => {
-          SetBlogs([...Blogs,response.data.blog]);
-          setBlogText('');
-        })
-        .catch((error) => {
-          console.error("Error adding comment:", error);
-        });
-    
+    await axios.post(
+      `http://localhost:3000/api/blog/add`,
+      {
+        user: users[0], // Assuming users is an array and you want the first user
+        description: blogText,
+      }
+    ).then((response) => {
+      SetBlogs([...Blogs, response.data.blog]);
+      setBlogText('');
+    })
+      .catch((error) => {
+        console.error("Error adding comment:", error);
+      });
+
   };
 
-  const handleLikeBlog = async(blogId) => {
-     // Use the blogId directly
-     let temp = blogId;
+  const handleLikeBlog = async (blogId) => {
+    // Use the blogId directly
+    let temp = blogId;
 
-     // Ensure temp has a valid value before using it in the URL
-     if (temp) {
-       const text = `http://localhost:3000/api/blog/${temp}/like`;
- 
-       try {
-         const response = await axios.put(text, {
-           UserId: users[0],
-         });
-         console.log(response.data);
-       } catch (err) {
-         console.log(err);
-       }
-     } else {
-       console.log("No blogId available");
-     }
+    // Ensure temp has a valid value before using it in the URL
+    if (temp) {
+      const text = `http://localhost:3000/api/blog/${temp}/like`;
+
+      try {
+        const response = await axios.put(text, {
+          UserId: users[0],
+        });
+        console.log(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log("No blogId available");
+    }
 
   };
 
@@ -221,13 +221,13 @@ const Homepage = () => {
   const handleDeleteBlog = (blogId) => {
     const apiurl = `http://localhost:3000/api/blog/${blogId}`
     axios.delete(apiurl)
-    .then(response => {
-      console.log('Delete successful', response.data);
-    })
-    .catch(error => {
-      console.error('Error deleting resource', error);
-    });
-   console.log("hello" , blogId);
+      .then(response => {
+        console.log('Delete successful', response.data);
+      })
+      .catch(error => {
+        console.error('Error deleting resource', error);
+      });
+    console.log("hello", blogId);
   };
 
   const fetchBlogs = async () => {
@@ -242,7 +242,7 @@ const Homepage = () => {
         end--;
       }
       SetBlogs(Blog);
-     
+
 
       // setLikespost([response.data.blog.likes.length]);
 
@@ -268,10 +268,12 @@ const Homepage = () => {
           value={blogText}
           onChange={handleBlogChange}
         />
-       <button onClick={() => { handlePostBlog(); 
-        setTimeout(() => {
-          fetchBlogs();
-        }, 350); }}>
+        <button onClick={() => {
+          handlePostBlog();
+          setTimeout(() => {
+            fetchBlogs();
+          }, 350);
+        }}>
           Post Blog</button>
       </div>
 
@@ -295,7 +297,15 @@ const Homepage = () => {
                 <button onClick={() => handleEditBlog(blog.id)}>
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
-                <button onClick={() => AlertDelete(blog._id)}>
+                <button onClick={() => {
+                  AlertDelete(blog._id);
+                  setTimeout(() => {
+                    fetchBlogs();
+                  }, 1000);
+                }
+                  
+                  
+                   }>
                   Delete
                 </button>
 

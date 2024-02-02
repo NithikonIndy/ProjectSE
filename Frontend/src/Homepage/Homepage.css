@@ -2,7 +2,7 @@
 .homepage {
   font-family: Arial, sans-serif;
   color: #333;
-  background-color: #00bfff;
+  background-color: #D2E0FB;
   padding: 20px;
   height: 100vh;
 }
@@ -53,13 +53,13 @@
   justify-content: space-between;
   margin-top: 10px;
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #F9F3CC;
   border-radius: 5px;
 }
 
 .blog-icons button {
-  background-color: #007bff;
-  color: white;
+  background-color: #D7E5CA;
+  color: #0D9276;
   border: none;
   padding: 8px 12px;
   border-radius: 5px;
@@ -73,5 +73,5 @@
 
 .blog-icons svg {
   font-size: 20px;
-  color: #ffffff;
+  color: #0D9276;
 }

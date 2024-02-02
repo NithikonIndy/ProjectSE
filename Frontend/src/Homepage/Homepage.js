@@ -190,7 +190,6 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <Header />
-      <h4>Blogs</h4>
       <div className="blog-section">
         <textarea
           placeholder="Write your blog here..."

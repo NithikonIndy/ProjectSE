@@ -99,23 +99,56 @@ const CommentPage = () => {
     });
   };
 
-  const AlertReport = () => {
-    Swal.fire({
-      title: "Firmly to report?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, report it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "Report!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
-      }
-    });
+  const AlertReport = async (blogid) => {
+    try {
+      // deconstruct the response to get the data //* console.log(fetchReasons); *//
+      const { data : fetchReasons } = await axios.get("http://localhost:3000/reportReasons");
+      console.log(fetchReasons);
+      console.log(blogid);
+
+      Swal.fire({
+        title: "Firmly to report?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, report it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          //console.log(blogs[0]._id);
+          //console.log(users[0]);
+          const { value: reasons } = await Swal.fire({
+            title: "Please select your reasons",
+            input: "select",
+            inputOptions: fetchReasons,
+            inputPlaceholder: "Please select your reasons",
+            showCancelButton: true,
+            inputValidator: (result) => {
+              console.log("inputValidator:" ,result);
+              return !result && "You need to select the reason!";
+            },
+          });
+          if (reasons) {
+            // fetch the POST reasons from the backend
+            console.log(`reasons[${reasons}]`);
+            try {
+              const reason = fetchReasons[reasons];
+              console.log(`reasons ${reason}`);
+              await axios.post(`http://localhost:3000/api/blog/${blogid}/report`, {reason} , {withCredentials: true});
+            }catch(error) {
+              console.error(error);
+            }
+            Swal.fire({
+              title: "Report!",
+              text: `Your report reason[${reasons}] has submitted.`,
+              icon: "success",
+            });
+          }
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onClickgetblogId = async (blogId) => {

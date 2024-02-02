@@ -53,8 +53,12 @@
   gap: 20px;
 }
 
-.container-icons img {
-  height: 30px;
+.container-icons svg{
+  height: 35px;
   width: 30px;
   cursor: pointer;
+}
+
+.container-icons svg path{
+  fill: hsl(219, 61%, 62%);
 }

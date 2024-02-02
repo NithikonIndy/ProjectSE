@@ -8,6 +8,7 @@ import {
   updateRole,
   profile,
   signIn,
+  getReportReasons,
 
 } from "../controllers/userController.js";
 import { getAuthenticatedUser, getAuthenticatedAdmin, getSession, isAuthenticated } from "../middleware/authMiddleware.js";
@@ -20,6 +21,7 @@ const router = express.Router();
 router.get("/cmuOAuthCallback", OAuthCallback);
 
 router.route("/session").get(isAuthenticated);
+router.route("/reportReasons").get(getReportReasons);
 
 //! implement in progress
 router

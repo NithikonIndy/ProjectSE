@@ -25,39 +25,45 @@ export const addComment = async (req, res, next) => {
     const { user,description } = req.body;
 
     const blog = req.params.id;
-
-    let exitstingBlog;
-    let exitstingUser;
-    try {
-
-        exitstingBlog = await Blog.findById(blog);
-        exitstingUser = await User.findById(user);
-    } catch (err) {
-        return console.log(err);
-    } if (!exitstingBlog) {
-        return res.status(400).json({ message: "Unable To Find Blog By This ID" })
-    } else if (!exitstingUser) {
-        return res.status(400).json({ message: "Unable To Find User By This ID" })
+    
+    if (!description || /^\s*$/.test(description)) {
+        console.log("Empty or whitespace text");
+        return res.status(400).json({ message: "Description cannot be empty or contain only spaces" });
+    }else{
+        let exitstingBlog;
+        let exitstingUser;
+        try {
+    
+            exitstingBlog = await Blog.findById(blog);
+            exitstingUser = await User.findById(user);
+        } catch (err) {
+            return console.log(err);
+        } if (!exitstingBlog) {
+            return res.status(400).json({ message: "Unable To Find Blog By This ID" })
+        } else if (!exitstingUser) {
+            return res.status(400).json({ message: "Unable To Find User By This ID" })
+        }
+        const comment = new Comment({
+            description,
+            user,
+            blog,
+        });
+        try {
+            const session = await mongoose.startSession();
+            session.startTransaction();
+            await comment.save({ session });
+            exitstingBlog.comments.push(comment);
+            exitstingUser.comments.push(comment);
+            await exitstingBlog.save({ session });
+            await exitstingUser.save({ session });
+            await session.commitTransaction();
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ message: err });
+        }
+        return res.status(200).json({ comment });
     }
-    const comment = new Comment({
-        description,
-        user,
-        blog,
-    });
-    try {
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        await comment.save({ session });
-        exitstingBlog.comments.push(comment);
-        exitstingUser.comments.push(comment);
-        await exitstingBlog.save({ session });
-        await exitstingUser.save({ session });
-        await session.commitTransaction();
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: err });
-    }
-    return res.status(200).json({ comment });
+   
 };
 
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CommentPage.css";
 import Header from "../Header/Header.js";
@@ -8,7 +7,6 @@ import { set } from "mongoose";
 import Blog from "../components/blogs/Blog.js";
 import Comment from "../components/comment/Comment.js";
 import CommentInput from "../components/comment/CommentInput.js";
-import { Container } from "react-bootstrap";
 import {
   Button,
   Card,
@@ -16,6 +14,7 @@ import {
   CardFooter,
   CardText,
   CardHeader,
+  Container,
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,15 +25,6 @@ import {
   faComments,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
-
-const Popup = ({ onClose, onReport }) => (
-  <div className="popup">
-    <div className="popup-inner">
-      <button onClick={onReport}>Report</button>
-      <button onClick={onClose}>Cancel</button>
-    </div>
-  </div>
-);
 
 const generateRandomNameForUserId = (userId) => {
   const seed = userId; // Use the user ID as the seed
@@ -55,9 +45,22 @@ const CommentPage = () => {
   const [clickedBlogId, setClickedBlogId] = useState([]);
   const [likespost, setLikespost] = useState();
   const [clickedcommentId, setClickedcommentId] = useState([]);
-  const navigate = useNavigate();
   const blogIdforget = useParams().blogId;
+  const [userRole, setUserRole] = useState([]);
 
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const { data : role } = await axios.get("http://localhost:3000/session", {withCredentials: true});
+        setUserRole(role);
+        //console.log(role);
+        //console.log(userRole);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      }
+    };
+    fetchUserRole();
+  },[userRole]);
 
   const AlertDelete = (blogid) => {
     Swal.fire({

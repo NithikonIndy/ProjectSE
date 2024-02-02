@@ -216,7 +216,7 @@ const Homepage = () => {
   const hidedeletebuttons = (blogId) => {
     const isBlogOwner = blogId === users[0];
     const buttonToToggle = document.getElementById(`deleteButton-${blogId}`);
-
+    
     if (buttonToToggle) {
       buttonToToggle.style.display = isBlogOwner ? "block" : "none";
     }

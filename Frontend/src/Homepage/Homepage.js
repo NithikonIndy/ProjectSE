@@ -51,7 +51,7 @@ const Homepage = () => {
   const [Blogs, SetBlogs] = useState([]);
   const [likespost, setLikespost] = useState([]);
   const [clickedBlogId, setClickedBlogId] = useState([]);
-  const [showDeleteButton, setShowDeleteButton] = useState(true);
+  const [blogdelete, setblogdelete] = useState([]);
 
 
   const AlertDelete = (blogid) => {
@@ -69,7 +69,6 @@ const Homepage = () => {
           text: "Your file has been deleted.",
           icon: "success",
         });
-        setShowDeleteButton(false);
         handleDeleteBlog(blogid);
       }
     });
@@ -90,7 +89,7 @@ const Homepage = () => {
           text: "Your file has been deleted.",
           icon: "success",
         });
-        
+
       }
     });
   };
@@ -112,13 +111,13 @@ const Homepage = () => {
 
 
   const onClickgetblogId = async (blogId) => {
-    setClickedBlogId(blogId); 
+    setClickedBlogId(blogId);
     navigate(`/post/${blogId}`);
   };
 
   const onClicklikeblog = async (blogId) => {
-    console.log("Clicked on blog with ID:", blogId); 
-    handleLikeBlog(blogId); 
+    console.log("Clicked on blog with ID:", blogId);
+    handleLikeBlog(blogId);
     setTimeout(() => {
       fetchBlogs();
     }, 250);
@@ -131,41 +130,41 @@ const Homepage = () => {
 
 
   const handlePostBlog = async () => {
-      await axios.post(
-        `http://localhost:3000/api/blog/add`,
-        {
-          user: users[0], // Assuming users is an array and you want the first user
-          description: blogText,
-        }
-      ).then((response) => {
-          SetBlogs([...Blogs,response.data.blog]);
-          setBlogText('');
-        })
-        .catch((error) => {
-          console.error("Error adding comment:", error);
-        });
-    
+    await axios.post(
+      `http://localhost:3000/api/blog/add`,
+      {
+        user: users[0], // Assuming users is an array and you want the first user
+        description: blogText,
+      }
+    ).then((response) => {
+      SetBlogs([...Blogs, response.data.blog]);
+      setBlogText('');
+    })
+      .catch((error) => {
+        console.error("Error adding comment:", error);
+      });
+
   };
 
-  const handleLikeBlog = async(blogId) => {
-     // Use the blogId directly
-     let temp = blogId;
+  const handleLikeBlog = async (blogId) => {
+    // Use the blogId directly
+    let temp = blogId;
 
-     // Ensure temp has a valid value before using it in the URL
-     if (temp) {
-       const text = `http://localhost:3000/api/blog/${temp}/like`;
- 
-       try {
-         const response = await axios.put(text, {
-           UserId: users[0],
-         });
-         console.log(response.data);
-       } catch (err) {
-         console.log(err);
-       }
-     } else {
-       console.log("No blogId available");
-     }
+    // Ensure temp has a valid value before using it in the URL
+    if (temp) {
+      const text = `http://localhost:3000/api/blog/${temp}/like`;
+
+      try {
+        const response = await axios.put(text, {
+          UserId: users[0],
+        });
+        console.log(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log("No blogId available");
+    }
 
   };
 
@@ -214,23 +213,30 @@ const Homepage = () => {
     setEditedBlogId(null);
   };
 
-  const hidedeletebutton = async () => {
+  const hidedeletebuttons = (blogId) => {
+    const isBlogOwner = blogId === users[0];
+    const buttonToToggle = document.getElementById(`deleteButton-${blogId}`);
+    
+    if (buttonToToggle) {
+      buttonToToggle.style.display = isBlogOwner ? "block" : "none";
+    }
+  };
 
-  }
 
   const handleDeleteBlog = (blogId) => {
     const apiurl = `http://localhost:3000/api/blog/${blogId}`
     axios.delete(apiurl)
-    .then(response => {
-      console.log('Delete successful', response.data);
-    })
-    .catch(error => {
-      console.error('Error deleting resource', error);
-    });
-   console.log("hello" , blogId);
+      .then(response => {
+        console.log('Delete successful', response.data);
+      })
+      .catch(error => {
+        console.error('Error deleting resource', error);
+      });
+    console.log("hello", blogId);
   };
 
   const fetchBlogs = async () => {
+    ;
     try {
       const response = await axios.get('http://localhost:3000/api/blog');
       let i = 0;
@@ -242,18 +248,25 @@ const Homepage = () => {
         end--;
       }
       SetBlogs(Blog);
-     
 
       // setLikespost([response.data.blog.likes.length]);
+
 
     } catch (error) {
       console.error('Error fetching blogs:', error);
     }
+
+
+
   };
 
-  useEffect(() => {
 
+  useEffect(() => {
     fetchBlogs();
+
+    setTimeout(() => {
+      hidedeletebuttons(users);
+    }, 100);
   }, []);
 
 
@@ -268,10 +281,12 @@ const Homepage = () => {
           value={blogText}
           onChange={handleBlogChange}
         />
-       <button onClick={() => { handlePostBlog(); 
-        setTimeout(() => {
-          fetchBlogs();
-        }, 350); }}>
+        <button onClick={() => {
+          handlePostBlog();
+          setTimeout(() => {
+            fetchBlogs();
+          }, 350);
+        }}>
           Post Blog</button>
       </div>
 
@@ -295,9 +310,21 @@ const Homepage = () => {
                 <button onClick={() => handleEditBlog(blog.id)}>
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
-                <button onClick={() => AlertDelete(blog._id)}>
-                  Delete
-                </button>
+
+
+                {blog.user === users[0] && (
+                  <button
+                    id={`deleteButton-${blog._id}`}
+                    onClick={() => {
+                      AlertDelete(blog._id);
+                      setTimeout(() => {
+                        fetchBlogs();
+                      }, 1000);
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
 
               </div>
 
@@ -308,31 +335,7 @@ const Homepage = () => {
 
 
 
-      <div className="existing-blogs">
-        {blogs.map((blog) => (
-          <div key={blog.id} className="blog-item">
-            <MessageContainer message={blog.content} />
-            <div className="blog-icons">
-              <button onClick={() => handleLikeBlog(blog.id)}>
-                <FontAwesomeIcon icon={faThumbsUp} />
-              </button>
-              {blogLikes[blog.id] > 0 && <span>{blogLikes[blog.id]} ❤️</span>}
-              <button onClick={() => handleReportBlog(blog)}>
-                <FontAwesomeIcon icon={faFlag} />
-              </button>
-              <button onClick={() => handleEditBlog(blog.id)}>
-                <FontAwesomeIcon icon={faEdit} />
-              </button>
-              <button onClick={() => handleDeleteBlog(blog.id)}>
-                Delete
-              </button>
-
-            </div>
-          </div>
-        ))}
-      </div>
-
-
+    
       {showReportPopup && (
         <ReportPopup onClose={closeReportPopup} onReport={goToReportPage} />
       )}

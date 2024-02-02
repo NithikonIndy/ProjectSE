@@ -58,9 +58,10 @@ const CommentPage = () => {
   const navigate = useNavigate();
   const blogIdforget = useParams().blogId;
 
-  const AlertDelete = () => {
+
+  const AlertDelete = (blogid) => {
     Swal.fire({
-      title: "Firmly to delete?",
+      title: " blog Firmly to delete?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -73,59 +74,48 @@ const CommentPage = () => {
           text: "Your file has been deleted.",
           icon: "success",
         });
+        handleDeleteBlog(blogid);
       }
     });
   };
 
-  const AlertReport = async () => {
-    try {
-      // deconstruct the response to get the data //* console.log(fetchReasons); *//
-      const { data : fetchReasons } = await axios.get("http://localhost:3000/reportReasons");
-      console.log(fetchReasons);
+  const AlertDeleteComment = (commentid) => {
+    Swal.fire({
+      title: "commnet Firmly to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+        handleDeleteComment(commentid);
+      }
+    });
+  };
 
-      Swal.fire({
-        title: "Firmly to report?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, report it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          //console.log(blogs[0]._id);
-          //console.log(users[0]);
-          const { value: reasons } = await Swal.fire({
-            title: "Please select your reasons",
-            input: "select",
-            inputOptions: fetchReasons,
-            inputPlaceholder: "Please select your reasons",
-            showCancelButton: true,
-            inputValidator: (result) => {
-              console.log("inputValidator:" ,result);
-              return !result && "You need to select the reason!";
-            },
-          });
-          if (reasons) {
-            // fetch the POST reasons from the backend
-            console.log(`reasons[${reasons}]`);
-            try {
-              const reason = fetchReasons[reasons];
-              console.log(`reasons ${reason}`);
-              await axios.post(`http://localhost:3000/api/blog/${blogs[0]._id}/report`, {reason} , {withCredentials: true});
-            }catch(error) {
-              console.error(error);
-            }
-            Swal.fire({
-              title: "Report!",
-              text: `Your report reason[${reasons}] has submitted.`,
-              icon: "success",
-            });
-          }
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const AlertReport = () => {
+    Swal.fire({
+      title: "Firmly to report?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, report it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Report!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   const onClickgetblogId = async (blogId) => {
@@ -146,6 +136,28 @@ const CommentPage = () => {
     }, 250);
   };
 
+  const showdeletebuttons = (UserId) => {
+    const isBlogOwner = UserId === users[0];
+    const buttonToToggle = document.getElementById(`deleteButton-${UserId}`);
+
+    if (buttonToToggle) {
+      buttonToToggle.style.display = isBlogOwner ? "block" : "none";
+    }
+
+  };
+
+  const showdeletebuttonsforcomment = (UserId) => {
+    const isBlogOwner = UserId === users[0];
+    const buttonToToggle = document.getElementById(`deleteButtoncomment-${UserId}`);
+
+    if (buttonToToggle) {
+      buttonToToggle.style.display = isBlogOwner ? "block" : "none";
+    }
+
+  };
+
+
+
   /*Userid */
   useEffect(() => {
     const getSession = async () => {
@@ -162,22 +174,21 @@ const CommentPage = () => {
     getSession();
   }, []);
   /*one blog */
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/api/blog/${blogIdforget}`
-        );
-        setBlogs([response.data.blog]);
-        setBlogComment([response.data.blog._id]);
-        setLikespost([response.data.blog.likes.length]);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      }
-    };
+  const fetchBlogs = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/blog/${blogIdforget}`
+      );
 
-    fetchBlogs();
-  }, []);
+      setBlogs([response.data.blog]);
+      setBlogComment([response.data.blog._id]);
+      setLikespost([response.data.blog.likes.length]);
+
+
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
 
   /*comment*/
   useEffect(() => {
@@ -272,6 +283,31 @@ const CommentPage = () => {
     }
   };
 
+  const handleDeleteBlog = (blogId) => {
+    const apiurl = `http://localhost:3000/api/blog/${blogId}`
+    axios.delete(apiurl)
+      .then(response => {
+        console.log('Delete successful', response.data);
+      })
+      .catch(error => {
+        console.error('Error deleting resource', error);
+      });
+  };
+
+  const handleDeleteComment = (commentid) => {
+    const apiurl = `http://localhost:5000/api/comments/blog/${commentid}`;
+    axios.delete(apiurl)
+      .then(response => {
+        console.log('Delete successful', response.data);
+      })
+      .catch(error => {
+        console.error('Error deleting resource', error);
+      });
+  }
+
+
+
+
   const fetchComments = async () => {
     try {
       const response = await axios.get(
@@ -294,6 +330,13 @@ const CommentPage = () => {
     }
   };
 
+  useEffect(() => {
+    fetchBlogs();
+    showdeletebuttons(users[0]);
+    showdeletebuttonsforcomment(users[0]);
+  }, [users[0]]);
+
+
   return (
     <div className="comment-page">
       <Header />
@@ -309,13 +352,18 @@ const CommentPage = () => {
                     <p>{generateRandomNameForUserId(blog.user)}</p>
                     <p>{blog.user}</p>
                   </div>
-                  <Button
-                    onClick={() => {
-                      AlertDelete();
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
+                  {blog.user === users[0] && (
+                    <Button id={`deleteButton-${blog.user}`}
+                      onClick={() => {
+                        AlertDelete(blog._id);
+                        setTimeout(() => {
+                          fetchBlogs();
+                        }, 500);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  )}
                 </CardHeader>
 
                 <CardText>{blog.description}</CardText>
@@ -341,8 +389,9 @@ const CommentPage = () => {
                     </p>
                   </div>
                   <Button
+
                     onClick={() => {
-                      AlertReport(blog._id);
+                      AlertReport(blog._id)
                     }}
                   >
                     <FontAwesomeIcon icon={faFlag} />
@@ -365,13 +414,18 @@ const CommentPage = () => {
                     <p>{generateRandomNameForUserId(comment.user)}</p>
                     <p>{comment.user}</p>
                   </div>
-                  <Button
+                  {comment.user === users[0] && (
+                  <Button id={`deleteButtoncomment-${comment.user}`}
                     onClick={() => {
-                      AlertDelete();
+                      AlertDeleteComment(comment._id);
+                      setTimeout(() => {
+                        fetchBlogs();
+                      }, 500);
                     }}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </Button>
+                  )}
                 </CardHeader>
 
                 <CardText>{comment.description}</CardText>
@@ -387,6 +441,11 @@ const CommentPage = () => {
                       {comment.likes ? comment.likes.length : 0}
                     </Button>
                   </div>
+                  <Button onClick={() => {
+                    AlertReport(comment._id);
+                  }}>
+                    <FontAwesomeIcon icon={faFlag} />
+                  </Button>
                 </CardFooter>
               </CardBody>
             </Card>

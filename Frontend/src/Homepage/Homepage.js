@@ -75,24 +75,52 @@ const Homepage = () => {
     });
   };
 
-  const AlertReport = () => {
-    Swal.fire({
-      title: "Firmly to report?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, report it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "Report!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
-        
-      }
-    });
+  const AlertReport = async(blogid) => {
+    console.log(blogid);
+    try {
+      // deconstruct the response to get the data
+      const { data : fetchReasons } = await axios.get("http://localhost:3000/reportReasons");
+      console.log(fetchReasons);
+
+      Swal.fire({
+        title: "Firmly to report?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, report it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const { value: reasons } = await Swal.fire({
+            title: "Please select your reasons",
+            input: "select",
+            inputOptions: fetchReasons,
+            inputPlaceholder: "Please select your reasons",
+            showCancelButton: true,
+            inputValidator: (result) => {
+              console.log("inputValidator:" ,result);
+              return !result && "You need to select the reason!";
+            },
+          });
+
+          if (reasons) {
+            try {
+              const reason = fetchReasons[reasons];
+              await axios.post(`http://localhost:3000/api/blog/${blogid}/report`, {reason} , {withCredentials: true});
+            } catch (error) {
+              console.log(error);
+            }
+            Swal.fire({
+              title: "Report!",
+              text: `Your report reason[${reasons}] has submitted.`,
+              icon: "success",
+            });
+          }
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
 
@@ -289,7 +317,7 @@ const Homepage = () => {
                   <FontAwesomeIcon icon={faThumbsUp} />
                   {blog.likes.length}
                 </button>
-                <button onClick={() => AlertReport()}>
+                <button onClick={() => AlertReport(blog._id)}>
                   <FontAwesomeIcon icon={faFlag} />
                 </button>
                 <button onClick={() => handleEditBlog(blog.id)}>
@@ -304,8 +332,6 @@ const Homepage = () => {
             </div>
           ))}
       </div>
-
-
 
 
       <div className="existing-blogs">

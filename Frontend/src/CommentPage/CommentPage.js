@@ -58,7 +58,7 @@ const CommentPage = () => {
   const navigate = useNavigate();
   const blogIdforget = useParams().blogId;
 
-  const AlertDelete = () => {
+  const AlertDelete = (blogid) => {
     Swal.fire({
       title: "Firmly to delete?",
       icon: "warning",
@@ -73,6 +73,7 @@ const CommentPage = () => {
           text: "Your file has been deleted.",
           icon: "success",
         });
+        handleDeleteBlog(blogid);
       }
     });
   };
@@ -240,6 +241,18 @@ const CommentPage = () => {
     }
   };
 
+  const handleDeleteBlog = (blogId) => {
+    const apiurl = `http://localhost:3000/api/blog/${blogId}`
+    axios.delete(apiurl)
+      .then(response => {
+        console.log('Delete successful', response.data);
+      })
+      .catch(error => {
+        console.error('Error deleting resource', error);
+      });
+    console.log("hello", blogId);
+  };
+
   const fetchComments = async () => {
     try {
       const response = await axios.get(
@@ -262,6 +275,12 @@ const CommentPage = () => {
     }
   };
 
+  useEffect(() => {
+    // setTimeout(() => {
+    //   hidedeletebuttons(users);
+    // }, 100);
+  },[]);
+
   return (
     <div className="comment-page">
       <Header />
@@ -279,7 +298,7 @@ const CommentPage = () => {
                   </div>
                   <Button
                     onClick={() => {
-                      AlertDelete();
+                      AlertDelete(blog._id);
                     }}
                   >
                     <FontAwesomeIcon icon={faTrash} />
@@ -356,7 +375,7 @@ const CommentPage = () => {
                     </Button>
                   </div>
                   <Button onClick={() => {
-                    AlertReport();
+                    AlertReport(comment._id);
                   }}>
                     <FontAwesomeIcon icon={faFlag} />
                   </Button>

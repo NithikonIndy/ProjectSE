@@ -223,9 +223,6 @@ const Homepage = () => {
   };
 
 
-
-
-
   const handleDeleteBlog = (blogId) => {
     const apiurl = `http://localhost:3000/api/blog/${blogId}`
     axios.delete(apiurl)
@@ -302,7 +299,6 @@ const Homepage = () => {
                 <p>{generateRandomNameForUserId(blog.user)}</p>
                 <p>{blog.description}</p>
               </div>
-              <h1>{blog._id}</h1>
               <div className="blog-icons">
                 <button onClick={() => onClicklikeblog(blog._id)}>
                   <FontAwesomeIcon icon={faThumbsUp} />
@@ -339,31 +335,7 @@ const Homepage = () => {
 
 
 
-      <div className="existing-blogs">
-        {blogs.map((blog) => (
-          <div key={blog.id} className="blog-item">
-            <MessageContainer message={blog.content} />
-            <div className="blog-icons">
-              <button onClick={() => handleLikeBlog(blog.id)}>
-                <FontAwesomeIcon icon={faThumbsUp} />
-              </button>
-              {blogLikes[blog.id] > 0 && <span>{blogLikes[blog.id]} ❤️</span>}
-              <button onClick={() => handleReportBlog(blog)}>
-                <FontAwesomeIcon icon={faFlag} />
-              </button>
-              <button onClick={() => handleEditBlog(blog.id)}>
-                <FontAwesomeIcon icon={faEdit} />
-              </button>
-              <button onClick={() => handleDeleteBlog(blog.id)}>
-                Delete
-              </button>
-
-            </div>
-          </div>
-        ))}
-      </div>
-
-
+    
       {showReportPopup && (
         <ReportPopup onClose={closeReportPopup} onReport={goToReportPage} />
       )}

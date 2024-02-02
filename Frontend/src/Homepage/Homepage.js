@@ -51,11 +51,10 @@ const Homepage = () => {
   const [Blogs, SetBlogs] = useState([]);
   const [likespost, setLikespost] = useState([]);
   const [clickedBlogId, setClickedBlogId] = useState([]);
-  const [showDeleteButton, setShowDeleteButton] = useState(true);
+  const [blogdelete, setblogdelete] = useState([]);
 
 
   const AlertDelete = (blogid) => {
-    setShowDeleteButton(false);
     Swal.fire({
       title: "Firmly to delete?",
       icon: "warning",
@@ -214,9 +213,18 @@ const Homepage = () => {
     setEditedBlogId(null);
   };
 
-  const hidedeletebutton = async () => {
+  const hidedeletebuttons = (blogId) => {
+    const isBlogOwner = blogId === users[0];
+    const buttonToToggle = document.getElementById(`deleteButton-${blogId}`);
 
-  }
+    if (buttonToToggle) {
+      buttonToToggle.style.display = isBlogOwner ? "block" : "none";
+    }
+  };
+
+
+
+
 
   const handleDeleteBlog = (blogId) => {
     const apiurl = `http://localhost:3000/api/blog/${blogId}`
@@ -231,6 +239,7 @@ const Homepage = () => {
   };
 
   const fetchBlogs = async () => {
+    ;
     try {
       const response = await axios.get('http://localhost:3000/api/blog');
       let i = 0;
@@ -243,17 +252,24 @@ const Homepage = () => {
       }
       SetBlogs(Blog);
 
-
       // setLikespost([response.data.blog.likes.length]);
+
 
     } catch (error) {
       console.error('Error fetching blogs:', error);
     }
+
+
+
   };
 
-  useEffect(() => {
 
+  useEffect(() => {
     fetchBlogs();
+
+    setTimeout(() => {
+      hidedeletebuttons(users);
+    }, 100);
   }, []);
 
 
@@ -286,6 +302,7 @@ const Homepage = () => {
                 <p>{generateRandomNameForUserId(blog.user)}</p>
                 <p>{blog.description}</p>
               </div>
+              <h1>{blog._id}</h1>
               <div className="blog-icons">
                 <button onClick={() => onClicklikeblog(blog._id)}>
                   <FontAwesomeIcon icon={faThumbsUp} />
@@ -297,17 +314,21 @@ const Homepage = () => {
                 <button onClick={() => handleEditBlog(blog.id)}>
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
-                <button onClick={() => {
-                  AlertDelete(blog._id);
-                  setTimeout(() => {
-                    fetchBlogs();
-                  }, 1000);
-                }
-                  
-                  
-                   }>
-                  Delete
-                </button>
+
+
+                {blog.user === users[0] && (
+                  <button
+                    id={`deleteButton-${blog._id}`}
+                    onClick={() => {
+                      AlertDelete(blog._id);
+                      setTimeout(() => {
+                        fetchBlogs();
+                      }, 1000);
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
 
               </div>
 

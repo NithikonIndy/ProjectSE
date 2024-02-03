@@ -59,23 +59,31 @@ const Homepage = () => {
     });
   };
 
-  const AlertEdit = () =>
-  Swal.fire({
-    title: "Enter text",
-    input: "text",
-    inputLabel: "Your text",
-    Edit,
-    showCancelButton: true,
-    inputValidator: (value) => {
-      if (!value) {
-        return "You need to write something!";
+  const AlertEdit = (blogid) => {
+    console.log("blog id: ", blogid);
+
+    Swal.fire({
+      title: "Enter text",
+      input: "text",
+      inputLabel: "Your text",
+      showCancelButton: true,
+
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const value = result.value;
+          if (value) {
+            setEdit(value);
+            handleEditBlog(blogid);
+          }
+        
+        Swal.fire({
+          title: "Edit!",
+          text: `Your post has ben edit.`,
+          icon: "success",
+        });
       }
-      if (Edit) {
-        Swal.fire(`Your text ${Edit}`)
-      }
-    }
-   
-  });
+    });
+  };
   
 
 
@@ -313,9 +321,21 @@ const Homepage = () => {
                 <button onClick={() => AlertReport(blog._id)}>
                   <FontAwesomeIcon icon={faFlag} />
                 </button>
-                <button onClick={() => AlertEdit()}>
+
+                {blog.user === users[0] && (
+                  <button 
+                  id={`editButton-${blog._id}`}
+                  onClick={() => {
+                    AlertEdit(blog._id);
+                    setTimeout(() => {
+                      fetchBlogs();
+                    }, 1000);
+                    }}
+                  >
                   <FontAwesomeIcon icon={faEdit} />
-                </button>
+                </button>  
+                )}
+
 
                 {blog.user === users[0] && (
                   <button

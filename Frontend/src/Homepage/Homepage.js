@@ -316,7 +316,7 @@ const Homepage = () => {
                   </button>
 
                   {blog.user === users[0] && (
-                    <button class="col vr"
+                    <button class="col "
                       id={`editButton-${blog._id}`}
                       onClick={() => {
                         AlertEdit(blog._id);
@@ -329,7 +329,7 @@ const Homepage = () => {
                     </button>
                   )}
 
-                  <button class="col vr" onClick={() => {
+                  <button class="col " onClick={() => {
                     onClickgetblogId(blog._id);
                   }}> Comment</button>
 

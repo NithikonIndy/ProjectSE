@@ -60,27 +60,23 @@ const Homepage = () => {
   };
 
   const AlertEdit = (blogid) => {
-    console.log("blog id: ", blogid);
-
     Swal.fire({
       title: "Enter text",
       input: "text",
       inputLabel: "Your text",
       showCancelButton: true,
-
     }).then((result) => {
       if (result.isConfirmed) {
-        const value = result.value;
-          if (value) {
-            setEdit(value);
-            handleEditBlog(blogid);
-          }
-        
-        Swal.fire({
-          title: "Edit!",
-          text: `Your post has ben edit.`,
-          icon: "success",
-        });
+        const editedText = result.value;
+        if (editedText) {
+          setBlogText(editedText); // Set the edited text to the state
+          Swal.fire({
+            title: "Edit!",
+            text: `Your post has been edited.`,
+            icon: "success",
+          });
+          handleEditBlog(blogid, editedText); // Pass the edited text to handleEditBlog
+        }
       }
     });
   };
@@ -209,18 +205,19 @@ const Homepage = () => {
     }
   };
 
-  const handleEditBlog = (blogId) => {
-    const apiurl= `http://localhost:3000/api/blog/update/${blogId}`;
-    axios.put(apiurl,{
-      user: users[0], // Assuming users is an array and you want the first user
-      description: blogText,
-    })
-    .then((response) => {
-      console.log("Edit successful", response.data);
-    })
-    .catch((error) => {
-      console.error("Error Edit resource", error);
-    });
+  const handleEditBlog = (blogId, editedText) => {
+    const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
+    axios
+      .put(apiurl, {
+        user: users[0],
+        description: editedText, // Use the edited text
+      })
+      .then((response) => {
+        console.log("Edit successful", response.data);
+      })
+      .catch((error) => {
+        console.error("Error editing resource", error);
+      });
     setTimeout(() => {
       fetchBlogs();
     }, 400);

@@ -1,9 +1,10 @@
 .comment-page {
   font-family: Arial, sans-serif;
   color: #333;
-  background-color: #00bfff;
-  min-height: 100vh;
-  width: 100%;
+  background-image: -moz-radial-gradient(center,ellipse closest-corner,rgb(0, 0, 0) ,#0062ff );
+  background-image: -webkit-radial-gradient(center,ellipse closest-corner,rgb(0, 0, 0) ,#0062ff );
+  height: 100vh;
+  padding: 20px;
 }
 
 .flex-container {
@@ -18,6 +19,11 @@
 .margin-left{
   margin-left: 20px;
 }
+
+.card-control{
+  background-color: #D2E0FB;
+}
+
 
 .topright {
   display: flex;

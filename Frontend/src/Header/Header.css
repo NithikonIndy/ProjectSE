@@ -5,11 +5,11 @@
   justify-content: space-between;
   margin: 0;
   width: 100%;
-  background-color: white;
+  background-color: #ffffff;
   height: 100px; /* ปรับความสูงของ Header */
-  border-radius: 10px;
   overflow: hidden; /* จำเป็นต้องใส่เพื่อที่จะแสดงขอบโค้งถูกต้อง */
   margin-bottom: 1px;
+  border-radius: 20px;
 }
 
 .container-logo {

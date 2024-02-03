@@ -359,9 +359,9 @@ const CommentPage = () => {
         {Array.isArray(comments) &&
           comments.map((comment) => (
             <Card className="adjust-width margin-bottom" key={comment._id}>
-              <CardBody>
+              <CardBody className="flex-div">
                 <CardHeader>
-                  <div className="flex-div">
+                  <div  >
                     <p>{generateRandomNameForUserId(comment.user)}</p>
                     <p>{comment.user}</p>
                   </div>
@@ -395,8 +395,8 @@ const CommentPage = () => {
         <br />
         <br />
         {/*<CommentInput />*/}
-        <Card className="adjust-width">
-          <CardBody>
+        <Card>
+          <CardBody >
             <CardText className="text-padding adjust-height">
               <textarea
                 type="text"

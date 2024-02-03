@@ -2,7 +2,7 @@
 .homepage {
   font-family: Arial, sans-serif;
   color: #333;
-  background-color: #D2E0FB;
+  background-color: #BBE2EC !important; 
   padding: 20px;
   height: 100vh;
 }
@@ -39,14 +39,6 @@
   height: 100px;
 }
 
-.blog-item {
-  background-color: #ffffff;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-}
-
 .blog-icons {
   display: flex;
   align-items: center;
@@ -74,4 +66,17 @@
 .blog-icons svg {
   font-size: 20px;
   color: #0D9276;
+}
+
+.blog-item {
+  background-color: #FFF6E9;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease; /* เพิ่ม transition เพื่อทำให้การเปลี่ยนสีมีการเคลื่อนไหวเรียบขึ้น */
+}
+
+.blog-item:hover {
+  background-color: #E6B9DE;
 }

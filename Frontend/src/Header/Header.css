@@ -5,7 +5,7 @@
   justify-content: space-between;
   margin: 0;
   width: 100%;
-  background-color: rgb(255, 255, 255);
+  background-color: #FFF6E9;
   height: 100px; /* ปรับความสูงของ Header */
   border-radius: 10px;
   overflow: hidden; /* จำเป็นต้องใส่เพื่อที่จะแสดงขอบโค้งถูกต้อง */

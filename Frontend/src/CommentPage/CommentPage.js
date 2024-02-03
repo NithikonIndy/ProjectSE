@@ -413,6 +413,9 @@ const CommentPage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
+      setTimeout(() => {
+        fetchComments();
+      }, 500);
   };
 
   const handleEditComment = (commentid, editedText) => {
@@ -577,9 +580,6 @@ const CommentPage = () => {
                         id={`deleteButtoncomment-${comment.user}`}
                         onClick={() => {
                           AlertDeleteComment(comment._id);
-                          setTimeout(() => {
-                            fetchComments();
-                          }, 500);
                         }}
                       >
                         <FontAwesomeIcon icon={faTrash} />

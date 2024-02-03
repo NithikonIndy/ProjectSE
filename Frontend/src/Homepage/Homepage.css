@@ -2,7 +2,7 @@
 .homepage {
   font-family: Arial, sans-serif;
   color: #333;
-  background-image: -webkit-radial-gradient(center,ellipse closest-corner,#0060f9 ,#d7d6d6);
+  background-image: -webkit-radial-gradient(center,ellipse closest-corner,#0060f9 ,#000000);
   min-height: 100vh;
   width:  100%;
   padding: 20px;

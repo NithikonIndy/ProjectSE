@@ -14,7 +14,7 @@ const MessageContainer = ({ message }) => (
   <div className="message-container">{message}</div>
 );
 
-const generateRandomNameForUserId = (userId) => {
+const generateRandomNameForUserId = (userId ,blogId) => {
   const seed = userId; // Use the user ID as the seed
   const config = {
     dictionaries: [animals],
@@ -202,14 +202,20 @@ const Homepage = () => {
   };
 
   const handleEditBlog = (blogId) => {
-    const apiurl= axios.put(`http://localhost:3000/api/blog/update/${blogId}`)
-    axios.put(apiurl)
+    const apiurl= `http://localhost:3000/api/blog/update/${blogId}`;
+    axios.put(apiurl,{
+      user: users[0], // Assuming users is an array and you want the first user
+      description: blogText,
+    })
     .then((response) => {
-      console.log("Delete successful", response.data);
+      console.log("Edit successful", response.data);
     })
     .catch((error) => {
-      console.error("Error deleting resource", error);
+      console.error("Error Edit resource", error);
     });
+    setTimeout(() => {
+      fetchBlogs();
+    }, 400);
   };
 
   const hidedeletebuttons = (blogId) => {
@@ -231,6 +237,9 @@ const Homepage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
+      setTimeout(() => {
+        fetchBlogs();
+      }, 400);
   };
 
   const fetchBlogs = async () => {
@@ -313,9 +322,7 @@ const Homepage = () => {
                     id={`deleteButton-${blog._id}`}
                     onClick={() => {
                       AlertDelete(blog._id);
-                      setTimeout(() => {
-                        fetchBlogs();
-                      }, 1000);
+      
                     }}
                   >
                     Delete

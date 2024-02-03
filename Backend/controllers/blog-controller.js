@@ -55,20 +55,36 @@ export const addBlog = async ( req, res, next) => {
 };
 
 export const updateBlog = async (req ,res ,next ) => {
-    const { description } = req.body;
+    const {  user ,description } = req.body;
     const blogId =req.params.id;
     let blog;
-    try{
-        blog = await Blog.findByIdAndUpdate(blogId, {
-            description,
-        });
-    }catch(err){
-        return console.log(err);
+    let exitstingUser;
+    if (!description || /^\s*$/.test(description)){
+        console.log("Empty or whitespace text");
+        return res.status(400).json({ message: "Description cannot be empty or contain only spaces" });
+    }else{
+        try{
+            exitstingUser = await User.findById(user);
+        }catch(err){
+            return console.log(err);
+        }
+        if(!exitstingUser){
+            return res.status(400).json({message:"Unable To Find User By This ID"});
+        }
+        try{
+            blog = await Blog.findByIdAndUpdate(blogId, {
+                user,
+                description,
+            });
+        }catch(err){
+            return console.log(err);
+        }
+        if (!blog){
+            return res.status(500).json({message: "Unable to Update The Blog"});
+        }
+        return res.status(200).json({ blog });
     }
-    if (!blog){
-        return res.status(500).json({message: "Unable to Update The Blog"});
-    }
-    return res.status(200).json({ blog });
+    
 };
 
 export const getById = async (req, res , next) => {

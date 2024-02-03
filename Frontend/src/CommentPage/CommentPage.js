@@ -28,8 +28,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
-const generateRandomNameForUserId = (userId) => {
-  const seed = userId; // Use the user ID as the seed
+const generateRandomNameForUserId = (userId,blogId) => {
+  const seed = userId+blogId; // Use the user ID as the seed
   const config = {
     dictionaries: [animals],
     seed: seed,
@@ -431,7 +431,7 @@ const CommentPage = () => {
               <CardBody>
                 <CardHeader>
                   <div className="flex-div">
-                    <p>{generateRandomNameForUserId(blog.user)}</p>
+                    <p>{generateRandomNameForUserId(blog.user,blog._id)}</p>
                     <p>{blog.user}</p>
                   </div>
 
@@ -507,7 +507,7 @@ const CommentPage = () => {
               <CardBody>
                 <CardHeader>
                   <div className="flex-div">
-                    <p>{generateRandomNameForUserId(comment.user)}</p>
+                    <p>{generateRandomNameForUserId(comment.user,comment.blog)}</p>
                     <p>{comment.user}</p>
                   </div>
                   {comment.user === users[0] && (

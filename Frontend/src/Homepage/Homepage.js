@@ -37,6 +37,7 @@ const Homepage = () => {
   const [likespost, setLikespost] = useState([]);
   const [clickedBlogId, setClickedBlogId] = useState([]);
   const [blogdelete, setblogdelete] = useState([]);
+  const [Edit,setEdit]=useState([]);
 
   const AlertDelete = (blogid) => {
     Swal.fire({
@@ -57,6 +58,26 @@ const Homepage = () => {
       }
     });
   };
+
+  const AlertEdit = () =>
+  Swal.fire({
+    title: "Enter text",
+    input: "text",
+    inputLabel: "Your text",
+    Edit,
+    showCancelButton: true,
+    inputValidator: (value) => {
+      if (!value) {
+        return "You need to write something!";
+      }
+      if (Edit) {
+        Swal.fire(`Your text ${Edit}`)
+      }
+    }
+   
+  });
+  
+
 
   const AlertReport = async (blogid) => {
     console.log(blogid);
@@ -181,34 +202,14 @@ const Homepage = () => {
   };
 
   const handleEditBlog = (blogId) => {
-    const blogToEdit = blogs.find((blog) => blog.id === blogId);
-    if (blogToEdit) {
-      setBlogText(blogToEdit.content);
-      setEditMode(true);
-      setEditedBlogId(blogId);
-    }
-  };
-
-  const handleSaveEdit = () => {
-    if (blogText.trim() !== "") {
-      setBlogs((prevBlogs) =>
-        prevBlogs.map((blog) =>
-          blog.id === editedBlogId ? { ...blog, content: blogText } : blog
-        )
-      );
-      setBlogText("");
-      setPostMessage("Blog edited successfully!");
-      setEditMode(false);
-      setEditedBlogId(null);
-    } else {
-      setPostMessage("Please enter a blog before editing.");
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setBlogText("");
-    setEditMode(false);
-    setEditedBlogId(null);
+    const apiurl= axios.put(`http://localhost:3000/api/blog/update/${blogId}`)
+    axios.put(apiurl)
+    .then((response) => {
+      console.log("Delete successful", response.data);
+    })
+    .catch((error) => {
+      console.error("Error deleting resource", error);
+    });
   };
 
   const hidedeletebuttons = (blogId) => {
@@ -230,7 +231,6 @@ const Homepage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
-    console.log("hello", blogId);
   };
 
   const fetchBlogs = async () => {
@@ -304,7 +304,7 @@ const Homepage = () => {
                 <button onClick={() => AlertReport(blog._id)}>
                   <FontAwesomeIcon icon={faFlag} />
                 </button>
-                <button onClick={() => handleEditBlog(blog.id)}>
+                <button onClick={() => AlertEdit()}>
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
 
@@ -326,17 +326,7 @@ const Homepage = () => {
             </div>
           ))}
 
-        {editMode && (
-          <div>
-            <textarea
-              placeholder="Edit your blog here..."
-              value={blogText}
-              onChange={(e) => setBlogText(e.target.value)}
-            />
-            <button onClick={handleSaveEdit}>Save Edit</button>
-            <button onClick={handleCancelEdit}>Cancel Edit</button>
-          </div>
-        )}
+
       </Container>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CommentPage.css";
+import "../components/comment/comment.css";
 import Header from "../Header/Header.js";
 import { uniqueNamesGenerator, Config, animals } from "unique-names-generator";
 import { set } from "mongoose";
@@ -438,9 +439,6 @@ const CommentPage = () => {
           ))}
 
         {/* Comment List */}
-        <br />
-        <br />
-
         {Array.isArray(comments) &&
           comments.map((comment) => (
             <Card className="adjust-width margin-bottom" key={comment._id}>
@@ -487,8 +485,6 @@ const CommentPage = () => {
             </Card>
           ))}
 
-        <br />
-        <br />
         {/*<CommentInput />*/}
         <Card className="adjust-width">
           <CardBody>

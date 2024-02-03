@@ -1,10 +1,8 @@
 .comment-page {
   font-family: Arial, sans-serif;
   color: #333;
-  background-image: -moz-radial-gradient(center,ellipse closest-corner,rgb(0, 0, 0) ,#0062ff );
-  background-image: -webkit-radial-gradient(center,ellipse closest-corner,rgb(0, 0, 0) ,#0062ff );
+  background-color: #F8F8F8 ;
   height: 100vh;
-  padding: 20px;
 }
 
 .flex-container {

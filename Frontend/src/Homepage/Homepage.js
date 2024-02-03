@@ -9,6 +9,12 @@ import axios from "axios";
 import { uniqueNamesGenerator, Config, animals } from "unique-names-generator";
 import Swal from "sweetalert2";
 import { Container } from "react-bootstrap";
+import {
+  faBell,
+  faHome,
+  faRightFromBracket,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const MessageContainer = ({ message }) => (
   <div className="message-container">{message}</div>
@@ -155,6 +161,7 @@ const Homepage = () => {
   const onClickgetblogId = async (blogId) => {
     setClickedBlogId(blogId);
     navigate(`/post/${blogId}`);
+    console.log("hll");
   };
 
   const onClicklikeblog = async (blogId) => {
@@ -278,7 +285,85 @@ const Homepage = () => {
       <Header />
 
       <Container className="padding-container">
-        <div className="blog-section">
+        <div className="blog-section" style={{ position: "relative" }}>
+          <textarea
+            placeholder="Write your blog here..."
+            value={blogText}
+            onChange={handleBlogChange}
+            rows="10"
+          />
+
+          <button
+            onClick={() => {
+              handlePostBlog();
+              setTimeout(() => {
+                fetchBlogs();
+              }, 350);
+            }}
+
+            style={{ position: "absolute", right: "12px", bottom: "30px" }}
+          >
+            Post Blog
+          </button>
+          
+        </div>
+
+        {Array.isArray(Blogs) &&
+          Blogs.map((blog) => (
+
+            <div key={blog._id} className="blog-item" >
+              <div
+                onClick={() => {
+                  onClickgetblogId(blog._id);
+                }}
+              >
+                <FontAwesomeIcon icon={faUser} />
+                <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
+                <p>{blog.description}</p>
+              </div>
+
+              <div className="blog-icons">
+                <button onClick={() => onClicklikeblog(blog._id)}>
+                  <FontAwesomeIcon icon={faThumbsUp} />
+                  {blog.likes.length}
+                </button>
+                <button onClick={() => AlertReport(blog._id)}>
+                  <FontAwesomeIcon icon={faFlag} />
+                </button>
+
+                {blog.user === users[0] && (
+                  <button
+                    id={`editButton-${blog._id}`}
+                    onClick={() => {
+                      AlertEdit(blog._id);
+                      setTimeout(() => {
+                        fetchBlogs();
+                      }, 1000);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                )}
+
+
+                {blog.user === users[0] && (
+                  <button
+                    id={`deleteButton-${blog._id}`}
+                    onClick={() => {
+                      AlertDelete(blog._id);
+
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
+
+            </div>
+
+          ))}
+
+        {/* <div className="blog-section">
           <textarea
             placeholder="Write your blog here..."
             value={blogText}
@@ -294,15 +379,21 @@ const Homepage = () => {
           >
             Post Blog
           </button>
-          
         </div>
 
-        {/* {blog} */}
+        
         {Array.isArray(Blogs) &&
           Blogs.map((blog) => (
-            <div key={blog._id} className="blog-item">
-              <div >
-                <p>{generateRandomNameForUserId(blog.user, blog._id)}</p>
+            <div key={blog._id} className="blog-item" >
+              <div
+                onClick={() => {
+                  onClickgetblogId(blog._id);
+                }}
+
+                style={{ height: "100vh" }}
+              >
+                <FontAwesomeIcon icon={faUser}/>
+                <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user,blog._id)}</i></strong>
                 <p>{blog.description}</p>
               </div>
 
@@ -358,7 +449,7 @@ const Homepage = () => {
 
 
             </div>
-          ))}
+          ))} */}
 
       </Container>
     </div>

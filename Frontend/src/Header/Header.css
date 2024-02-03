@@ -5,11 +5,12 @@
   justify-content: space-between;
   margin: 0;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #fefefe;
   height: 100px; /* ปรับความสูงของ Header */
   overflow: hidden; /* จำเป็นต้องใส่เพื่อที่จะแสดงขอบโค้งถูกต้อง */
   margin-bottom: 1px;
-  border-radius: 20px;
+  border-bottom: 1px solid rgb(221, 217, 217);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .container-logo {
@@ -37,12 +38,12 @@
 }
 
 .container-search input {
-  width: 300px;
+  width: 700px;
   height: 40px;
   border-radius: 10px;
   padding: 10px;
   border: none;
-  background-color: hsla(195, 30%, 69%, 0.63);
+  background-color: #d4d5d6;
 }
 
 .container-icons {
@@ -60,5 +61,5 @@
 }
 
 .container-icons svg path{
-  fill: hsl(219, 61%, 62%);
+  fill: #4396FF;
 }

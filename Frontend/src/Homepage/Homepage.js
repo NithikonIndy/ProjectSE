@@ -299,12 +299,10 @@ const Homepage = () => {
         {/* {blog} */}
         {Array.isArray(Blogs) &&
           Blogs.map((blog) => (
-            <div key={blog._id} className="blog-item">
-              <div
-                onClick={() => {
+            <div key={blog._id} className="blog-item"onClick={() => {
                   onClickgetblogId(blog._id);
-                }}
-              >
+                }}>
+              <div>
                 <p>{generateRandomNameForUserId(blog.user,blog._id)}</p>
                 <p>{blog.description}</p>
               </div>

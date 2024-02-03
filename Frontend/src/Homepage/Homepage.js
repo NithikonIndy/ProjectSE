@@ -14,8 +14,8 @@ const MessageContainer = ({ message }) => (
   <div className="message-container">{message}</div>
 );
 
-const generateRandomNameForUserId = (userId ,blogId) => {
-  const seed = userId+blogId; // Use the user ID as the seed
+const generateRandomNameForUserId = (userId, blogId) => {
+  const seed = userId + blogId; // Use the user ID as the seed
   const config = {
     dictionaries: [animals],
     seed: seed,
@@ -37,7 +37,7 @@ const Homepage = () => {
   const [likespost, setLikespost] = useState([]);
   const [clickedBlogId, setClickedBlogId] = useState([]);
   const [blogdelete, setblogdelete] = useState([]);
-  const [Edit,setEdit]=useState([]);
+  const [Edit, setEdit] = useState([]);
 
   const AlertDelete = (blogid) => {
     Swal.fire({
@@ -80,7 +80,7 @@ const Homepage = () => {
       }
     });
   };
-  
+
 
 
   const AlertReport = async (blogid) => {
@@ -242,9 +242,9 @@ const Homepage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
-      setTimeout(() => {
-        fetchBlogs();
-      }, 400);
+    setTimeout(() => {
+      fetchBlogs();
+    }, 400);
   };
 
   const fetchBlogs = async () => {
@@ -294,59 +294,71 @@ const Homepage = () => {
           >
             Post Blog
           </button>
+          
         </div>
 
         {/* {blog} */}
         {Array.isArray(Blogs) &&
           Blogs.map((blog) => (
-            <div key={blog._id} className="blog-item"onClick={() => {
-                  onClickgetblogId(blog._id);
-                }}>
-              <div>
-                <p>{generateRandomNameForUserId(blog.user,blog._id)}</p>
+            <div key={blog._id} className="blog-item">
+              <div >
+                <p>{generateRandomNameForUserId(blog.user, blog._id)}</p>
                 <p>{blog.description}</p>
               </div>
 
-              <div className="blog-icons">
-                <button onClick={() => onClicklikeblog(blog._id)}>
-                  <FontAwesomeIcon icon={faThumbsUp} />
+              <div class="row">
+
+
+                <div className="blog-icons " class="row " >
+                  <button class="col " onClick={() => onClicklikeblog(blog._id)}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
                     {blog.likes.length}
-                </button>
-                <button onClick={() => AlertReport(blog._id)}>
-                  <FontAwesomeIcon icon={faFlag} />
-                </button>
-
-                {blog.user === users[0] && (
-                  <button 
-                  id={`editButton-${blog._id}`}
-                  onClick={() => {
-                    AlertEdit(blog._id);
-                    setTimeout(() => {
-                      fetchBlogs();
-                    }, 1000);
-                    }}
-                  >
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>  
-                )}
-
-
-                {blog.user === users[0] && (
-                  <button
-                    id={`deleteButton-${blog._id}`}
-                    onClick={() => {
-                      AlertDelete(blog._id);
-      
-                    }}
-                  >
-                    Delete
                   </button>
-                )}
+
+                  {blog.user === users[0] && (
+                    <button class="col vr"
+                      id={`editButton-${blog._id}`}
+                      onClick={() => {
+                        AlertEdit(blog._id);
+                        setTimeout(() => {
+                          fetchBlogs();
+                        }, 1000);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                  )}
+
+                  <button class="col vr" onClick={() => {
+                    onClickgetblogId(blog._id);
+                  }}> Comment</button>
+
+                  <button class="col" onClick={() => AlertReport(blog._id)}>
+                    <FontAwesomeIcon icon={faFlag} />
+                  </button>
+
+
+                  {blog.user === users[0] && (
+                    <button class="col"
+                      id={`deleteButton-${blog._id}`}
+                      onClick={() => {
+                        AlertDelete(blog._id);
+
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+
+
+
               </div>
-              
+
+
+
             </div>
           ))}
-
 
       </Container>
     </div>
@@ -354,3 +366,11 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
+
+
+
+
+
+
+

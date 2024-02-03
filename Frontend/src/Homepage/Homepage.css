@@ -2,9 +2,10 @@
 .homepage {
   font-family: Arial, sans-serif;
   color: #333;
-  background-color: #00bfff;
+  background-image: -webkit-radial-gradient(center,ellipse closest-corner,#0060f9 ,#000000);
   min-height: 100vh;
-  width: 100%;
+  width:  100%;
+  padding: 20px;
 }
 
 .blog-section {
@@ -13,16 +14,16 @@
 
 .blog-section textarea {
   width: 100%;
-  height: 100px;
+  height: 150px;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
   resize: none; /* Disable textarea resizing */
   margin-bottom: 10px;
 }
 
 .blog-section button {
-  background-color: #007bff;
+  background-color: #0062ff;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -34,7 +35,7 @@
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 100%;
   height: 100px;
 }
@@ -42,27 +43,26 @@
 .blog-item {
   background-color: #ffffff;
   padding: 15px;
+  margin-bottom: 15px;
   border-radius: 10px;
   margin-top: 15px;
 }
 
 .blog-icons {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 10px;
   padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .blog-icons button {
-  background-color: #007bff;
-  color: white;
+  color: #0062ff;
   border: none;
-  padding: 8px 12px;
+  padding: 10px 12px;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 14px;
 }
 
 .blog-icons span {
@@ -72,10 +72,28 @@
 
 .blog-icons svg {
   font-size: 20px;
-  color: #ffffff;
+  color: #0062ff;
+}
+
+.blog-item {
+  background-color: #ffffff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease; /* เพิ่ม transition เพื่อทำให้การเปลี่ยนสีมีการเคลื่อนไหวเรียบขึ้น */
+
+}
+
+.blog-item:hover {
+  background-color: #b7bbb9;
 }
 
 .padding-container{
   padding-top: 30px;
   padding-bottom: 30px;
+}
+
+.font-padding{
+  padding-left: 10px;
 }

@@ -278,7 +278,6 @@ const Homepage = () => {
       <Header />
 
       <Container className="padding-container">
-        <h4>Blogs</h4>
         <div className="blog-section">
           <textarea
             placeholder="Write your blog here..."
@@ -313,7 +312,7 @@ const Homepage = () => {
               <div className="blog-icons">
                 <button onClick={() => onClicklikeblog(blog._id)}>
                   <FontAwesomeIcon icon={faThumbsUp} />
-                  {blog.likes.length}
+                    {blog.likes.length}
                 </button>
                 <button onClick={() => AlertReport(blog._id)}>
                   <FontAwesomeIcon icon={faFlag} />

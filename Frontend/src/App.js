@@ -6,6 +6,7 @@ import LoginPage from "./LoginPage/LoginPage";
 import HomePage from './Homepage/Homepage';
 import './App.css';
 import ProfilePage from './ProfilePage/ProfilePage';
+import Header from './Header/Header';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/hd" element={<Header />} />
       </Routes>
     </Router>
   );

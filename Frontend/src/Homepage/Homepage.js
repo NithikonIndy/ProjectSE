@@ -14,8 +14,8 @@ const MessageContainer = ({ message }) => (
   <div className="message-container">{message}</div>
 );
 
-const generateRandomNameForUserId = (userId) => {
-  const seed = userId; // Use the user ID as the seed
+const generateRandomNameForUserId = (userId ,blogId) => {
+  const seed = userId+blogId; // Use the user ID as the seed
   const config = {
     dictionaries: [animals],
     seed: seed,
@@ -59,23 +59,27 @@ const Homepage = () => {
     });
   };
 
-  const AlertEdit = () =>
-  Swal.fire({
-    title: "Enter text",
-    input: "text",
-    inputLabel: "Your text",
-    Edit,
-    showCancelButton: true,
-    inputValidator: (value) => {
-      if (!value) {
-        return "You need to write something!";
+  const AlertEdit = (blogid) => {
+    Swal.fire({
+      title: "Enter text",
+      input: "text",
+      inputLabel: "Your text",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const editedText = result.value;
+        if (editedText) {
+          setBlogText(editedText); // Set the edited text to the state
+          Swal.fire({
+            title: "Edit!",
+            text: `Your post has been edited.`,
+            icon: "success",
+          });
+          handleEditBlog(blogid, editedText); // Pass the edited text to handleEditBlog
+        }
       }
-      if (Edit) {
-        Swal.fire(`Your text ${Edit}`)
-      }
-    }
-   
-  });
+    });
+  };
   
 
 
@@ -201,15 +205,22 @@ const Homepage = () => {
     }
   };
 
-  const handleEditBlog = (blogId) => {
-    const apiurl= axios.put(`http://localhost:3000/api/blog/update/${blogId}`)
-    axios.put(apiurl)
-    .then((response) => {
-      console.log("Delete successful", response.data);
-    })
-    .catch((error) => {
-      console.error("Error deleting resource", error);
-    });
+  const handleEditBlog = (blogId, editedText) => {
+    const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
+    axios
+      .put(apiurl, {
+        user: users[0],
+        description: editedText, // Use the edited text
+      })
+      .then((response) => {
+        console.log("Edit successful", response.data);
+      })
+      .catch((error) => {
+        console.error("Error editing resource", error);
+      });
+    setTimeout(() => {
+      fetchBlogs();
+    }, 400);
   };
 
   const hidedeletebuttons = (blogId) => {
@@ -231,6 +242,9 @@ const Homepage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
+      setTimeout(() => {
+        fetchBlogs();
+      }, 400);
   };
 
   const fetchBlogs = async () => {
@@ -292,7 +306,7 @@ const Homepage = () => {
                   onClickgetblogId(blog._id);
                 }}
               >
-                <p>{generateRandomNameForUserId(blog.user)}</p>
+                <p>{generateRandomNameForUserId(blog.user,blog._id)}</p>
                 <p>{blog.description}</p>
               </div>
 
@@ -304,18 +318,28 @@ const Homepage = () => {
                 <button onClick={() => AlertReport(blog._id)}>
                   <FontAwesomeIcon icon={faFlag} />
                 </button>
-                <button onClick={() => AlertEdit()}>
+
+                {blog.user === users[0] && (
+                  <button 
+                  id={`editButton-${blog._id}`}
+                  onClick={() => {
+                    AlertEdit(blog._id);
+                    setTimeout(() => {
+                      fetchBlogs();
+                    }, 1000);
+                    }}
+                  >
                   <FontAwesomeIcon icon={faEdit} />
-                </button>
+                </button>  
+                )}
+
 
                 {blog.user === users[0] && (
                   <button
                     id={`deleteButton-${blog._id}`}
                     onClick={() => {
                       AlertDelete(blog._id);
-                      setTimeout(() => {
-                        fetchBlogs();
-                      }, 1000);
+      
                     }}
                   >
                     Delete

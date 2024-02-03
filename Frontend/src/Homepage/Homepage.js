@@ -15,7 +15,7 @@ const MessageContainer = ({ message }) => (
 );
 
 const generateRandomNameForUserId = (userId ,blogId) => {
-  const seed = userId; // Use the user ID as the seed
+  const seed = userId+blogId; // Use the user ID as the seed
   const config = {
     dictionaries: [animals],
     seed: seed,
@@ -306,7 +306,7 @@ const Homepage = () => {
                   onClickgetblogId(blog._id);
                 }}
               >
-                <p>{generateRandomNameForUserId(blog.user)}</p>
+                <p>{generateRandomNameForUserId(blog.user,blog._id)}</p>
                 <p>{blog.description}</p>
               </div>
 

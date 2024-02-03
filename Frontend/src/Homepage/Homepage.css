@@ -96,6 +96,7 @@
   border: 1px solid #4396FF ;
 }
 
+
 .padding-container{
   padding-top: 30px;
   padding-bottom: 30px;
@@ -103,4 +104,15 @@
 
 .font-padding{
   padding-left: 10px;
+}
+
+.col{
+  border: none;
+  background-color: #ffffff;
+}
+
+.col:hover {
+  /* สีพื้นหลังที่คุณต้องการเมื่อโฮเวอร์ */
+  background-color: #b7bbb9;
+  cursor: pointer; /* เพื่อแสดงเครื่องหมายเมื่อโฮเวอร์ */
 }

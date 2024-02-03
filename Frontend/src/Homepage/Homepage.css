@@ -1,11 +1,13 @@
 /* Homepage.css */
+
 .homepage {
   font-family: Arial, sans-serif;
   color: #333;
-  background-image: -webkit-radial-gradient(center,ellipse closest-corner,#0060f9 ,#000000);
+  /* background-image: -moz-radial-gradient(center,ellipse closest-corner,rgb(0, 0, 0) ,#769FCD ); */
+  /* background-image: -webkit-radial-gradient(center,ellipse closest-corner,rgb(255, 255, 255) ,rgb(49, 97, 187) ); */
+  background-color: #F8F8F8 ;
   min-height: 100vh;
   width:  100%;
-  padding: 20px;
 }
 
 .blog-section {
@@ -14,30 +16,32 @@
 
 .blog-section textarea {
   width: 100%;
-  height: 150px;
-  padding: 10px;
-  border: 1px solid #ccc;
+  padding: 1rem;
   border-radius: 10px;
   resize: none; /* Disable textarea resizing */
   margin-bottom: 10px;
+  background-color: #F5F5F5;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border: none; /* เพิ่มบรรทัดนี้เพื่อลบเส้นขอบ */
 }
 
 .blog-section button {
-  background-color: #0062ff;
+  background-color: #2CD5BD;
   color: white;
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
 }
+
 .message-container {
-  background-color: #ffffff;
+  background-color: #EFFFFB;
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
   width: 100%;
-  height: 100px;
+  height: 100%;
 }
 
 .blog-item {
@@ -46,6 +50,8 @@
   margin-bottom: 15px;
   border-radius: 10px;
   margin-top: 15px;
+  width: 100%;
+  word-wrap: break-word;
 }
 
 .blog-icons {
@@ -57,7 +63,7 @@
 }
 
 .blog-icons button {
-  color: #0062ff;
+  color: #2CD5BD;
   border: none;
   padding: 10px 12px;
   border-radius: 5px;
@@ -72,21 +78,22 @@
 
 .blog-icons svg {
   font-size: 20px;
-  color: #0062ff;
+  color: #2CD5BD;
 }
 
 .blog-item {
-  background-color: #ffffff;
+  background-color: #F5F5F5;
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 10px;
   margin-top: 15px;
   transition: background-color 0.3s ease; /* เพิ่ม transition เพื่อทำให้การเปลี่ยนสีมีการเคลื่อนไหวเรียบขึ้น */
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
 }
 
 .blog-item:hover {
-  background-color: #b7bbb9;
+  border: 1px solid #4396FF ;
 }
 
 .padding-container{

@@ -13,7 +13,6 @@ import {
 const Header = () => (
   <div className="header">
     <div className="container-logo">
-      <img src={freebird} alt="Logo" />
       <span className="free">Free</span>
       <span className="bird">Bird</span>
     </div>

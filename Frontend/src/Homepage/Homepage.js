@@ -301,7 +301,7 @@ const Homepage = () => {
               }, 350);
             }}
 
-            style={{ position: "absolute", right: "12px", bottom: "30px" }}
+          style={{ position: "absolute", right: "12px", bottom: "30px" }}
           >
             Post Blog
           </button>
@@ -315,6 +315,7 @@ const Homepage = () => {
               <div>
                 <FontAwesomeIcon icon={faUser} />
                 <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
+                <hr class="solid"></hr>
                 <p>{blog.description}</p>
               </div>
               <div class="row">

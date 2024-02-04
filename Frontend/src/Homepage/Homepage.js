@@ -44,6 +44,18 @@ const Homepage = () => {
   const [clickedBlogId, setClickedBlogId] = useState([]);
   const [blogdelete, setblogdelete] = useState([]);
   const [Edit, setEdit] = useState([]);
+  const [userRole, setUserRole] = useState([]);
+
+  const fetchUserRole = async () => {
+    try {
+      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
+        setUserRole(role);
+        //console.log(role);
+        console.log(userRole);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      }
+  };
 
   const AlertDelete = (blogid) => {
     Swal.fire({
@@ -155,8 +167,9 @@ const Homepage = () => {
       }
     };
 
+    fetchUserRole();
     getSession();
-  }, []);
+  }, [], [userRole]);
 
   const onClickgetblogId = async (blogId) => {
     setClickedBlogId(blogId);
@@ -348,7 +361,7 @@ const Homepage = () => {
                 </button>
 
 
-                {blog.user === users[0] && (
+                {((blog.user === users[0]) || (userRole === "ADMIN")) && (
                   <button
                     id={`deleteButton-${blog._id}`}
                     onClick={() => {

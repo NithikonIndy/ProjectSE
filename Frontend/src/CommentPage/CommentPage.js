@@ -50,19 +50,21 @@ const CommentPage = () => {
   const blogIdforget = useParams().blogId;
   const [userRole, setUserRole] = useState([]);
   //const [blogText, setBlogText] = useState("");
+  const [blogAccount, setBlogAccount] = useState("");
 
   useEffect(() => {
     fetchBlogs();
     fetchSession();
     fetchUserRole();
     fetchComments();
+    handleAccountBlog(blogIdforget);
 
     console.log("User role:", userRole,"\n",
                 "User session:", users[0] ,"\n",
                 "blog-Comment:", blogComment, "\n",
-                "User session:", users[0] ,"\n",
+                "User session:", users ,"\n",
     );
-  }, [userRole], [users], [blogComment], [users[0]]);    
+  }, [userRole], [users], [blogComment], [users[0]], [blogAccount]);    
   
   const fetchSession = async () => {
     try {
@@ -270,6 +272,18 @@ const CommentPage = () => {
       fetchComments();
     }, 400);
   };
+
+  const handleAccountBlog = async (blogid) => {
+    try {
+      const { data: fetchAccountBlog } = await axios.get(`http://localhost:3000/api/blog/${blogid}/account`);
+      //console.log("Cmu account:", fetchAccount);
+      console.log("Account:", fetchAccountBlog);
+      //return fetchAccountBlog;
+      setBlogAccount(fetchAccountBlog.email);
+    } catch (error) {
+      console.log("Error fetching account:", error);
+    }
+  };
   
   const AlertDelete = (blogid) => {
     Swal.fire({
@@ -427,7 +441,9 @@ const CommentPage = () => {
                 <CardHeader>
                   <div className="flex-div">
                     <strong><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
-                    <strong style={{ marginLeft: '10px' }}>{blog.user}</strong>
+                    { userRole === "ADMIN" && (
+                      <strong style={{ marginLeft: '10px' }}>{blogAccount}</strong>
+                    )}    
                   </div>
 
                   <div className="topright">

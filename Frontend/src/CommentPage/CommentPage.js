@@ -523,7 +523,7 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    {comment.user === users[0] && (
+                    {((comment.user === users[0]) || (userRole === "ADMIN")) && (
                       <Button
                         id={`deleteButtoncomment-${comment.user}`}
                         onClick={() => {
@@ -549,6 +549,7 @@ const CommentPage = () => {
                       {comment.likes ? comment.likes.length : 0}
                     </Button>
                   </div>
+                  {/*
                   <Button
                     onClick={() => {
                       AlertReport(comment._id);
@@ -556,6 +557,7 @@ const CommentPage = () => {
                   >
                     <FontAwesomeIcon icon={faFlag} />
                   </Button>
+                  */}
                 </CardFooter>
               </CardBody>
             </Card>

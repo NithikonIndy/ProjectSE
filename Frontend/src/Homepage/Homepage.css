@@ -93,7 +93,7 @@
 }
 
 .blog-item:hover {
-  border: 1px solid #4396FF ;
+  border: 2px solid #4396FF ;
 }
 
 .padding-container{
@@ -103,4 +103,8 @@
 
 .font-padding{
   padding-left: 10px;
+}
+
+hr.solid {
+  border-top: 1.5px solid #2CD5BD;
 }

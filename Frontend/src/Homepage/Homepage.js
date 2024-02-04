@@ -317,6 +317,7 @@ const Homepage = () => {
               >
                 <FontAwesomeIcon icon={faUser} />
                 <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
+                <hr class="solid"></hr>
                 <p>{blog.description}</p>
               </div>
 

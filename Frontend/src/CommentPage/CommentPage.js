@@ -28,8 +28,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
-const generateRandomNameForUserId = (userId,blogId) => {
-  const seed = userId+blogId; // Use the user ID as the seed
+const generateRandomNameForUserId = (userId, blogId) => {
+  const seed = userId + blogId; // Use the user ID as the seed
   const config = {
     dictionaries: [animals],
     seed: seed,
@@ -40,6 +40,7 @@ const generateRandomNameForUserId = (userId,blogId) => {
 
 const CommentPage = () => {
   const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [users, setUsers] = useState([]);
@@ -183,6 +184,29 @@ const CommentPage = () => {
             icon: "success",
           });
           handleEditBlog(blogid, editedText); // Pass the edited text to handleEditBlog
+        }
+      }
+    });
+  };
+
+  const AlertEditComment = (commentid) => {
+    Swal.fire({
+      title: "Enter text",
+      input: "text",
+      inputLabel: "Your text",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const editedText = result.value;
+        if (editedText) {
+          setCommentText(editedText); // Set the edited text to the state
+          Swal.fire({
+            title: "Edit!",
+            text: `Your comment has been edited.`,
+            icon: "success",
+          });
+          console.log("edit comment text's: ",editedText);
+          handleEditComment(commentid, editedText); // Pass the edited text to handleEditBlog
         }
       }
     });
@@ -380,7 +404,7 @@ const CommentPage = () => {
   };
 
   const handleDeleteComment = (commentid) => {
-    const apiurl = `http://localhost:5000/api/comments/blog/${commentid}`;
+    const apiurl = `http://localhost:3000/api/comments/blog/${commentid}`;
     axios
       .delete(apiurl)
       .then((response) => {
@@ -389,6 +413,29 @@ const CommentPage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
+      setTimeout(() => {
+        fetchComments();
+      }, 500);
+  };
+
+  const handleEditComment = (commentid, editedText) => {
+    const apiurl = `http://localhost:3000/api/comments/update/${commentid}`;
+    axios
+      .put(apiurl, {
+        user: users[0],
+        description: editedText,
+      })
+      .then((response) => {
+        setComments(...comments, response.data.comment);
+        setCommentText("");
+        console.log("Edit successful", response.data);
+      })
+      .catch((error) => {
+        console.error("Error editing comment", error);
+      });
+    setTimeout(() => {
+      fetchComments();
+    }, 400);
   };
 
   const fetchComments = async () => {
@@ -431,7 +478,7 @@ const CommentPage = () => {
               <CardBody>
                 <CardHeader>
                   <div className="flex-div">
-                    <p>{generateRandomNameForUserId(blog.user,blog._id)}</p>
+                    <p>{generateRandomNameForUserId(blog.user, blog._id)}</p>
                     <p>{blog.user}</p>
                   </div>
 
@@ -507,22 +554,38 @@ const CommentPage = () => {
               <CardBody>
                 <CardHeader>
                   <div className="flex-div">
-                    <p>{generateRandomNameForUserId(comment.user,comment.blog)}</p>
+                    <p>
+                      {generateRandomNameForUserId(comment.user, comment.blog)}
+                    </p>
                     <p>{comment.user}</p>
                   </div>
-                  {comment.user === users[0] && (
-                    <Button
-                      id={`deleteButtoncomment-${comment.user}`}
-                      onClick={() => {
-                        AlertDeleteComment(comment._id);
-                        setTimeout(() => {
-                          fetchBlogs();
-                        }, 500);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                  )}
+
+                  <div className="topright">
+                    {comment.user === users[0] && (
+                      <Button
+                        id={`editButtonComment-${comment.user}`}
+                        onClick={() => {
+                          AlertEditComment(comment._id);
+                          setTimeout(() => {
+                            fetchBlogs();
+                          }, 1000);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </Button>
+                    )}
+
+                    {comment.user === users[0] && (
+                      <Button
+                        id={`deleteButtoncomment-${comment.user}`}
+                        onClick={() => {
+                          AlertDeleteComment(comment._id);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                    )}
+                  </div>
                 </CardHeader>
 
                 <CardText>{comment.description}</CardText>

@@ -305,10 +305,12 @@ const Homepage = () => {
           >
             Post Blog
           </button>
+          
         </div>
 
         {Array.isArray(Blogs) &&
           Blogs.map((blog) => (
+
             <div key={blog._id} className="blog-item" >
               <div
                 onClick={() => {
@@ -396,46 +398,59 @@ const Homepage = () => {
                 <p>{blog.description}</p>
               </div>
 
-              <div className="blog-icons">
-                <button onClick={() => onClicklikeblog(blog._id)}>
-                  <FontAwesomeIcon icon={faThumbsUp} />
+              <div class="row">
+
+
+                <div className="blog-icons " class="row " >
+                  <button class="col " onClick={() => onClicklikeblog(blog._id)}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
                     {blog.likes.length}
-                </button>
-                <button onClick={() => AlertReport(blog._id)}>
-                  <FontAwesomeIcon icon={faFlag} />
-                </button>
-
-                {blog.user === users[0] && (
-                  <button 
-                  id={`editButton-${blog._id}`}
-                  onClick={() => {
-                    AlertEdit(blog._id);
-                    setTimeout(() => {
-                      fetchBlogs();
-                    }, 1000);
-                    }}
-                  >
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>  
-                )}
-
-
-                {blog.user === users[0] && (
-                  <button
-                    id={`deleteButton-${blog._id}`}
-                    onClick={() => {
-                      AlertDelete(blog._id);
-      
-                    }}
-                  >
-                    Delete
                   </button>
-                )}
+
+                  {blog.user === users[0] && (
+                    <button class="col "
+                      id={`editButton-${blog._id}`}
+                      onClick={() => {
+                        AlertEdit(blog._id);
+                        setTimeout(() => {
+                          fetchBlogs();
+                        }, 1000);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                  )}
+
+                  <button class="col " onClick={() => {
+                    onClickgetblogId(blog._id);
+                  }}> Comment</button>
+
+                  <button class="col" onClick={() => AlertReport(blog._id)}>
+                    <FontAwesomeIcon icon={faFlag} />
+                  </button>
+
+
+                  {blog.user === users[0] && (
+                    <button class="col"
+                      id={`deleteButton-${blog._id}`}
+                      onClick={() => {
+                        AlertDelete(blog._id);
+
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+
+
+
               </div>
-              
+
+
+
             </div>
           ))} */}
-
 
       </Container>
     </div>
@@ -443,3 +458,11 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
+
+
+
+
+
+
+

@@ -187,3 +187,30 @@ export const report = async (req, res, next) => {
         res.status(500).json({ error: "Error creating report" });
     }
 };
+
+
+// GET Method use on Comment Page
+export const getBlogAccount = async (req, res, next) => {
+    const blog = req.params.id;
+
+    try{
+        const blogDetails = await Blog.findById(blog);
+        try {
+            const user = await User.findById(blogDetails.user);
+            try{
+                const account = await User.findOne({ email: user.email });
+                res.status(200).json({ email: user.email });
+                console.log(account.email);
+            }catch(error){
+                console.error(error);
+            }
+            //console.log(user);
+        } catch (error) {
+            console.error(error);
+        }
+        //console.log(blogDetails);
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: "Error getting blog account" });
+    }
+};

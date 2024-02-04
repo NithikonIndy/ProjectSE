@@ -301,7 +301,7 @@ const Homepage = () => {
               }, 350);
             }}
 
-            style={{ position: "absolute", right: "12px", bottom: "30px" }}
+          style={{ position: "absolute", right: "12px", bottom: "30px" }}
           >
             Post Blog
           </button>

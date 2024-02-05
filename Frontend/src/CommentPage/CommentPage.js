@@ -478,13 +478,16 @@ const CommentPage = () => {
               <CardBody>
                 <CardHeader> 
                   <div className="flex-div">
+                    <strong><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
+                    <strong style={{ marginLeft: '10px' }}>{blog.user}</strong>
                     <p>{generateRandomNameForUserId(blog.user, blog._id)}</p>
                     {/* <p>{blog.user}</p> */}
                   </div>
 
                   <div className="topright">
                     {blog.user === users[0] && (
-                      <Button 
+                      <Button
+                        className="logo-control"
                         id={`editButton-${blog._id}`}
                         onClick={() => {
                           AlertEdit(blog._id);
@@ -501,6 +504,7 @@ const CommentPage = () => {
 
                     {blog.user === users[0] && (
                       <Button
+                        className="logo-control"
                         id={`deleteButton-${blog.user}`}
                         onClick={() => {
                           AlertDelete(blog._id);
@@ -521,6 +525,7 @@ const CommentPage = () => {
                   <div className="flex-div">
                     <p>
                       <Button
+                        className="logo-control"
                         onClick={() => {
                           onClickgetblogId(blog._id);
                         }}
@@ -531,13 +536,14 @@ const CommentPage = () => {
                     </p>
 
                     <p>
-                      <Button>
+                      <Button className="logo-control">
                         <FontAwesomeIcon icon={faComments} />
                         {blog.comments.length}
                       </Button>
                     </p>
                   </div>
                   <Button
+                    className="logo-control"
                     onClick={() => {
                       AlertReport(blog._id);
                     }}
@@ -579,6 +585,7 @@ const CommentPage = () => {
 
                     {comment.user === users[0] && (
                       <Button
+                        className="logo-control"
                         id={`deleteButtoncomment-${comment.user}`}
                         onClick={() => {
                           AlertDeleteComment(comment._id);
@@ -598,6 +605,7 @@ const CommentPage = () => {
                       onClick={() => {
                         onClickgetcommentId(comment._id);
                       }}
+                      style={{ backgroundColor: '#2CD5BD', color: 'white' }}
                     >
                       <FontAwesomeIcon icon={faThumbsUp} />
                       {comment.likes ? comment.likes.length : 0}
@@ -620,6 +628,7 @@ const CommentPage = () => {
           <CardBody>
             <CardText className="text-padding adjust-height">
               <textarea
+                className="textarea-control"
                 type="text"
                 placeholder="Comment..."
                 value={newComment}
@@ -628,7 +637,7 @@ const CommentPage = () => {
             </CardText>
             <CardFooter>
               <div className="margin-left">
-                <Button onClick={handleAddComment}>COMMENT</Button>
+                <Button className = "logo-control" onClick={handleAddComment}>COMMENT</Button>
               </div>
             </CardFooter>
           </CardBody>

@@ -476,15 +476,15 @@ const CommentPage = () => {
           blogs.map((blog) => (
             <Card key={blog._id}>
               <CardBody>
-                <CardHeader>
+                <CardHeader> 
                   <div className="flex-div">
                     <p>{generateRandomNameForUserId(blog.user, blog._id)}</p>
-                    <p>{blog.user}</p>
+                    {/* <p>{blog.user}</p> */}
                   </div>
 
                   <div className="topright">
                     {blog.user === users[0] && (
-                      <Button
+                      <Button 
                         id={`editButton-${blog._id}`}
                         onClick={() => {
                           AlertEdit(blog._id);
@@ -494,6 +494,8 @@ const CommentPage = () => {
                         }}
                       >
                         <FontAwesomeIcon icon={faEdit} />
+                        &nbsp;
+                        Edit
                       </Button>
                     )}
 
@@ -557,7 +559,7 @@ const CommentPage = () => {
                     <p>
                       {generateRandomNameForUserId(comment.user, comment.blog)}
                     </p>
-                    <p>{comment.user}</p>
+                    {/* <p>{comment.user}</p> */}
                   </div>
 
                   <div className="topright">

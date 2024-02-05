@@ -2,7 +2,9 @@
   font-family: Arial, sans-serif;
   color: #333;
   background-color: #F8F8F8 ;
-  height: 100vh;
+  min-height: 100vh;
+  width:  100%;
+  
 }
 
 .flex-container {
@@ -29,4 +31,10 @@
 
 .topright button:not(:last-child) {
   margin-right: 10px;
+}
+
+/* Add this to your existing styles or create a new CSS file */
+.customButton {
+  background-color: #2CD5BD;
+  color: #2CD5BD;
 }

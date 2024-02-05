@@ -51,6 +51,7 @@ const CommentPage = () => {
   const [userRole, setUserRole] = useState([]);
   //const [blogText, setBlogText] = useState("");
   const [blogAccount, setBlogAccount] = useState("");
+  const [commentAccount, setCommentAccount] = useState("");
 
   useEffect(() => {
     fetchBlogs();
@@ -58,13 +59,15 @@ const CommentPage = () => {
     fetchUserRole();
     fetchComments();
     handleAccountBlog(blogIdforget);
-
+    //handleAccountComment(userId);
+    //console.log("Comments:", comments);
     console.log("User role:", userRole,"\n",
                 "User session:", users[0] ,"\n",
                 "blog-Comment:", blogComment, "\n",
                 "User session:", users ,"\n",
+                
     );
-  }, [userRole], [users], [blogComment], [users[0]], [blogAccount]);    
+  }, [userRole], [users], [blogComment], [users[0]], [blogAccount], [commentAccount],);    
   
   const fetchSession = async () => {
     try {
@@ -280,6 +283,17 @@ const CommentPage = () => {
       console.log("Account:", fetchAccountBlog);
       //return fetchAccountBlog;
       setBlogAccount(fetchAccountBlog.email);
+    } catch (error) {
+      console.log("Error fetching account:", error);
+    }
+  };
+
+  const handleAccountComment = async (userId) => {
+    try {
+      const { data: fetchAccountComment } = await axios.get(`http://localhost:3000/api/comments/blog/${userId}/account`);
+      console.log("Account:", fetchAccountComment);
+      //return fetchAccountComment;
+      setCommentAccount(fetchAccountComment.email);
     } catch (error) {
       console.log("Error fetching account:", error);
     }
@@ -525,7 +539,7 @@ const CommentPage = () => {
                     <p>
                       {generateRandomNameForUserId(comment.user, comment.blog)}
                     </p>
-                    <p>{comment.user}</p>
+                    <p>{/*commentAccount*/comment.user}</p>
                   </div>
 
                   <div className="topright">

@@ -151,4 +151,19 @@ export const getById = async (req, res , next) => {
     return res.status(200).json({ comment });
 }
 
+export const getCommentAccount = async (req, res, next) => {
+    const userId = req.params.id;
 
+    try{
+        const user = await User.findById(userId);
+        try {
+            const account = await User.findOne({ email: user.email });
+            res.status(200).json({ email: user.email });
+            console.log(account.email);
+        }catch(error){
+            console.log(error);
+        }
+    }catch(error){
+        console.log(error);
+    }
+};

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faFlag, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp, faFlag, faEdit ,faComments,faTrash} from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { uniqueNamesGenerator, Config, animals } from "unique-names-generator";
@@ -318,7 +318,7 @@ const Homepage = () => {
           >
             Post Blog
           </button>
-          
+
         </div>
 
         {Array.isArray(Blogs) &&
@@ -332,36 +332,44 @@ const Homepage = () => {
                 <p>{blog.description}</p>
               </div>
               <div class="row">
-              <div className="blog-icons">
-                <button onClick={() => onClicklikeblog(blog._id)}>
-                  <FontAwesomeIcon icon={faThumbsUp} />
-                  {blog.likes.length}
-                </button>
-                <button onClick={() => AlertReport(blog._id)}>
-                  <FontAwesomeIcon icon={faFlag} />
-                </button>
-
-                {blog.user === users[0] && (
-                  <button
-                    id={`editButton-${blog._id}`}
-                    onClick={() => {
-                      AlertEdit(blog._id);
-                      setTimeout(() => {
-                        fetchBlogs();
-                      }, 1000);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
+                <div className="blog-icons">
+                  <button onClick={() => onClicklikeblog(blog._id)}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                    {blog.likes.length}
+                    &nbsp;
+                    Like
                   </button>
-                )}
-                <button onClick={() => {
-                  onClickgetblogId(blog._id);
-                }}> 
+                  <button onClick={() => AlertReport(blog._id)}>
+                    <FontAwesomeIcon icon={faFlag} />
+                    &nbsp;
+                    Report
+                  </button>
+
+                  {blog.user === users[0] && (
+                    <button
+                      id={`editButton-${blog._id}`}
+                      onClick={() => {
+                        AlertEdit(blog._id);
+                        setTimeout(() => {
+                          fetchBlogs();
+                        }, 1000);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                      &nbsp;
+                      Edit
+                    </button>
+                  )}
+                  <button onClick={() => {
+                    onClickgetblogId(blog._id);
+                  }}>
+                    <FontAwesomeIcon icon={faComments} />
+                    &nbsp;
                     comment
-                </button>
+                  </button>
 
 
-                {((blog.user === users[0]) || (userRole === "ADMIN")) && (
+                  {((blog.user === users[0]) || (userRole === "ADMIN")) && (
                   <button
                     id={`deleteButton-${blog._id}`}
                     onClick={() => {
@@ -369,6 +377,8 @@ const Homepage = () => {
 
                     }}
                   >
+                      <FontAwesomeIcon icon={faTrash} />
+                      &nbsp;
                     Delete
                   </button>
                 )}

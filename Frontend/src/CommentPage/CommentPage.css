@@ -41,11 +41,13 @@
 
 .logo-control{
   background-color: #2CD5BD;
-  border: none;
+   border: none;
 }
 
+/*เอาออก*/
 .logo-control .btn-primary{
   background-color: #2CD5BD;
+  border-color:#D2E0FB;
 }
 
 hr.solid {
@@ -54,7 +56,17 @@ hr.solid {
 
 .logo-control:hover{
   background-color: #2CD5BD ;
+  border-color:none;
 }
 
+/*แก้สีได้*/
+.btn-primary{
+  background-color: #2CD5BD;
+  border-color:#fff;
+}
 
+.btn-primary :hover{
+  background-color: #000 ;
+  
+}
 

@@ -25,6 +25,7 @@ import {
   faTrash,
   faComments,
   faEdit,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
@@ -205,7 +206,7 @@ const CommentPage = () => {
             text: `Your comment has been edited.`,
             icon: "success",
           });
-          console.log("edit comment text's: ",editedText);
+          console.log("edit comment text's: ", editedText);
           handleEditComment(commentid, editedText); // Pass the edited text to handleEditBlog
         }
       }
@@ -413,9 +414,9 @@ const CommentPage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
-      setTimeout(() => {
-        fetchComments();
-      }, 500);
+    setTimeout(() => {
+      fetchComments();
+    }, 500);
   };
 
   const handleEditComment = (commentid, editedText) => {
@@ -476,12 +477,10 @@ const CommentPage = () => {
           blogs.map((blog) => (
             <Card key={blog._id}>
               <CardBody>
-                <CardHeader> 
+                <CardHeader>
                   <div className="flex-div">
-                    <strong><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
-                    <strong style={{ marginLeft: '10px' }}>{blog.user}</strong>
-                    <p>{generateRandomNameForUserId(blog.user, blog._id)}</p>
-                    {/* <p>{blog.user}</p> */}
+                    <FontAwesomeIcon icon={faUser} />
+                    <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
                   </div>
 
                   <div className="topright">
@@ -502,7 +501,7 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    {blog.user === users[0] && (
+                    {/* {blog.user === users[0] && (
                       <Button
                         className="logo-control"
                         id={`deleteButton-${blog.user}`}
@@ -514,8 +513,10 @@ const CommentPage = () => {
                         }}
                       >
                         <FontAwesomeIcon icon={faTrash} />
+                        &nbsp;
+                        Delete
                       </Button>
-                    )}
+                    )} */}
                   </div>
                 </CardHeader>
 
@@ -532,15 +533,19 @@ const CommentPage = () => {
                       >
                         <FontAwesomeIcon icon={faThumbsUp} />
                         {likespost}
+                        &nbsp;
+                        Like
                       </Button>
                     </p>
 
-                    <p>
+                    {/* <p>
                       <Button className="logo-control">
                         <FontAwesomeIcon icon={faComments} />
-                        {blog.comments.length}
+                        { {blog.comments.length} }
+                        &nbsp;
+                      Comment
                       </Button>
-                    </p>
+                    </p>  */}
                   </div>
                   <Button
                     className="logo-control"
@@ -549,6 +554,8 @@ const CommentPage = () => {
                     }}
                   >
                     <FontAwesomeIcon icon={faFlag} />
+                    &nbsp;
+                    Report
                   </Button>
                 </CardFooter>
               </CardBody>
@@ -562,15 +569,17 @@ const CommentPage = () => {
               <CardBody>
                 <CardHeader>
                   <div className="flex-div">
-                    <p>
-                      {generateRandomNameForUserId(comment.user, comment.blog)}
-                    </p>
+                    <FontAwesomeIcon icon={faUser} />
+                    <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(comment.user, comment.blog)}</i></strong>
+
+
                     {/* <p>{comment.user}</p> */}
                   </div>
 
                   <div className="topright">
                     {comment.user === users[0] && (
                       <Button
+                        className="logo-control"
                         id={`editButtonComment-${comment.user}`}
                         onClick={() => {
                           AlertEditComment(comment._id);
@@ -580,6 +589,8 @@ const CommentPage = () => {
                         }}
                       >
                         <FontAwesomeIcon icon={faEdit} />
+                        &nbsp;
+                        Edit
                       </Button>
                     )}
 
@@ -592,6 +603,8 @@ const CommentPage = () => {
                         }}
                       >
                         <FontAwesomeIcon icon={faTrash} />
+                        &nbsp;
+                        Delete
                       </Button>
                     )}
                   </div>
@@ -609,14 +622,19 @@ const CommentPage = () => {
                     >
                       <FontAwesomeIcon icon={faThumbsUp} />
                       {comment.likes ? comment.likes.length : 0}
+                      &nbsp;
+                      Like
                     </Button>
                   </div>
                   <Button
+                    className="logo-control"
                     onClick={() => {
                       AlertReport(comment._id);
                     }}
                   >
                     <FontAwesomeIcon icon={faFlag} />
+                    &nbsp;
+                    Report
                   </Button>
                 </CardFooter>
               </CardBody>
@@ -637,7 +655,7 @@ const CommentPage = () => {
             </CardText>
             <CardFooter>
               <div className="margin-left">
-                <Button className = "logo-control" onClick={handleAddComment}>COMMENT</Button>
+                <Button className="logo-control" onClick={handleAddComment}>COMMENT</Button>
               </div>
             </CardFooter>
           </CardBody>

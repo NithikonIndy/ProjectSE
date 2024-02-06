@@ -34,41 +34,41 @@ const generateRandomNameForUserId = (userId, blogId) => {
     dictionaries: [animals],
     seed: seed,
   };
-
   return uniqueNamesGenerator(config);
 };
 
 const CommentPage = () => {
-  const [comments, setComments] = useState([]);
-  //const [commentText, setCommentText] = useState([]);
-  const [blogs, setBlogs] = useState([]);
-  const [newComment, setNewComment] = useState("");
   const [users, setUsers] = useState([]);
-  const [blogComment, setBlogComment] = useState([]);
-  //const [clickedBlogId, setClickedBlogId] = useState([]);
-  const [likespost, setLikespost] = useState();
-  //const [clickedcommentId, setClickedcommentId] = useState([]);
-  const blogIdforget = useParams().blogId;
   const [userRole, setUserRole] = useState([]);
-  //const [blogText, setBlogText] = useState("");
+
+  const [blog, setBlog] = useState([]);
+  const [listComment, setListComment] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [listLikePost, setListLikePost] = useState([]);
+
+  const blogIdforget = useParams().blogId;
+
   const [blogAccount, setBlogAccount] = useState("");
   const [commentAccount, setCommentAccount] = useState("");
 
   useEffect(() => {
-    fetchBlogs();
+    fetchBlog();
     fetchSession();
     fetchUserRole();
     fetchComments();
+    fetchLikesPost();
     handleAccountBlog(blogIdforget);
     //handleAccountComment(userId);
-    //console.log("Comments:", comments);
+    
     console.log("User role:", userRole,"\n",
                 "User session:", users[0] ,"\n",
-                "blog-Comment:", blogComment, "\n",
                 "User session:", users ,"\n",
+                "Blog:", blog, "\n",
+                "ListComment:", listComment, "\n",
+                "ListLikePost:", listLikePost, "\n",
                 
     );
-  }, [userRole], [users], [blogComment], [users[0]], [blogAccount], [commentAccount],);    
+  }, [userRole], [users], [listComment], [blogAccount], [commentAccount], [blog], [listLikePost],);    
   
   const fetchSession = async () => {
     try {
@@ -92,38 +92,32 @@ const CommentPage = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/comments/blogs/${blogIdforget}`
-      );
+      const response = await axios.get(`http://localhost:3000/api/comments/blogs/${blogIdforget}`);
       let i = 0;
       let end = response.data.blogcomments.length;
-      const accumulatedComments = [];
+      const arrayComments = [];
 
       while (i < end) {
-        if (response.data.blogcomments[i].blog == blogComment) {
-          accumulatedComments.push(response.data.blogcomments[i]);
+        if (response.data.blogcomments[i].blog == blogIdforget) {
+          arrayComments.push(response.data.blogcomments[i]);
         }
         i++;
       }
       //console.log(response.data);
-      setComments(accumulatedComments);
+      setListComment(arrayComments);
     } catch (err) {
       console.log("Error fetching comments:", err);
     }
   };
 
-  /*one blog */
-  const fetchBlogs = async () => {
+  /*Topic Blog */
+  const fetchBlog = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/blog/${blogIdforget}`
-      );
-
-      setBlogs([response.data.blog]);
-      setBlogComment([response.data.blog._id]);
-      setLikespost([response.data.blog.likes.length]);
+      const response = await axios.get(`http://localhost:3000/api/blog/${blogIdforget}`);
+      setBlog([response.data.blog]);
+      //setListLikePost([response.data.blog.likes.length]);
     } catch (error) {
-      console.error("Error fetching blogs:", error);
+      console.error("Error fetching blog:", error);
     }
   };
 
@@ -152,7 +146,7 @@ const CommentPage = () => {
     axios
       .put(apiurl, {
         user: users[0],
-        description: editedText, // Use the edited text
+        description: editedText,
       })
       .then((response) => {
         console.log("Edit successful", response.data);
@@ -161,18 +155,18 @@ const CommentPage = () => {
         console.error("Error editing resource", error);
       });
     setTimeout(() => {
-      fetchBlogs();
+      fetchBlog();
     }, 400);
   };
 
   const handleAddComment = () => {
     axios
       .post(`http://localhost:3000/api/comments/blog/${blogIdforget}/add`, {
-        user: users,
+        user: users[0],
         description: newComment,
       })
       .then((response) => {
-        setComments([...comments, response.data.comment]);
+        setListComment([...listComment, response.data.comment]);
         setNewComment("");
       })
       .catch((error) => {
@@ -180,53 +174,51 @@ const CommentPage = () => {
       });
   };
 
-  /*like post */
-  const likePost = async (blogId) => {
-    // Use the blogId directly
-    let temp = blogId;
-
-    // Ensure temp has a valid value before using it in the URL
-    if (temp) {
-      let text = `http://localhost:3000/api/blog/${temp}/like`;
-
-      try {
-        const response = await axios.put(text, {
-          UserId: users[0],
-        });
+  const handleLikePost = async () => {
+    const apiUrl = `http://localhost:3000/api/blog/${blogIdforget}/like`;
+    try {
+      const response = await axios.put(apiUrl, { UserId : users[0] });
+        if (response.data === "The post has been liked") {
+          fetchLikesPost();
+        } else if (response.data === "The post has been disliked") {
+          fetchLikesPost();
+        }
         console.log(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      console.log("No blogId available");
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const fetchlike = async (blogId) => {
-    // Fetch likes separately, if needed
-    let temp = blogId;
-    let text = `http://localhost:3000/api/blog/${temp}`;
+  const fetchLikesPost = async () => {
     try {
-      const response = await axios.get(text);
-      setLikespost(response.data.blog.likes.length);
+      const response = await axios.get(`http://localhost:3000/api/blog/${blogIdforget}`);
+      let i = 0;
+      let end = response.data.blog.likes.length;
+      const arrayLikes = [];
+
+      while(i < end){
+        if(response.data.blog._id == blogIdforget){
+          arrayLikes.push(response.data.blog.likes[i]);
+        }
+        i++;
+      }
+      setListLikePost(arrayLikes);
+
     } catch (err) {
       console.log("Error fetching likes:", err);
     }
   };
 
-  const likecoment = async (commentId) => {
-    let temp = commentId;
-    if (temp) {
-      let text = `http://localhost:3000/api/comments/blog/${temp}/like`;
-      try {
-        const response = await axios.put(text, {
-          userId: users[0],
-        });
-
-        console.log(response.data);
-      } catch (err) {
-        console.log("bug", err);
+  const handleLikeComment = async (commentId) => {
+    const apiUrl = `http://localhost:3000/api/comments/blog/${commentId}/like`;
+    try {
+      const response = await axios.put(apiUrl, { userId: users[0] });
+      if(response.data === "The comment has been liked" || response.data === "The comment has been disliked"){
+        fetchComments(commentId);
       }
+      console.log("handleLikeComment" ,response.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -265,7 +257,7 @@ const CommentPage = () => {
         description: editedText,
       })
       .then((response) => {
-        setComments(...comments, response.data.comment);
+        setListComment(...listComment, response.data.comment);
         //setCommentText("");
         console.log("Edit successful", response.data);
       })
@@ -281,7 +273,7 @@ const CommentPage = () => {
     try {
       const { data: fetchAccountBlog } = await axios.get(`http://localhost:3000/api/blog/${blogid}/account`);
       //console.log("Cmu account:", fetchAccount);
-      console.log("Account:", fetchAccountBlog);
+      console.log("Blog account:", fetchAccountBlog);
       //return fetchAccountBlog;
       setBlogAccount(fetchAccountBlog.email);
     } catch (error) {
@@ -292,7 +284,7 @@ const CommentPage = () => {
   const handleAccountComment = async (userId) => {
     try {
       const { data: fetchAccountComment } = await axios.get(`http://localhost:3000/api/comments/blog/${userId}/account`);
-      console.log("Account:", fetchAccountComment);
+      console.log("Comment account:", fetchAccountComment);
       //return fetchAccountComment;
       setCommentAccount(fetchAccountComment.email);
     } catch (error) {
@@ -425,32 +417,14 @@ const CommentPage = () => {
     });
   };
 
-  const onClickgetblogId = async (blogId) => {
-    console.log("Clicked on blog with ID:", blogId);
-    //setClickedBlogId(blogId); // Store the clicked blogId in state
-    likePost(blogId); // Call likePost with the blogId
-    setTimeout(() => {
-      fetchlike(blogId);
-    }, 250);
-  };
-
-  const onClickgetcommentId = async (commentId) => {
-    console.log("Clicked on Comment with ID:", commentId);
-    //setClickedcommentId(commentId);
-    likecoment(commentId);
-    setTimeout(() => {
-      fetchComments();
-    }, 250);
-  };
-
   return (
     <div className="comment-page">
       <Header />
 
       <Container className="flex-container">
         {/* Blog */}
-        {Array.isArray(blogs) &&
-          blogs.map((blog) => (
+        {Array.isArray(blog) &&
+          blog.map((blog) => (
             <Card key={blog._id}>
               <CardBody>
                 <CardHeader>
@@ -470,7 +444,7 @@ const CommentPage = () => {
                         onClick={() => {
                           AlertEdit(blog._id);
                           setTimeout(() => {
-                            fetchBlogs();
+                            fetchBlog();
                           }, 1000);
                         }}
                       >
@@ -487,7 +461,7 @@ const CommentPage = () => {
                         onClick={() => {
                           AlertDelete(blog._id);
                           setTimeout(() => {
-                            fetchBlogs();
+                            fetchBlog();
                           }, 500);
                         }}
                       >
@@ -507,11 +481,11 @@ const CommentPage = () => {
                       <Button
                         className="logo-control"
                         onClick={() => {
-                          onClickgetblogId(blog._id);
+                          handleLikePost();
                         }}
                       >
-                        <FontAwesomeIcon icon={faThumbsUp} />
-                        {likespost}
+                        <FontAwesomeIcon icon={faThumbsUp} className="margin-right"/>
+                        {listLikePost.length}
                         &nbsp;
                         Like
                       </Button>
@@ -542,15 +516,15 @@ const CommentPage = () => {
           ))}
 
         {/* Comment List */}
-        {Array.isArray(comments) &&
-          comments.map((comment) => (
+        {Array.isArray(listComment) &&
+          listComment.map((comment) => (
             <Card className="adjust-width margin-bottom" key={comment._id}>
               <CardBody>
                 <CardHeader>
                   <div className="flex-div">
                     <FontAwesomeIcon icon={faUser} />
                     <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(comment.user, comment.blog)}</i></strong>
-                    {/* <p>{comment.user}</p> */}
+                    <p style={{ marginLeft: '6px' }} >{comment.user}</p>
                   </div>
 
                   <div className="topright">
@@ -561,7 +535,7 @@ const CommentPage = () => {
                         onClick={() => {
                           AlertEditComment(comment._id);
                           setTimeout(() => {
-                            fetchBlogs();
+                            fetchBlog();
                           }, 1000);
                         }}
                       >
@@ -593,12 +567,13 @@ const CommentPage = () => {
                   <div className="flex-div">
                     <Button
                       onClick={() => {
-                        onClickgetcommentId(comment._id);
+                        handleLikeComment(comment._id);
+                        console.log("Comment id", comment._id);
                       }}
                       style={{ backgroundColor: '#2CD5BD', color: 'white' }}
                     >
-                      <FontAwesomeIcon icon={faThumbsUp} />
-                      {comment.likes ? comment.likes.length : 0}
+                      <FontAwesomeIcon icon={faThumbsUp} className="margin-right"/>
+                      {comment.likes.length}
                       &nbsp;
                       Like
                     </Button>

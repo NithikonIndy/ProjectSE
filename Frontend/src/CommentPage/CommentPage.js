@@ -49,7 +49,7 @@ const CommentPage = () => {
   const blogIdforget = useParams().blogId;
 
   const [blogAccount, setBlogAccount] = useState("");
-  const [commentAccount, setCommentAccount] = useState("");
+  const [commentAccount, setCommentAccount] = useState([]);
 
   useEffect(() => {
     fetchBlog();
@@ -58,17 +58,22 @@ const CommentPage = () => {
     fetchComments();
     fetchLikesPost();
     handleAccountBlog(blogIdforget);
-    //handleAccountComment(userId);
-    
+
+    if (listComment.length > 0) {
+      const userIdList = listComment.map(comment => comment.user);
+      handleAccountComment(userIdList);
+    }
+
     console.log("User role:", userRole,"\n",
                 "User session:", users[0] ,"\n",
                 "User session:", users ,"\n",
                 "Blog:", blog, "\n",
                 "ListComment:", listComment, "\n",
                 "ListLikePost:", listLikePost, "\n",
-                
+          
     );
-  }, [userRole], [users], [listComment], [blogAccount], [commentAccount], [blog], [listLikePost],);    
+  }, [userRole], [users], [listComment], [blog], [listLikePost], [commentAccount], [newComment]);
+
   
   const fetchSession = async () => {
     try {
@@ -178,12 +183,10 @@ const CommentPage = () => {
     const apiUrl = `http://localhost:3000/api/blog/${blogIdforget}/like`;
     try {
       const response = await axios.put(apiUrl, { UserId : users[0] });
-        if (response.data === "The post has been liked") {
-          fetchLikesPost();
-        } else if (response.data === "The post has been disliked") {
+        if (response.data === "The post has been liked" || response.data === "The post has been disliked") {
           fetchLikesPost();
         }
-        console.log(response.data);
+        console.log("handleLikePost" ,response.data);
     } catch (error) {
       console.log(error);
     }
@@ -273,7 +276,7 @@ const CommentPage = () => {
     try {
       const { data: fetchAccountBlog } = await axios.get(`http://localhost:3000/api/blog/${blogid}/account`);
       //console.log("Cmu account:", fetchAccount);
-      console.log("Blog account:", fetchAccountBlog);
+      // console.log("Blog account:", fetchAccountBlog);
       //return fetchAccountBlog;
       setBlogAccount(fetchAccountBlog.email);
     } catch (error) {
@@ -281,16 +284,19 @@ const CommentPage = () => {
     }
   };
 
-  const handleAccountComment = async (userId) => {
+  const handleAccountComment = async (userIdList) => {
     try {
-      const { data: fetchAccountComment } = await axios.get(`http://localhost:3000/api/comments/blog/${userId}/account`);
-      console.log("Comment account:", fetchAccountComment);
-      //return fetchAccountComment;
-      setCommentAccount(fetchAccountComment.email);
-    } catch (error) {
-      console.log("Error fetching account:", error);
+        const emailPromises = userIdList.map(async userId => {
+            const { data: email } = await axios.get(`http://localhost:3000/api/comments/blog/${userId}/account`);
+            return email.email;
+        });
+        const userEmails = await Promise.all(emailPromises);
+        setCommentAccount(commentAccount => [...commentAccount, ...userEmails]);
+        console.log("Comment account:", userEmails);
+    } catch (error) { 
+        console.log("Error fetching account:", error);
     }
-  };
+};
   
   const AlertDelete = (blogid) => {
     Swal.fire({
@@ -416,7 +422,7 @@ const CommentPage = () => {
       }
     });
   };
-
+  
   return (
     <div className="comment-page">
       <Header />
@@ -517,14 +523,17 @@ const CommentPage = () => {
 
         {/* Comment List */}
         {Array.isArray(listComment) &&
-          listComment.map((comment) => (
+          listComment.map((comment, index) => (
             <Card className="adjust-width margin-bottom" key={comment._id}>
               <CardBody>
                 <CardHeader>
                   <div className="flex-div">
                     <FontAwesomeIcon icon={faUser} />
                     <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(comment.user, comment.blog)}</i></strong>
-                    <p style={{ marginLeft: '6px' }} >{comment.user}</p>
+                    
+                    {(userRole === "ADMIN") && (
+                      <p style={{ marginLeft: '6px' }} >{commentAccount[index] }</p>
+                    )}
                   </div>
 
                   <div className="topright">

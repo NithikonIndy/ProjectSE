@@ -70,6 +70,7 @@ const CommentPage = () => {
                 "Blog:", blog, "\n",
                 "ListComment:", listComment, "\n",
                 "ListLikePost:", listLikePost, "\n",
+                "Comment Account:", commentAccount, "\n",
           
     );
   }, [userRole], [users], [listComment], [blog], [listLikePost], [commentAccount], [newComment]);
@@ -173,6 +174,7 @@ const CommentPage = () => {
       .then((response) => {
         setListComment([...listComment, response.data.comment]);
         setNewComment("");
+        handleAccountComment([response.data.comment.user]);
       })
       .catch((error) => {
         console.error("Error adding comment:", error);

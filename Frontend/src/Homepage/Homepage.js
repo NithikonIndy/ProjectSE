@@ -305,31 +305,32 @@ const Homepage = () => {
           >
             Post Blog
           </button>
-          
+
         </div>
 
         {Array.isArray(Blogs) &&
           Blogs.map((blog) => (
 
             <div key={blog._id} className="blog-item" >
-              <div>
-                <FontAwesomeIcon icon={faUser} />
-                <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
-                <hr class="solid"></hr>
-                <p>{blog.description}</p>
+              <div class="row">
+                <div>
+                  <FontAwesomeIcon icon={faUser} />
+                  <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
+                  <p>{blog.description}</p>
+                </div>
               </div>
               <div class="row">
-              <div className="blog-icons">
-                <button onClick={() => onClicklikeblog(blog._id)}>
-                  <FontAwesomeIcon icon={faThumbsUp} />
-                  {blog.likes.length}
-                </button>
-                <button onClick={() => AlertReport(blog._id)}>
-                  <FontAwesomeIcon icon={faFlag} />
-                </button>
+                <div className="blog-icons">
+                  <button onClick={() => onClicklikeblog(blog._id)}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                    {blog.likes.length}
+                  </button>
+                  <button onClick={() => AlertReport(blog._id)}>
+                    <FontAwesomeIcon icon={faFlag} />
+                  </button>
 
                 {blog.user === users[0] && (
-                  <button 
+                  <button
                     id={`editButton-${blog._id}`}
                     onClick={() => {
                       AlertEdit(blog._id);
@@ -345,22 +346,22 @@ const Homepage = () => {
                   onClickgetblogId(blog._id);
                 }}> 
                     comment
-                </button>
-
-
-                {blog.user === users[0] && (
-                  <button
-                    id={`deleteButton-${blog._id}`}
-                    onClick={() => {
-                      AlertDelete(blog._id);
-
-                    }}
-                  >
-                    Delete
                   </button>
-                )}
+
+
+                  {blog.user === users[0] && (
+                    <button
+                      id={`deleteButton-${blog._id}`}
+                      onClick={() => {
+                        AlertDelete(blog._id);
+
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
               </div>
-             </div>
 
             </div>
 

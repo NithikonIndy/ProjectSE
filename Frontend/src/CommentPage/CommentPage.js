@@ -598,6 +598,7 @@ const CommentPage = () => {
                 <CardFooter>
                   <div className="flex-div">
                     <Button
+                        className="logo-control"
                       onClick={() => {
                         onClickgetcommentId(comment._id);
                       }}

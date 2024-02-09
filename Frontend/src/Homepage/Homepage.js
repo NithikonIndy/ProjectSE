@@ -329,7 +329,7 @@ const Homepage = () => {
                 </button>
 
                 {blog.user === users[0] && (
-                  <button
+                  <button 
                     id={`editButton-${blog._id}`}
                     onClick={() => {
                       AlertEdit(blog._id);

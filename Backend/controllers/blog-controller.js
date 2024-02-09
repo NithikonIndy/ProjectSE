@@ -214,3 +214,25 @@ export const getBlogAccount = async (req, res, next) => {
         res.status(500).json({ error: "Error getting blog account" });
     }
 };
+
+// GET Method use on Home Page
+export const getBlogsListAccount = async (req, res, next) => {
+    const userId = req.params.id;
+    //console.log("Received userId:", userId);
+
+    try {
+        const user = await User.findById(userId);
+        try {
+            const accounts = await User.findOne({ email: user.email });
+            res.status(200).json({ email: accounts.email });
+            //console.log("accounts from backend" ,accounts.email);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: "Error getting blogs accounts" });
+        }
+        //console.log(user);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Error getting users details" });
+    }
+};

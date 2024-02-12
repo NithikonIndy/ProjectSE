@@ -38,7 +38,6 @@ const Homepage = () => {
 
   useEffect(() => {
     fetchSession();
-    fetchUserRole();
     fetchBlogs();
   }, []);
 
@@ -47,7 +46,12 @@ const Homepage = () => {
       const response = await axios.get("http://localhost:3000/Userid", {
         withCredentials: true,
       });
-        setUsers([response.data.user]);
+        if (!response.data.user) {
+          navigate("/");
+        } else {
+          setUsers([response.data.user]);
+          fetchUserRole();
+        }
       } catch (error) {
         console.error("Error fetching user session:", error);
     }

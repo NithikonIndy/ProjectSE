@@ -42,15 +42,6 @@ const Homepage = () => {
     fetchBlogs();
   }, []);
 
-  useEffect(() => {
-    if (Blogs.length > 0) {
-      const userIdList = Blogs.map((blog) => blog.user);
-      //console.log("List of blogs:", Blogs.length);
-      //console.log("List of user ids:", userIdList);
-      handleAccountBlogs(userIdList);
-    }
-  }, [Blogs]);
-
   const fetchSession = async () => {
     try {
       const response = await axios.get("http://localhost:3000/Userid", {
@@ -77,11 +68,28 @@ const Homepage = () => {
     try {
       const response = await axios.get("http://localhost:3000/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
+ 
+      handleAccountBlogs(reversedBlogs);
       SetBlogs(reversedBlogs);
       //console.log("Blogs:", reversedBlogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
+  };
+
+  const handleAccountBlogs = async (blogs) => {
+    try {
+      const emailPromises = blogs.map(async (blog) => {
+        const { data: email } = await axios.get(`http://localhost:3000/api/blog/blogsListAccounts/${blog.user}`);
+        return email.email;
+      });
+
+      const userEmails = await Promise.all(emailPromises);
+      setBlogsAccount(userEmails);
+      console.log("User Emails:", userEmails);
+    } catch (error) {
+      console.log(error);
+    } 
   };
 
   const AlertDelete = (blogid) => {
@@ -197,17 +205,13 @@ const Homepage = () => {
       .post(`http://localhost:3000/api/blog/add`, {
         user: users[0],
         description: blogText,
-      })
-      .then((response) => {
-        SetBlogs([...Blogs, response.data.blog]);
+      }).then(() => {
         setBlogText("");
       })
       .catch((error) => {
         console.error("Error adding comment:", error);
     });
-    setTimeout(() => {
-      fetchBlogs();
-    }, 500);
+    fetchBlogs();
   };
 
   const handleLikeBlog = async (blogId) => {
@@ -261,24 +265,6 @@ const Homepage = () => {
     }, 500);
   };
  
-  const handleAccountBlogs = async (userIdList) => {
-    console.log("User ID List:", userIdList); 
-    console.log("User ID List Length:", userIdList.length);
- 
-     try {
-       const emailPromises = userIdList.map(async userId => {
-         const { data: email } = await axios.get(`http://localhost:3000/api/blog/blogsListAccounts/${userId}`);
-         //console.log("Email:", email);
-         return email.email;
-       });
-       const userEmails = await Promise.all(emailPromises);
-       setBlogsAccount(userEmails);
-       console.log("User Emails:", userEmails);
-     } catch (error) {
-       console.log(error);
-     } 
-  };
-
   return (
     <div className="homepage">
       <Header />

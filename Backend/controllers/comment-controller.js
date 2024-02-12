@@ -2,22 +2,30 @@ import mongoose from "mongoose";
 import Blog from "../models/Blog.js";
 import Comment from "../models/Comment.js";
 import User from "../models/userModel.js";
-import axios from "axios";
-
-
 
 export const getAllCommentByBlog = async (req, res, next) => {
     const BlogId = req.params.id;
-    let blogcomments;
+    const commentsList = [];
+
     try {
-        blogcomments = await Comment.find();
-    } catch (err) {
-        return console.log(err);
+        const blogComments = await Blog.findById(BlogId).populate("comments");
+        //console.log(blogComments);
+        //res.status(200).json({ blogComments });
+
+        blogComments.comments.forEach(comment => {
+            commentsList.push({
+                id: comment._id,
+                description: comment.description,
+                likes: comment.likes,
+                user: comment.user,
+                blog: comment.blog,
+            });
+        });
+
+        res.status(200).json({ commentsList });
+    } catch (error) {
+        console.log(error);
     }
-    if (!blogcomments) {
-        return res.status(404).json({ message: "No Blog Found" });
-    }
-    return res.status(200).json({ blogcomments });
 };
 
 

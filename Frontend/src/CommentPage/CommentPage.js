@@ -27,6 +27,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const generateRandomNameForUserId = (userId, blogId) => {
   const seed = userId + blogId;
@@ -47,6 +48,7 @@ const CommentPage = () => {
   const blogIdforget = useParams().blogId;
   const [blogAccount, setBlogAccount] = useState("");
   const [commentAccount, setCommentAccount] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchSession();
@@ -57,8 +59,12 @@ const CommentPage = () => {
   const fetchSession = async () => {
     try {
       const response = await axios.get("http://localhost:3000/Userid", {withCredentials: true,});
-      setUsers([response.data.user]);
-      fetchUserRole();
+      if (!response.data.user) {
+        navigate("/");
+      } else {
+        setUsers([response.data.user]);
+        fetchUserRole();
+      }
     } catch (error) {
       console.error("Error fetching user session:", error);
     }

@@ -13,7 +13,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/post/:blogId" element={<CommentPage />} />
-        <Route path="/report" element={<ReportPage />} />
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />

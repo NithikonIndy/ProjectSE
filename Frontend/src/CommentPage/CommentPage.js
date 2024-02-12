@@ -29,7 +29,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 const generateRandomNameForUserId = (userId, blogId) => {
-  const seed = userId + blogId; // Use the user ID as the seed
+  const seed = userId + blogId;
   const config = {
     dictionaries: [animals],
     seed: seed,
@@ -40,91 +40,70 @@ const generateRandomNameForUserId = (userId, blogId) => {
 const CommentPage = () => {
   const [users, setUsers] = useState([]);
   const [userRole, setUserRole] = useState([]);
-
   const [blog, setBlog] = useState([]);
   const [listComment, setListComment] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [listLikePost, setListLikePost] = useState([]);
-
   const blogIdforget = useParams().blogId;
-
   const [blogAccount, setBlogAccount] = useState("");
   const [commentAccount, setCommentAccount] = useState([]);
 
   useEffect(() => {
-    fetchBlog();
     fetchSession();
-    fetchUserRole();
+    fetchBlog();
     fetchComments();
-    fetchLikesPost();
-    handleAccountBlog(blogIdforget);
+  },[]);
 
-    if (listComment.length > 0) {
-      const userIdList = listComment.map(comment => comment.user);
-      handleAccountComment(userIdList);
-    }
-
-    console.log("User role:", userRole,"\n",
-                "User session:", users[0] ,"\n",
-                "User session:", users ,"\n",
-                "Blog:", blog, "\n",
-                "ListComment:", listComment, "\n",
-                "ListLikePost:", listLikePost, "\n",
-                "Comment Account:", commentAccount, "\n",
-          
-    );
-  }, [userRole], [users], [listComment], [blog], [listLikePost], [commentAccount], [newComment]);
-
-  
   const fetchSession = async () => {
     try {
       const response = await axios.get("http://localhost:3000/Userid", {withCredentials: true,});
       setUsers([response.data.user]);
+      fetchUserRole();
     } catch (error) {
       console.error("Error fetching user session:", error);
     }
+
+    console.log("FetchingSession");
   };
 
   const fetchUserRole = async () => {
     try {
       const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
-        setUserRole(role);
-        //console.log(role);
-        //console.log(userRole);
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-      }
+      setUserRole(role);
+      //console.log(role);
+      //console.log(userRole);
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
+      
+    console.log("FetchingUserRole");
   };
 
   const fetchComments = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/comments/blogs/${blogIdforget}`);
-      let i = 0;
-      let end = response.data.blogcomments.length;
-      const arrayComments = [];
+      //console.log(response.data.commentsList);
+      //console.log(response.data.commentsList.length);
+      const reverseCommentsList = response.data.commentsList.reverse();
 
-      while (i < end) {
-        if (response.data.blogcomments[i].blog == blogIdforget) {
-          arrayComments.push(response.data.blogcomments[i]);
-        }
-        i++;
-      }
-      //console.log(response.data);
-      setListComment(arrayComments);
+      handleAccountComment(reverseCommentsList);
+      setListComment(reverseCommentsList);
     } catch (err) {
       console.log("Error fetching comments:", err);
     }
   };
 
-  /*Topic Blog */
   const fetchBlog = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/blog/${blogIdforget}`);
       setBlog([response.data.blog]);
-      //setListLikePost([response.data.blog.likes.length]);
+      handleAccountBlog(blogIdforget);
+      fetchLikesPost();
     } catch (error) {
       console.error("Error fetching blog:", error);
     }
+
+    console.log("FetchingBlog");
   };
 
   const handleReportReasons = async() => {
@@ -171,10 +150,9 @@ const CommentPage = () => {
         user: users[0],
         description: newComment,
       })
-      .then((response) => {
-        setListComment([...listComment, response.data.comment]);
+      .then(() => {
         setNewComment("");
-        handleAccountComment([response.data.comment.user]);
+        fetchComments();
       })
       .catch((error) => {
         console.error("Error adding comment:", error);
@@ -212,6 +190,8 @@ const CommentPage = () => {
     } catch (err) {
       console.log("Error fetching likes:", err);
     }
+
+    console.log("FetchingLikesPost");
   };
 
   const handleLikeComment = async (commentId) => {
@@ -284,16 +264,19 @@ const CommentPage = () => {
     } catch (error) {
       console.log("Error fetching account:", error);
     }
+
+    console.log("FetchingAccountBlog");
   };
 
-  const handleAccountComment = async (userIdList) => {
+  const handleAccountComment = async (comments) => {
     try {
-        const emailPromises = userIdList.map(async userId => {
-            const { data: email } = await axios.get(`http://localhost:3000/api/comments/blog/${userId}/account`);
+        const emailPromises = comments.map(async (comment) => {
+            const { data: email } = await axios.get(`http://localhost:3000/api/comments/blog/${comment.user}/account`);
+            //console.log("handleAccountComment", comment.user);
             return email.email;
         });
         const userEmails = await Promise.all(emailPromises);
-        setCommentAccount(commentAccount => [...commentAccount, ...userEmails]);
+        setCommentAccount(userEmails);
         console.log("Comment account:", userEmails);
     } catch (error) { 
         console.log("Error fetching account:", error);
@@ -390,13 +373,12 @@ const CommentPage = () => {
       if (result.isConfirmed) {
         const editedText = result.value;
         if (editedText) {
-          //setBlogText(editedText); // Set the edited text to the state
           Swal.fire({
             title: "Edit!",
             text: `Your post has been edited.`,
             icon: "success",
           });
-          handleEditBlog(blogid, editedText); // Pass the edited text to handleEditBlog
+          handleEditBlog(blogid, editedText);
         }
       }
     });
@@ -412,14 +394,13 @@ const CommentPage = () => {
       if (result.isConfirmed) {
         const editedText = result.value;
         if (editedText) {
-          //setCommentText(editedText); // Set the edited text to the state
           Swal.fire({
             title: "Edit!",
             text: `Your comment has been edited.`,
             icon: "success",
           });
           console.log("edit comment text's: ",editedText);
-          handleEditComment(commentid, editedText); // Pass the edited text to handleEditBlog
+          handleEditComment(commentid, editedText);
         }
       }
     });
@@ -448,7 +429,6 @@ const CommentPage = () => {
                     {blog.user === users[0] && (
                       <Button
                         className="logo-control"
-                        id={`editButton-${blog._id}`}
                         onClick={() => {
                           AlertEdit(blog._id);
                           setTimeout(() => {
@@ -526,7 +506,7 @@ const CommentPage = () => {
         {/* Comment List */}
         {Array.isArray(listComment) &&
           listComment.map((comment, index) => (
-            <Card className="adjust-width margin-bottom" key={comment._id}>
+            <Card key={comment.id} className="adjust-width margin-bottom" >
               <CardBody>
                 <CardHeader>
                   <div className="flex-div">
@@ -542,9 +522,8 @@ const CommentPage = () => {
                     {comment.user === users[0] && (
                       <Button
                         className="logo-control"
-                        id={`editButtonComment-${comment.user}`}
                         onClick={() => {
-                          AlertEditComment(comment._id);
+                          AlertEditComment(comment.id);
                           setTimeout(() => {
                             fetchBlog();
                           }, 1000);
@@ -559,9 +538,8 @@ const CommentPage = () => {
                     {((comment.user === users[0]) || (userRole === "ADMIN")) && (
                       <Button
                         className="logo-control"
-                        id={`deleteButtoncomment-${comment.user}`}
                         onClick={() => {
-                          AlertDeleteComment(comment._id);
+                          AlertDeleteComment(comment.id);
                         }}
                       >
                         <FontAwesomeIcon icon={faTrash} />
@@ -578,8 +556,8 @@ const CommentPage = () => {
                   <div className="flex-div">
                     <Button
                       onClick={() => {
-                        handleLikeComment(comment._id);
-                        console.log("Comment id", comment._id);
+                        handleLikeComment(comment.id);
+                        console.log("Comment id", comment.id);
                       }}
                       style={{ backgroundColor: '#2CD5BD', color: 'white' }}
                     >

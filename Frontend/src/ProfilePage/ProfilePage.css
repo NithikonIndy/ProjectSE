@@ -1,16 +1,37 @@
-.profile-page{
-  font-family: Arial, sans-serif;
-  color: #333;
-  background-color: #D2E0FB;
-  height: 100vh;
+.profile-image {
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 150px;
+  height: 150px;
+  margin: 20px auto;
 }
 
-.container-profile-page {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: wheat;
-    height: 50vh;
+.user-info,
+.buttons {
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px;
+}
+
+.user-info p {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 0;
+}
+
+.button-primary-color {
+  background-color: #4396FF;
+  color: #fff;
+  border: 1px solid #4396FF;
+  border-radius: 5px;
+  padding: 10px 20px;
+}
+
+.button-primary-color:hover {
+  background-color: #337ab7;
+}
+
+.fas {
+  margin-right: 5px;
 }

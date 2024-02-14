@@ -7,6 +7,7 @@ import HomePage from './Homepage/Homepage';
 import './App.css';
 import ProfilePage from './ProfilePage/ProfilePage';
 import Header from './Header/Header';
+import YourBlog from "./ProfilePage/YourBlog";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/hd" element={<Header />} />
+        <Route path="/YourBlog" element={<YourBlog />} />
       </Routes>
     </Router>
   );

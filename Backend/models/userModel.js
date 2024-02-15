@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 import roles from '../utils/constants.js';
 
 const userSchema = mongoose.Schema({
@@ -33,13 +32,6 @@ const userSchema = mongoose.Schema({
         enum: [roles.user, roles.admin],
         default: 'USER',
     },
-    /*
-    password: {
-        type: String,
-        require: true,
-        default: null,
-    },
-    */
     blogs:[{
         type: mongoose.Types.ObjectId,
         ref:"Blog",
@@ -51,18 +43,6 @@ const userSchema = mongoose.Schema({
         required: true,
     }],
 }, { timestamps: true });
-
-userSchema.pre('save', async function(next){
-    if(!this.isModified('password')){
-        next();
-    }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-});
-
-userSchema.methods.matchPassword = async function (enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
-};
 
 const User = mongoose.model('User', userSchema);
 

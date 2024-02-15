@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Blog from "../models/Blog.js";
+import Comment from "../models/Comment.js";
 import User from "../models/userModel.js";
 import Report from "../models/reportModel.js";
 import constants from "../utils/constants.js";
@@ -106,12 +107,15 @@ export const deleteBlog = async (req , res, next) => {
 
     let blog;
     try{
-        blog =await Blog.findByIdAndDelete(id).populate("user");
+        blog =await Blog.findByIdAndDelete(id).populate("user").populate("comments");
         console.log(blog);
         if (!blog) {
             return res.status(404).json({ message: "Blog not found" });
         }
+        await Comment.deleteMany({ _id: { $in: blog.comments.map(comment => comment._id) } });
+        
         await blog.user.blogs.pull(blog);
+        await blog.user.updateOne({ $pull: { comments: { $in: blog.comments.map(comment => comment._id) } } });
         await blog.user.save();
     }catch(err){
         return console.log(err);

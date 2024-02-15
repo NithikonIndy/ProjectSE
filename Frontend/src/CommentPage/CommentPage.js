@@ -509,6 +509,26 @@ const CommentPage = () => {
             </Card>
           ))}
 
+        {/*<CommentInput />*/}
+        <Card className="adjust-width">
+          <CardBody>
+            <CardText className="text-padding adjust-height">
+              <textarea
+                className="textarea-control"
+                type="text"
+                placeholder="Comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+            </CardText>
+            <CardFooter>
+              <div className="margin-left">
+                <Button className="logo-control" onClick={handleAddComment}>COMMENT</Button>
+              </div>
+            </CardFooter>
+          </CardBody>
+        </Card>
+        
         {/* Comment List */}
         {Array.isArray(listComment) &&
           listComment.map((comment, index) => (
@@ -590,25 +610,7 @@ const CommentPage = () => {
             </Card>
           ))}
 
-        {/*<CommentInput />*/}
-        <Card className="adjust-width">
-          <CardBody>
-            <CardText className="text-padding adjust-height">
-              <textarea
-                className="textarea-control"
-                type="text"
-                placeholder="Comment..."
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-            </CardText>
-            <CardFooter>
-              <div className="margin-left">
-                <Button className="logo-control" onClick={handleAddComment}>COMMENT</Button>
-              </div>
-            </CardFooter>
-          </CardBody>
-        </Card>
+
       </Container>
     </div>
   );

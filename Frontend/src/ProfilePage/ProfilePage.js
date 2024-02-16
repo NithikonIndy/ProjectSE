@@ -4,6 +4,8 @@ import "./ProfilePage.css"
 import React from "react";
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
 
+
+
 const ProfilePage = () => {
   return (
     <div className="profile-page">

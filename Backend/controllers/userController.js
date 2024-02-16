@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import constants from "../utils/constants.js";
+import Report from "../models/reportModel.js";
 
 // @description Logout user
 // @route GET /logout
@@ -112,6 +113,16 @@ const getReportReasons = async (req, res, next) => {
   }
 };
 
+const ReportReasons = async (req, res, next) => {
+  try{
+      const reportReason = await Report.find();
+      res.send(reportReason);
+  }catch(error){
+      console.error(error);
+      res.status(500).json({ error: "Error getting report reasons" });
+  }
+};
+
 export {
   logout,
   getUserProfile,
@@ -122,4 +133,5 @@ export {
   profile,
   signIn,
   getReportReasons,
+  ReportReasons,
 };

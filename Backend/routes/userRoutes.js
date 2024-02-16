@@ -9,6 +9,7 @@ import {
   profile,
   signIn,
   getReportReasons,
+  ReportReasons,
 
 } from "../controllers/userController.js";
 import { getAuthenticatedUser, getAuthenticatedAdmin, getSession, isAuthenticated } from "../middleware/authMiddleware.js";
@@ -17,11 +18,15 @@ import { getAllBlog } from "../controllers/blog-controller.js";
 
 const router = express.Router();
 
+
+// router.get("/Returnreport",Returnreport);
+
 //! completely route path
 router.get("/cmuOAuthCallback", OAuthCallback);
 
 router.route("/session").get(isAuthenticated);
 router.route("/reportReasons").get(getReportReasons);
+router.route("/returnreportReasons").get(ReportReasons);
 
 //! implement in progress
 router

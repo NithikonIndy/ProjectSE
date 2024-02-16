@@ -53,6 +53,10 @@ app.get("/get-session", (req, res) => {
 
 
 
+
+
+
+
 app.use("/", userRoutes);
 app.use("/api/blog", blogRouter);
 app.use("/api/comments", commentRouter);

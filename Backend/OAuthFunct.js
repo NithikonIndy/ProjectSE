@@ -1,6 +1,5 @@
-import asyncHandler from "express-async-handler";
 import axios from "axios";
-import { logout } from "./controllers/userController";
+
 
 async function getOAuthAccessToken(authorizationCode) {
   try {

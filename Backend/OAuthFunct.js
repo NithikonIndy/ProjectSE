@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import axios from "axios";
+import { logout } from "./controllers/userController";
 
 async function getOAuthAccessToken(authorizationCode) {
   try {
@@ -19,6 +20,7 @@ async function getOAuthAccessToken(authorizationCode) {
         },
       }
     );
+    console.log("Token : ",response.data.access_token);
     return response.data.access_token;
   } catch (error) {
     throw new Error("Can't access token");

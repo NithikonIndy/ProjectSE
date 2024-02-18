@@ -1,12 +1,48 @@
-import { Container } from "react-bootstrap";
 import Header from "../Header/Header.js";
 import "./ProfilePage.css"
-import React from "react";
+import React, { useState, useEffect }  from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
 
 
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    fetchSession();
+  }, []);
+
+  const fetchSession = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/Userid", {
+        withCredentials: true,
+      });
+        if (!response.data.user) {
+          navigate("/");
+        } else {
+          setUsers([response.data.user]);
+          fetchUserRole();
+        }
+      } catch (error) {
+        console.error("Error fetching user session:", error);
+    }
+  };  
+
+  const fetchUserRole = async () => {
+    try {
+      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
+        setUserRole(role);
+        //console.log("This session user role:" ,role);
+        //console.log(userRole);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      }
+  };
+
   return (
     <div className="profile-page">
       <Header />

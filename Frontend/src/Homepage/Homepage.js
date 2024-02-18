@@ -4,21 +4,11 @@ import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faFlag, faEdit ,faComments,faTrash} from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom";
 import axios from "axios";
-import { uniqueNamesGenerator, Config, animals } from "unique-names-generator";
+import { uniqueNamesGenerator, animals } from "unique-names-generator";
 import Swal from "sweetalert2";
 import { Container } from "react-bootstrap";
-import {
-  faBell,
-  faHome,
-  faRightFromBracket,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-
-const MessageContainer = ({ message }) => (
-  <div className="message-container">{message}</div>
-);
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const generateRandomNameForUserId = (userId, blogId) => {
   const seed = userId + blogId; // Use the user ID as the seed
@@ -26,24 +16,85 @@ const generateRandomNameForUserId = (userId, blogId) => {
     dictionaries: [animals],
     seed: seed,
   };
-
   return uniqueNamesGenerator(config);
 };
 
 const Homepage = () => {
   const [blogText, setBlogText] = useState("");
-  const [blogs, setBlogs] = useState([]);
-  const [blogLikes, setBlogLikes] = useState({});
-  const [postMessage, setPostMessage] = useState("");
+  //const [blogs, setBlogs] = useState([]);
+  //const [blogLikes, setBlogLikes] = useState({});
+  //const [postMessage, setPostMessage] = useState("");
   const navigate = useNavigate();
-  const [editMode, setEditMode] = useState(false);
-  const [editedBlogId, setEditedBlogId] = useState(null);
+  //const [editMode, setEditMode] = useState(false);
+  //const [editedBlogId, setEditedBlogId] = useState(null);
   const [users, setUsers] = useState([]);
   const [Blogs, SetBlogs] = useState([]);
-  const [likespost, setLikespost] = useState([]);
-  const [clickedBlogId, setClickedBlogId] = useState([]);
-  const [blogdelete, setblogdelete] = useState([]);
-  const [Edit, setEdit] = useState([]);
+  //const [likespost, setLikespost] = useState([]);
+  //const [clickedBlogId, setClickedBlogId] = useState([]);
+  //const [blogdelete, setblogdelete] = useState([]);
+  //const [Edit, setEdit] = useState([]);
+  const [userRole, setUserRole] = useState("");
+  const [blogsAccount, setBlogsAccount] = useState([]);
+
+  useEffect(() => {
+    fetchSession();
+    fetchBlogs();
+  }, []);
+
+  const fetchSession = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/Userid", {
+        withCredentials: true,
+      });
+        if (!response.data.user) {
+          navigate("/");
+        } else {
+          setUsers([response.data.user]);
+          fetchUserRole();
+        }
+      } catch (error) {
+        console.error("Error fetching user session:", error);
+    }
+  };  
+
+  const fetchUserRole = async () => {
+    try {
+      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
+        setUserRole(role);
+        //console.log("This session user role:" ,role);
+        //console.log(userRole);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      }
+  };
+
+  const fetchBlogs = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/blog");
+      const reversedBlogs = response.data.blogs.reverse();
+ 
+      handleAccountBlogs(reversedBlogs);
+      SetBlogs(reversedBlogs);
+      //console.log("Blogs:", reversedBlogs);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
+
+  const handleAccountBlogs = async (blogs) => {
+    try {
+      const emailPromises = blogs.map(async (blog) => {
+        const { data: email } = await axios.get(`http://localhost:3000/api/blog/blogsListAccounts/${blog.user}`);
+        return email.email;
+      });
+
+      const userEmails = await Promise.all(emailPromises);
+      setBlogsAccount(userEmails);
+      console.log("User Emails:", userEmails);
+    } catch (error) {
+      console.log(error);
+    } 
+  };
 
   const AlertDelete = (blogid) => {
     Swal.fire({
@@ -87,12 +138,9 @@ const Homepage = () => {
     });
   };
 
-
-
   const AlertReport = async (blogid) => {
     console.log(blogid);
     try {
-      // deconstruct the response to get the data
       const { data: fetchReasons } = await axios.get(
         "http://localhost:3000/reportReasons"
       );
@@ -143,59 +191,35 @@ const Homepage = () => {
     }
   };
 
-  useEffect(() => {
-    const getSession = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/Userid", {
-          withCredentials: true,
-        });
-        setUsers([response.data.user]);
-      } catch (error) {
-        console.error("Error fetching user session:", error);
-      }
-    };
-
-    getSession();
-  }, []);
-
   const onClickgetblogId = async (blogId) => {
-    setClickedBlogId(blogId);
     navigate(`/post/${blogId}`);
-    console.log("hll");
+    console.log("click get blog id:", blogId);
   };
 
   const onClicklikeblog = async (blogId) => {
     console.log("Clicked on blog with ID:", blogId);
     handleLikeBlog(blogId);
-    setTimeout(() => {
-      fetchBlogs();
-    }, 250);
-  };
-
-  const handleBlogChange = (event) => {
-    setBlogText(event.target.value);
+     setTimeout(() => {
+       fetchBlogs();
+     }, 250);
   };
 
   const handlePostBlog = async () => {
     await axios
       .post(`http://localhost:3000/api/blog/add`, {
-        user: users[0], // Assuming users is an array and you want the first user
+        user: users[0],
         description: blogText,
-      })
-      .then((response) => {
-        SetBlogs([...Blogs, response.data.blog]);
+      }).then(() => {
         setBlogText("");
       })
       .catch((error) => {
         console.error("Error adding comment:", error);
-      });
+    });
+    fetchBlogs();
   };
 
   const handleLikeBlog = async (blogId) => {
-    // Use the blogId directly
     let temp = blogId;
-
-    // Ensure temp has a valid value before using it in the URL
     if (temp) {
       const text = `http://localhost:3000/api/blog/${temp}/like`;
 
@@ -217,7 +241,7 @@ const Homepage = () => {
     axios
       .put(apiurl, {
         user: users[0],
-        description: editedText, // Use the edited text
+        description: editedText,
       })
       .then((response) => {
         console.log("Edit successful", response.data);
@@ -228,15 +252,6 @@ const Homepage = () => {
     setTimeout(() => {
       fetchBlogs();
     }, 400);
-  };
-
-  const hidedeletebuttons = (blogId) => {
-    const isBlogOwner = blogId === users[0];
-    const buttonToToggle = document.getElementById(`deleteButton-${blogId}`);
-
-    if (buttonToToggle) {
-      buttonToToggle.style.display = isBlogOwner ? "block" : "none";
-    }
   };
 
   const handleDeleteBlog = (blogId) => {
@@ -251,35 +266,9 @@ const Homepage = () => {
       });
     setTimeout(() => {
       fetchBlogs();
-    }, 400);
+    }, 500);
   };
-
-  const fetchBlogs = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/api/blog");
-      let i = 0;
-      let end = response.data.blogs.length - 1;
-      const Blog = [];
-      while (end >= i) {
-        Blog.push(response.data.blogs[end]);
-        end--;
-      }
-      SetBlogs(Blog);
-
-      // setLikespost([response.data.blog.likes.length]);
-    } catch (error) {
-      console.error("Error fetching blogs:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchBlogs();
-
-    setTimeout(() => {
-      hidedeletebuttons(users);
-    }, 100);
-  }, []);
-
+ 
   return (
     <div className="homepage">
       <Header />
@@ -289,35 +278,32 @@ const Homepage = () => {
           <textarea
             placeholder="Write your blog here..."
             value={blogText}
-            onChange={handleBlogChange}
+            onChange={(e) => setBlogText(e.target.value)}
             rows="10"
           />
 
-          <button
-            onClick={() => {
-              handlePostBlog();
-              setTimeout(() => {
-                fetchBlogs();
-              }, 350);
-            }}
-
-          style={{ position: "absolute", right: "12px", bottom: "30px" }}
+          <button 
+            onClick={handlePostBlog}
+            style={{ position: "absolute", right: "12px", bottom: "30px" }}
           >
             Post Blog
           </button>
-
         </div>
 
         {Array.isArray(Blogs) &&
-          Blogs.map((blog) => (
+          Blogs.map((blog, index) => (
 
             <div key={blog._id} className="blog-item" >
-              <div>
+              <div className="flex-div">
                 <FontAwesomeIcon icon={faUser} />
-                <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
-                <hr class="solid"></hr>
-                <p>{blog.description}</p>
+                <strong style={{ marginLeft: '6px' }} className="flex-div"><i>{generateRandomNameForUserId(blog.user, blog._id)}</i>
+                  {(userRole === "ADMIN") && ( <i style={{ marginLeft: '20px' }} >{blogsAccount[index] }</i> )}              
+                </strong>
               </div>
+
+              <hr class="solid"></hr>
+              <p>{blog.description}</p>
+
               <div class="row">
                 <div className="blog-icons">
                   <button onClick={() => onClicklikeblog(blog._id)}>
@@ -334,12 +320,8 @@ const Homepage = () => {
 
                   {blog.user === users[0] && (
                     <button
-                      id={`editButton-${blog._id}`}
                       onClick={() => {
                         AlertEdit(blog._id);
-                        setTimeout(() => {
-                          fetchBlogs();
-                        }, 1000);
                       }}
                     >
                       <FontAwesomeIcon icon={faEdit} />
@@ -356,36 +338,25 @@ const Homepage = () => {
                   </button>
 
 
-                  {blog.user === users[0] && (
-                    <button
-                      id={`deleteButton-${blog._id}`}
-                      onClick={() => {
-                        AlertDelete(blog._id);
-                      }}
-                    >
+                  {((blog.user === users[0]) || (userRole === "ADMIN")) && (
+                  <button
+                    onClick={() => {
+                      AlertDelete(blog._id);
+                    }}
+                  >
                       <FontAwesomeIcon icon={faTrash} />
                       &nbsp;
-                      Delete
-                    </button>
-                  )}
-                </div>
+                    Delete
+                  </button>
+                )}
               </div>
-
+             </div>
             </div>
-
           ))}
-
       </Container>
+   
     </div>
   );
 };
 
 export default Homepage;
-
-
-
-
-
-
-
-

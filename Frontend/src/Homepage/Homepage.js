@@ -139,7 +139,6 @@ const Homepage = () => {
   };
 
   const AlertReport = async (blogid) => {
-    console.log(blogid);
     try {
       const { data: fetchReasons } = await axios.get(
         "https://backend-b1ep.onrender.com/reportReasons"

@@ -14,6 +14,8 @@ import axios from "axios";
 const Header = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [Blogs, SetBlogs] = useState([]);
+  const [Reports,SetReports] = useState([]);
+  const [show,Setshow] = useState([]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -23,21 +25,23 @@ const Header = () => {
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/returnreportReasons", {
       });
-        if (!response.data) {
+      const reverseReport=response.data.reverse();
+        if (!reverseReport) {
             console.log("Not found");
         } else {
-          console.log(response.data);
+          SetReports(reverseReport);
         }
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
   };  
 
-  const fetchBlogs = async () => {
+  const showreportblogBlogs = async () => {
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
- 
+      
+
       SetBlogs(reversedBlogs);
       //console.log("Blogs:", reversedBlogs);
     } catch (error) {
@@ -45,10 +49,27 @@ const Header = () => {
     }
   };
 
+  const checkID = () => {
+    handlefetchreport();
+    showreportblogBlogs();
+    // let lenofreport = Reports.length();
+    // let lenofblog = Blogs.length();
+    Blogs.forEach(blog => {
+      Reports.forEach(report => {
+        if(blog._id==report.postId){
+          Setshow(blog);
+        }
+      });
+    });
+  
+
+  }
+
 
   const handleDropdownClick = () => {
     toggleDropdown();
-    handlefetchreport();
+    checkID();
+   
   };
 
   return (
@@ -72,9 +93,12 @@ const Header = () => {
           <FontAwesomeIcon icon={faBell} alt="notify-icon" />
           </button>
           <div id="myDropdown" className="dropdown-content">
-            <a >Link 1</a>
-            <a >Link 2</a>
-            <a >Link 3</a>
+          {/* {Array.isArray(show) &&
+          show.map((blog, index) => (
+            <a >blog</a>
+
+          ))} */}
+           
           </div>
         </div>
 

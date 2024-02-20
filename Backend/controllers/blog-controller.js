@@ -3,8 +3,9 @@ import Blog from "../models/Blog.js";
 import Comment from "../models/Comment.js";
 import User from "../models/userModel.js";
 import Report from "../models/reportModel.js";
-import Comment from "../models/Comment.js";
+
 import constants from "../utils/constants.js";
+
 
 export const getAllBlog = async ( req, res, next) => {
     let blogs;

@@ -1,57 +1,62 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../Header/Header.js";
 import "./ProfilePage.css";
-import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText } from "mdb-react-ui-kit";
-import { Link } from 'react-router-dom';
-import { MDBBtn } from 'mdb-react-ui-kit';
+import { Card, Avatar } from 'antd';
+import { Col, Row } from 'antd';
+import { Link } from "react-router-dom";
 
+const { Meta } = Card;
+
+const gridStyle = {
+  width: '25%',
+  textAlign: 'center',
+};
 
 const ProfilePage = () => {
-  const [user, setUser] = useState({
-    name: "John Doe",
-    cmuAccount: "123456789",
-    faculty: "Engineering",
-    major: "Computer Science",
-    year: "2024",
-  });
-
-  const handleCommentClick = () => {
-    // navigate to comment page
-  };
-
   return (
     <div>
       <Header />
-      <MDBContainer>
-        <MDBRow>
-          <MDBCol md="4">
-            <MDBCard>
-              <MDBCardImage
-                src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-                alt="Profile"
+      <Row justify="left" style={{marginTop:"80px"}}>
+        <Col span={8} align="middle">
+          <Card
+            style={{
+              width: 500,
+            }}
+            cover={
+              <img
+                alt="example"
+                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
               />
-            </MDBCard>
-          </MDBCol>
-          <MDBCol md="8">
-            <MDBCard>
-              <MDBCardBody>
-                <MDBCardTitle>{user.name}</MDBCardTitle>
-                <MDBCardText>
-                  CMU Account: {user.cmuAccount}
-                  <br />
-                  Faculty: {user.faculty}
-                  <br />
-                  Major: {user.major}
-                  <br />
-                  Year: {user.year}
-                </MDBCardText>
-                <Link to="/YourBlog">Your Blog</Link>
-                <MDBBtn onClick={handleCommentClick}>Your Comment</MDBBtn>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
+            }
+            actions={[
+              <Link to="/YourBlog">
+                <div>YourBlog</div>
+              </Link>,
+              <Link to="/YourCom">
+                <div>YourCom</div>
+              </Link>,
+            ]}
+          >
+            <Meta
+              title="YourName" 
+              description="Pongthanat_n@cmu.ac.th"
+            />
+          </Card>
+        </Col>
+
+        <Col span={8} align="middle">
+          <Card title="Card Title" style={{ display: 'flex', flexDirection: 'column' }}>
+            <Card.Grid style={{ ...gridStyle, flexDirection: 'row-reverse' }}>Content</Card.Grid>
+            <Card.Grid style={{ ...gridStyle, flexDirection: 'row-reverse' }}>Content</Card.Grid>
+            <Card.Grid style={{ ...gridStyle, flexDirection: 'row-reverse' }}>Content</Card.Grid>
+            <Card.Grid style={{ ...gridStyle, flexDirection: 'row-reverse' }}>Content</Card.Grid>
+            <Card.Grid style={{ ...gridStyle, flexDirection: 'row-reverse' }}>Content</Card.Grid>
+            <Card.Grid style={{ ...gridStyle, flexDirection: 'row-reverse' }}>Content</Card.Grid>
+            <Card.Grid style={{ ...gridStyle, flexDirection: 'row-reverse' }}>Content</Card.Grid>
+          </Card>
+        </Col>
+      </Row>
+      
     </div>
   );
 };

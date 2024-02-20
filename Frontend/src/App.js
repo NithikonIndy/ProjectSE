@@ -8,6 +8,8 @@ import './App.css';
 import ProfilePage from './ProfilePage/ProfilePage';
 import Header from './Header/Header';
 import YourBlog from "./ProfilePage/YourBlog";
+import YourCOm from "./ProfilePage/YourCom";
+import YourCom from './ProfilePage/YourCom';
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/hd" element={<Header />} />
         <Route path="/YourBlog" element={<YourBlog />} />
+        <Route path="/YourCom" element={<YourCom />} />
       </Routes>
     </Router>
   );

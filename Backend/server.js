@@ -43,21 +43,18 @@ app.use(cors({
   withCredentials: true,
 }));
 
-
 // pull sessionuserid
 app.get("/get-session", (req, res) => {
   const mySession = req.session.userId;
   res.send(`Session value: ${mySession}`);
 });
 
-
-
-
+// Disable the "x-powered-by" header
+app.disable('x-powered-by');
 
 app.use("/", userRoutes);
 app.use("/api/blog", blogRouter);
 app.use("/api/comments", commentRouter);
-
 
 app.use(notfound);
 app.use(errorHandler);

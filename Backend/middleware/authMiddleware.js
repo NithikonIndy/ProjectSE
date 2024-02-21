@@ -52,10 +52,11 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 
 const getSession = asyncHandler(async (req, res, next) => {
   try {
-    const user = await req.session.userId; // Access session data directly without await
+    const user = req.session.userId; // Access session data directly without await
     console.log("req.session: ",req.session);
     console.log("req.session.userId: ",req.session.userId);
-    res.status(200).json(user);
+    res.status(200).json({user});
+    next();
   } catch (err) {
     console.error(err);
     return next(err); // Pass the error to the next middleware
@@ -69,7 +70,7 @@ const isAuthenticated = asyncHandler(async (req, res, next) => {
   console.log("pass condition have session");
   try{
     if (!sessionId || sessionId === undefined || sessionId === null) {
-      res.status(401).json("Can find sessionId:", sessionId);
+      res.status(401).json("Can't find sessionId:", sessionId);
       console.log("don't pass condition type session");
     }else{
       const user = await User.findById(sessionId);

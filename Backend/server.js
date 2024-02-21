@@ -40,6 +40,7 @@ app.use(
 app.use(cors({
   origin: 'http://localhost:5000',
   credentials: true,
+  withCredentials: true,
 }));
 
 

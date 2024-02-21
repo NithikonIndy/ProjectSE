@@ -34,7 +34,7 @@ const Header = () => (
         <FontAwesomeIcon icon={faUser} alt="profile-icon" />
       </Link>
 
-      <Link to="http://localhost:3000/logout">
+      <Link to="https://backend-b1ep.onrender.com/logout">
         <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
       </Link>
     </div>

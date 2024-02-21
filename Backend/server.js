@@ -50,7 +50,8 @@ app.get("/get-session", (req, res) => {
 });
 
 
-
+// Disable the "x-powered-by" header
+app.disable('x-powered-by');
 
 
 app.use("/", userRoutes);

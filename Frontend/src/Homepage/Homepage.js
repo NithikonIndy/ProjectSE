@@ -46,12 +46,14 @@ const Homepage = () => {
       const response = await axios.get("http://localhost:3000/Userid", {
         withCredentials: true,
       });
+      console.log(response.data);
         if (!response.data.user) {
           navigate("/");
         } else {
           setUsers([response.data.user]);
           fetchUserRole();
         }
+          console.log("This session user:", response.data.user);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
@@ -75,7 +77,7 @@ const Homepage = () => {
  
       handleAccountBlogs(reversedBlogs);
       SetBlogs(reversedBlogs);
-      //console.log("Blogs:", reversedBlogs);
+      console.log("Blogs:", reversedBlogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }

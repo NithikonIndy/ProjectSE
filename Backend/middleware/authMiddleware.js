@@ -55,7 +55,7 @@ const getSession = asyncHandler(async (req, res, next) => {
     const user = req.session.userId; // Access session data directly without await
     console.log("req.session: ",req.session);
     console.log("req.session.userId: ",req.session.userId);
-    res.status(200).json({ user });
+    res.status(200).json(user);
   } catch (err) {
     console.error(err);
     return next(err); // Pass the error to the next middleware

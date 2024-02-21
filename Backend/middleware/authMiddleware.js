@@ -53,7 +53,7 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 const getSession = asyncHandler(async (req, res, next) => {
   let user;
   try {
-    user = req.session.userId; // Access session data directly without await
+    user = req.session; // Access session data directly without await
   } catch (err) {
     console.error(err);
     return next(err); // Pass the error to the next middleware

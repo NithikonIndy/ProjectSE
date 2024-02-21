@@ -46,7 +46,8 @@ const Homepage = () => {
       const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
         withCredentials: true,
       });
-      console.log(response);
+      console.log("log: " ,response.data);
+      console.log("log: " ,response.data.user);
         if (!response.data.user) {
           navigate("/");
         } else {

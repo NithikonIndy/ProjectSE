@@ -39,6 +39,7 @@ app.use(
 );
 app.use(cors({
   origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
 

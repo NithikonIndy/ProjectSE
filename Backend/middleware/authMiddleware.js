@@ -51,16 +51,15 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 });
 
 const getSession = asyncHandler(async (req, res, next) => {
-  let user;
   try {
-    user = req.session; // Access session data directly without await
+    const user = req.session; // Access session data directly without await
+    console.log("req.session",req.session);
+    console.log("req.session.userId",req.session.userId);
+    res.status(200).json({ user });
   } catch (err) {
     console.error(err);
     return next(err); // Pass the error to the next middleware
   }
-  console.log(req.session);
-  console.log(req.session.userId);
-  res.status(200).json({ user });
 });
 
 // Filter the authenticated user role

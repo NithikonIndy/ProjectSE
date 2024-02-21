@@ -40,7 +40,6 @@ app.use(
 app.use(cors({
   origin: 'http://localhost:5000',
   credentials: true,
-  withCredentials: true,
 }));
 
 // pull sessionuserid
@@ -48,9 +47,6 @@ app.get("/get-session", (req, res) => {
   const mySession = req.session.userId;
   res.send(`Session value: ${mySession}`);
 });
-
-// Disable the "x-powered-by" header
-app.disable('x-powered-by');
 
 app.use("/", userRoutes);
 app.use("/api/blog", blogRouter);

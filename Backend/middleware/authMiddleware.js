@@ -56,7 +56,6 @@ const getSession = asyncHandler(async (req, res, next) => {
     console.log("req.session: ",req.session);
     console.log("req.session.userId: ",req.session.userId);
     res.status(200).json({user});
-    next();
   } catch (err) {
     console.error(err);
     return next(err); // Pass the error to the next middleware

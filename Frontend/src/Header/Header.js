@@ -93,11 +93,14 @@ const Header = () => {
           <FontAwesomeIcon icon={faBell} alt="notify-icon" />
           </button>
           <div id="myDropdown" className="dropdown-content">
-          {/* {Array.isArray(show) &&
-          show.map((blog, index) => (
-            <a >blog</a>
-
-          ))} */}
+          <a> test</a>
+          <a> test</a>
+          <a> test</a>
+          <a> test</a>
+          <a> test</a>
+          <a> test</a>
+          <a> test</a>
+          <a> test</a>
            
           </div>
         </div>

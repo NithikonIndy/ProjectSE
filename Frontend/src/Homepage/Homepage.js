@@ -46,11 +46,13 @@ const Homepage = () => {
       const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
         withCredentials: true,
       });
+      console.log(response.data);
         if (!response.data.user) {
           navigate("/");
         } else {
           setUsers([response.data.user]);
           fetchUserRole();
+          
         }
       } catch (error) {
         console.error("Error fetching user session:", error);
@@ -269,9 +271,11 @@ const Homepage = () => {
   };
  
   return (
-    <div className="homepage">
-      <Header />
-
+    <div>
+       <Header />
+          <div className="homepage">
+     
+          <h1>test{users}</h1>
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
           <textarea
@@ -354,6 +358,7 @@ const Homepage = () => {
           ))}
       </Container>
    
+    </div>
     </div>
   );
 };

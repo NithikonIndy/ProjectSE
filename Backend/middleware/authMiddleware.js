@@ -1,7 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import session from "express-session";
-import { Db } from "mongodb";
 
 const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
   const authenticatedUser = await req.session.userId;
@@ -53,37 +52,15 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 });
 
 const getSession = asyncHandler(async (req, res, next) => {
-  // try {
-  //   const user = req.session.userId; // Access session data directly without await
-  //   console.log("req.session: ",req.session);
-  //   console.log("req.session.userId: ",req.session.userId);
-  //   res.status(200).json({user});
-  // } catch (err) {
-  //   console.error(err);
-  //   return next(err); // Pass the error to the next middleware
-  // }
-  
   try {
-    const sessionId = req.session.id;
-    const session = await Db.collection("sessions").findOne({ _id: sessionId });
-
-    console.log("sessionId: ", sessionId);
-    console.log("session: ", session);
-    if (session) {
-      // พบ session ในฐานข้อมูล
-      const sessionData = JSON.parse(session.session);
-      const user = sessionData.userId;
-
-      res.status(200).json({ user });
-    } else {
-      // ไม่พบ session ในฐานข้อมูล
-      res.status(404).json({ message: "Session not found" });
-    }
+    const user = req.session.userId; // Access session data directly without await
+    console.log("req.session: ",req.session);
+    console.log("req.session.userId: ",req.session.userId);
+    res.status(200).json({user});
   } catch (err) {
     console.error(err);
-    return next(err); // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
+    return next(err); // Pass the error to the next middleware
   }
-
 });
 
 // Filter the authenticated user role

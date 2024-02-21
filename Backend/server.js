@@ -28,7 +28,7 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: true,
-      secure: false,
+      secure: true,
       maxAge: parseInt(process.env.EXPIRE_TIME),
     },
     rolling: true,

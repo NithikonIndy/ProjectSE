@@ -59,6 +59,7 @@ const getSession = asyncHandler(async (req, res, next) => {
     return next(err); // Pass the error to the next middleware
   }
   
+  console.log(user);
   res.status(200).json({ user });
 });
 

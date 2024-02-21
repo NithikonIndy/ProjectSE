@@ -10,7 +10,6 @@ import User from "../models/userModel.js";
 
 const OAuthCallback = asyncHandler(async (req, res, next) => {
   const code = req.query.code;
-  console.log(code);
   const access_token = await getOAuthAccessToken(code);
   const user = await getCMUBasicInfo(access_token);
 

@@ -58,8 +58,8 @@ const getSession = asyncHandler(async (req, res, next) => {
     console.error(err);
     return next(err); // Pass the error to the next middleware
   }
-  
-  console.log(user);
+  console.log(req.session);
+  console.log(req.session.userId);
   res.status(200).json({ user });
 });
 

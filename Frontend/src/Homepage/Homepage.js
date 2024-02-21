@@ -43,9 +43,10 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/Userid", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
         withCredentials: true,
       });
+      console.log(response);
         if (!response.data.user) {
           navigate("/");
         } else {
@@ -59,7 +60,7 @@ const Homepage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
+      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/session",{ withCredentials: true });
         setUserRole(role);
         //console.log("This session user role:" ,role);
         //console.log(userRole);
@@ -70,7 +71,7 @@ const Homepage = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/blog");
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
  
       handleAccountBlogs(reversedBlogs);
@@ -84,7 +85,7 @@ const Homepage = () => {
   const handleAccountBlogs = async (blogs) => {
     try {
       const emailPromises = blogs.map(async (blog) => {
-        const { data: email } = await axios.get(`http://localhost:3000/api/blog/blogsListAccounts/${blog.user}`);
+        const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/blog/blogsListAccounts/${blog.user}`);
         return email.email;
       });
 
@@ -142,7 +143,7 @@ const Homepage = () => {
     console.log(blogid);
     try {
       const { data: fetchReasons } = await axios.get(
-        "http://localhost:3000/reportReasons"
+        "https://backend-b1ep.onrender.com/reportReasons"
       );
       console.log(fetchReasons);
 
@@ -171,7 +172,7 @@ const Homepage = () => {
             try {
               const reason = fetchReasons[reasons];
               await axios.post(
-                `http://localhost:3000/api/blog/${blogid}/report`,
+                `https://backend-b1ep.onrender.com/api/blog/${blogid}/report`,
                 { reason },
                 { withCredentials: true }
               );
@@ -206,7 +207,7 @@ const Homepage = () => {
 
   const handlePostBlog = async () => {
     await axios
-      .post(`http://localhost:3000/api/blog/add`, {
+      .post(`https://backend-b1ep.onrender.com/api/blog/add`, {
         user: users[0],
         description: blogText,
       }).then(() => {
@@ -221,7 +222,7 @@ const Homepage = () => {
   const handleLikeBlog = async (blogId) => {
     let temp = blogId;
     if (temp) {
-      const text = `http://localhost:3000/api/blog/${temp}/like`;
+      const text = `https://backend-b1ep.onrender.com/api/blog/${temp}/like`;
 
       try {
         const response = await axios.put(text, {
@@ -237,7 +238,7 @@ const Homepage = () => {
   };
 
   const handleEditBlog = (blogId, editedText) => {
-    const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
+    const apiurl = `https://backend-b1ep.onrender.com/api/blog/update/${blogId}`;
     axios
       .put(apiurl, {
         user: users[0],
@@ -255,7 +256,7 @@ const Homepage = () => {
   };
 
   const handleDeleteBlog = (blogId) => {
-    const apiurl = `http://localhost:3000/api/blog/${blogId}`;
+    const apiurl = `https://backend-b1ep.onrender.com/api/blog/${blogId}`;
     axios
       .delete(apiurl)
       .then((response) => {

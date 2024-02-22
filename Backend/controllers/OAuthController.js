@@ -7,7 +7,7 @@ import User from "../models/userModel.js";
 
 const getOAuthSessions = asyncHandler((async(req, res, next) => {
   try {
-    const user = req.sessionID.findOne({userId: req.session.userId});
+    const user = req.session.userId;
     console.log("req.session: ",req.session);
     console.log("User ID from session:", user);
     res.status(200).json({user});
@@ -59,6 +59,7 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
         //! Save to the database
         req.session.save();
         console.log("req.session: ",req.session);
+        console.log("req.session.cookie: ",req.session.cookie);
         
         console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
       }
@@ -84,6 +85,7 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
         //! Save to the database
         req.session.save();
         console.log("req.session: ",req.session);
+        console.log("req.session.cookie: ",req.session.cookie);
 
         console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
       }

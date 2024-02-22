@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,8 +48,8 @@ const Homepage = () => {
       });
       console.log("log: " ,response.data);
       console.log("log: " ,response.data.user);
-        if (!response.data.user) {
-          FetchLogOut();
+        if (response.data.user === undefined || response.data.user === null) {
+          redirect("https://backend-b1ep.onrender.com/logout")
         } else {
           setUsers([response.data.user]);
           fetchUserRole();
@@ -58,17 +58,6 @@ const Homepage = () => {
         console.error("Error fetching user session:", error);
     }
   };  
-
-  const FetchLogOut = async () => { 
-    try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/logout");
-      if(response.statusCode === 200) {
-        console.log("navigate to logout");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const fetchUserRole = async () => {
     try {

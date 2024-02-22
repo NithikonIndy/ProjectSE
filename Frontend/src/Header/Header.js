@@ -14,8 +14,8 @@ import axios from "axios";
 const Header = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [Blogs, SetBlogs] = useState([]);
-  const [Reports,SetReports] = useState([]);
-  const [show,Setshow] = useState([]);
+  const [Reports, SetReports] = useState([]);
+  const [show, Setshow] = useState([]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -23,24 +23,24 @@ const Header = () => {
 
   const handlefetchreport = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/returnreportReasons", {
+      const response = await axios.get("http://localhost:3000/returnreportReasons", {
       });
-      const reverseReport=response.data.reverse();
-        if (!reverseReport) {
-            console.log("Not found");
-        } else {
-          SetReports(reverseReport);
-        }
-      } catch (error) {
-        console.error("Error fetching user session:", error);
+      const reverseReport = response.data.reverse();
+      if (!reverseReport) {
+        console.log("Not found");
+      } else {
+        SetReports(reverseReport);
+      }
+    } catch (error) {
+      console.error("Error fetching user session:", error);
     }
-  };  
+  };
 
   const showreportblogBlogs = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
+      const response = await axios.get("http://localhost:3000/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
-      
+
 
       SetBlogs(reversedBlogs);
       //console.log("Blogs:", reversedBlogs);
@@ -52,16 +52,14 @@ const Header = () => {
   const checkID = () => {
     handlefetchreport();
     showreportblogBlogs();
-    // let lenofreport = Reports.length();
-    // let lenofblog = Blogs.length();
     Blogs.forEach(blog => {
       Reports.forEach(report => {
-        if(blog._id==report.postId){
+        if (blog._id == report.postId) {
           Setshow(blog);
         }
       });
     });
-  
+
 
   }
 
@@ -69,7 +67,6 @@ const Header = () => {
   const handleDropdownClick = () => {
     toggleDropdown();
     checkID();
-   
   };
 
   return (
@@ -84,28 +81,27 @@ const Header = () => {
       </div>
 
       <div className="container-icons">
-         
-         
+
         {/* Dropdown component */}
         <div className={`dropdown ${isDropdownOpen ? "show" : ""}`}>
           <button onClick={handleDropdownClick} className="dropbtn">
             {/* Bell icon */}
-          <FontAwesomeIcon icon={faBell} alt="notify-icon" />
+            <FontAwesomeIcon icon={faBell} alt="notify-icon" />
           </button>
           <div id="myDropdown" className="dropdown-content">
-          <a> test</a>
-          <a> test</a>
-          <a> test</a>
-          <a> test</a>
-          <a> test</a>
-          <a> test</a>
-          <a> test</a>
-          <a> test</a>
-           
+            {Array.isArray(show) && show.length > 0 ? (
+              show.map((showblog, index) => (
+                <p key={index}>{show[index]}</p>
+              ))
+            ) : (
+              <p>No notifications</p>
+            )}
           </div>
         </div>
 
-       
+
+
+
 
         {/* Home icon */}
         <Link to="/home">

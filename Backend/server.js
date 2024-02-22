@@ -25,12 +25,13 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    // cookie: {
-    //   path: '/',
-    //   httpOnly: false,
-    //   secure: true,
-    //   maxAge: parseInt(process.env.EXPIRE_TIME),
-    // },
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      secure: true,
+      maxAge: parseInt(process.env.EXPIRE_TIME),
+      sameSite: 'strict',
+    },
     rolling: true,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,

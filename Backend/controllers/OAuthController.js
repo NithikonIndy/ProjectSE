@@ -126,8 +126,7 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
     throw new Error(`Invalid authorization code ${code}`);
   }
 
-  res.status(200).json({ userId: req.session.userId });
-  //res.redirect(process.env.REDIRECT_URL_TO_HOMEPAGE);
+  res.status(200).json({ userId: req.session.userId, redirectUrl: process.env.REDIRECT_URL_TO_HOMEPAGE });  //res.redirect(process.env.REDIRECT_URL_TO_HOMEPAGE);
 });
 
 export { OAuthCallback, getOAuthSessions };

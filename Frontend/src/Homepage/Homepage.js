@@ -48,8 +48,11 @@ const Homepage = () => {
       });
       console.log("log: " ,response.data);
       console.log("log: " ,response.data.user);
-        if (response.data.user === undefined || response.data.user === null) {
-          redirect("https://backend-b1ep.onrender.com/logout")
+        if (!response.data.user || response.data.user === undefined) {
+          // navigate("https://backend-b1ep.onrender.com/logout")
+          await axios.post("https://backend-b1ep.onrender.com/deleteSession", {withCredentials: true});
+          console.log("await axios");
+          navigate("/");
         } else {
           setUsers([response.data.user]);
           fetchUserRole();

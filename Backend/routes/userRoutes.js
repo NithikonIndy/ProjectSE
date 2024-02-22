@@ -10,6 +10,7 @@ import {
   signIn,
   getReportReasons,
   ReportReasons,
+  deleteSession,
 
 } from "../controllers/userController.js";
 import { getAuthenticatedUser, getAuthenticatedAdmin, getSession, isAuthenticated } from "../middleware/authMiddleware.js";
@@ -41,6 +42,7 @@ router
   //.get(getAuthenticatedUser, profile)
   .get(getAuthenticatedUser, getUserProfile);
 router.get("/logout", logout);
+router.post("/deleteSession", deleteSession);
 router.get("/signIn", signIn);
 router.get("/test",getUserProfile);
 router.get("/Userid",getSession);

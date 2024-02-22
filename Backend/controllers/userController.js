@@ -19,7 +19,7 @@ const logout = asyncHandler(async (req, res, next) => {
     }
   });
 
-  res.redirect("/");
+  res.redirect("http://localhost:5000/");
 });
 
 // @description Get user profile

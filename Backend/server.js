@@ -27,8 +27,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       path: '/',
-      httpOnly: true,
-      secure: true,
+      httpOnly: false,
+      secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
       sameSite: 'strict',
     },

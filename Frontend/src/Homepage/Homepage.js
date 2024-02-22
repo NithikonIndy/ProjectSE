@@ -49,7 +49,7 @@ const Homepage = () => {
       console.log("log: " ,response.data);
       console.log("log: " ,response.data.user);
         if (!response.data.user) {
-          navigate("/");
+          FetchLogOut();
         } else {
           setUsers([response.data.user]);
           fetchUserRole();
@@ -58,6 +58,17 @@ const Homepage = () => {
         console.error("Error fetching user session:", error);
     }
   };  
+
+  const FetchLogOut = async () => { 
+    try {
+      const response = await axios.get("https://backend-b1ep.onrender.com/logout");
+      if(response.statusCode === 200) {
+        console.log("navigate to logout");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchUserRole = async () => {
     try {

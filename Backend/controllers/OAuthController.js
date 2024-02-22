@@ -55,8 +55,11 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
       if(req.session.userId !== existingUser._id){
         console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
         req.session.userId = existingUser._id;
+
         //! Save to the database
         req.session.save();
+        console.log("req.session: ",req.session);
+        
         console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
       }
       
@@ -77,8 +80,11 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
       if(req.session.userId !== newUser._id){
         console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
         req.session.userId = newUser._id;
+
         //! Save to the database
         req.session.save();
+        console.log("req.session: ",req.session);
+
         console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
       }
 

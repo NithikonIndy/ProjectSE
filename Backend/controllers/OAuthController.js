@@ -4,6 +4,18 @@ import { getOAuthAccessToken, getCMUBasicInfo } from "../OAuthFunct.js";
 import session, { Session } from "express-session";
 import User from "../models/userModel.js";
 
+
+const getOAuthSessions = asyncHandler(asyncHandler(async(req, res, next) => {
+  try {
+    const user = await req.session.userId;
+    console.log("User ID from session:", user);
+    res.status(200).json({user});
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+}));
+
 // @description GET user info from func OAuthCallback
 // @route GET /api/cmuOAuthCallback
 // @access private
@@ -103,4 +115,4 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
   res.redirect(process.env.REDIRECT_URL_TO_HOMEPAGE);
 });
 
-export { OAuthCallback };
+export { OAuthCallback, getOAuthSessions };

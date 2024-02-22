@@ -14,13 +14,14 @@ import {
 
 } from "../controllers/userController.js";
 import { getAuthenticatedUser, getAuthenticatedAdmin, getSession, isAuthenticated } from "../middleware/authMiddleware.js";
-import { OAuthCallback } from "../controllers/OAuthController.js";
+import { OAuthCallback, getOAuthSessions } from "../controllers/OAuthController.js";
 import { getAllBlog } from "../controllers/blog-controller.js";
 
 const router = express.Router();
 
 //! completely route path
 router.get("/cmuOAuthCallback", OAuthCallback);
+router.get("/getSession", getOAuthSessions);
 
 router.route("/session").get(isAuthenticated);
 router.route("/reportReasons").get(getReportReasons);

@@ -7,7 +7,8 @@ import User from "../models/userModel.js";
 
 const getOAuthSessions = asyncHandler((async(req, res, next) => {
   try {
-    const user = req.session.userId;
+    const user = req.session.cookie.userId;
+    //const user = req.session.userId;
     console.log("req.session: ",req.session);
     console.log("User ID from session:", user);
     res.status(200).json({user});
@@ -58,7 +59,7 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
 
         req.session.cookie.userId = existingUser._id;
         //! Save to the database
-        req.session.save();
+        req.sessionStore.save(req.session);
         console.log("req.session: ",req.session);
         console.log("req.session.cookie: ",req.session.cookie);
         console.log("req.session.cookie.userId: ",req.session.cookie.userId);
@@ -86,7 +87,7 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
 
         req.session.cookie.userId = newUser._id;
         //! Save to the database
-        req.session.save();
+        req.sessionStore.save(req.session);
         console.log("req.session: ",req.session);
         console.log("req.session.cookie: ",req.session.cookie);
         console.log("req.session.cookie.userId: ",req.session.cookie.userId);

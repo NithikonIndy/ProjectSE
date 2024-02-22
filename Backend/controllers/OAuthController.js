@@ -5,9 +5,9 @@ import session, { Session } from "express-session";
 import User from "../models/userModel.js";
 
 
-const getOAuthSessions = asyncHandler(asyncHandler(async(req, res, next) => {
+const getOAuthSessions = asyncHandler((async(req, res, next) => {
   try {
-    const user = await req.session.userId;
+    const user = req.session.userId;
     console.log("req.session: ",req.session);
     console.log("User ID from session:", user);
     res.status(200).json({user});

@@ -15,7 +15,7 @@ const logout = asyncHandler(async (req, res, next) => {
     if(error){
       next(error);
     }else{
-      console.log("Session was destroyed");
+      console.log("Session was destroyed" , req.session);
     }
   });
 

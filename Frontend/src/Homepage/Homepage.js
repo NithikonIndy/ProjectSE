@@ -39,7 +39,8 @@ const Homepage = () => {
       });
       console.log("log: " ,response.data);
       console.log("log: " ,response.data.user);
-        if (!response.data) {
+        if (!response.data.user) {
+          fetchLogOut();
           navigate("/");
         } else {
           setUsers([response.data.user]);
@@ -49,6 +50,17 @@ const Homepage = () => {
         console.error("Error fetching user session:", error);
     }
   };  
+
+  const fetchLogOut = async () => {
+    try {
+      const response = await axios.get("https://backend-b1ep.onrender.com/deleteSession", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchUserRole = async () => {
     try {

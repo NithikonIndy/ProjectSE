@@ -3,19 +3,39 @@ import { getOAuthAccessToken, getCMUBasicInfo } from "../OAuthFunct.js";
 import session from "express-session";
 import User from "../models/userModel.js";
 
-const getOAuthSessions = asyncHandler((async(req, res, next) => {
+// const getOAuthSessions = asyncHandler((async(req, res, next) => {
+//   try {
+//     const user = req.session.userId;
+//     //const user = req.session.userId;
+//     console.log("req.session from getOAuthSessions: ",req.session);
+//     console.log("req.sessionID from getOAuthSessions: ",req.sessionID);
+//     console.log("User ID from session: from getOAuthSessions", user);
+//     res.status(200).json({user});
+//   } catch (error) {
+//     console.log(error);
+//     return next(error);
+//   }
+// }));
+
+const getOAuthSessions = asyncHandler((async (req, res, next) => {
   try {
-    const user = req.session.userId;
-    //const user = req.session.userId;
-    console.log("req.session from getOAuthSessions: ",req.session);
-    console.log("req.sessionID from getOAuthSessions: ",req.sessionID);
-    console.log("User ID from session: from getOAuthSessions", user);
-    res.status(200).json({user});
+    if (req.session && req.session.userId) {
+      const user = await User.findById(req.session.userId);
+      if (user) {
+        res.status(200).json({ user });
+      } else {
+        console.error("User ID in session not found in database");
+      }
+    } else {
+      // Handle case where no session or userId exists
+      console.error("No session or userId found");
+    }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return next(error);
   }
 }));
+
 
 // @description GET user info from func OAuthCallback
 // @route GET /api/cmuOAuthCallback

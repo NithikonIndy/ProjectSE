@@ -31,6 +31,7 @@ const deleteSession = asyncHandler(async (req, res, next) => {
       console.log("Session was destroyed");
     }
   });
+  req.session.save();
   res.status(200).json({message: "Session was destroyed"});
 });
 

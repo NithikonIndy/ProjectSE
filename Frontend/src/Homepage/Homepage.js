@@ -40,8 +40,9 @@ const Homepage = () => {
       console.log("log: " ,response.data);
       console.log("log: " ,response.data.user);
         if (!response.data.user) {
-          fetchLogOut();
-          navigate("/");
+          console.log("!response.data.user");
+          // fetchLogOut();
+          // navigate("/");
         } else {
           setUsers([response.data.user]);
           fetchUserRole();

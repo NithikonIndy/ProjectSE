@@ -2,7 +2,6 @@ import React from 'react';
 import Header from "./Header.js";
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
-import back from "./picture/bgpicture.jpg";
 
 const LoginPage = () => {
   return (

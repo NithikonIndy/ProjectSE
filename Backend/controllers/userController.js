@@ -22,6 +22,18 @@ const logout = asyncHandler(async (req, res, next) => {
   res.redirect("/signIn");
 });
 
+const deleteSession = asyncHandler(async (req, res, next) => {
+  // destroy cookies 
+  req.session.destroy(error => {
+    if(error){
+      next(error);
+    }else{
+      console.log("Session was destroyed");
+    }
+  });
+  res.status(200).json({message: "Session was destroyed"});
+});
+
 // @description Get user profile
 // @route GET /profile
 // @access private
@@ -133,4 +145,5 @@ export {
   signIn,
   getReportReasons,
   ReportReasons,
+  deleteSession,
 };

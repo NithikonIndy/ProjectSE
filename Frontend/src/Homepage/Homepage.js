@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -43,12 +43,15 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/cmuOAuthCallback/getSession", {
         withCredentials: true,
       });
       console.log("log: " ,response.data);
       console.log("log: " ,response.data.user);
-        if (!response.data.user) {
+        if (!response.data.user || response.data.user === undefined) {
+          // navigate("https://backend-b1ep.onrender.com/logout")
+          await axios.post("https://backend-b1ep.onrender.com/deleteSession", {withCredentials: true});
+          console.log("await axios");
           navigate("/");
         } else {
           setUsers([response.data.user]);

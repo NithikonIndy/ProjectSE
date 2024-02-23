@@ -4,6 +4,21 @@ import { getOAuthAccessToken, getCMUBasicInfo } from "../OAuthFunct.js";
 import session, { Session } from "express-session";
 import User from "../models/userModel.js";
 
+
+const getOAuthSessions = asyncHandler((async(req, res, next) => {
+  try {
+    const user = req.session.userId;
+    //const user = req.session.userId;
+    console.log("req.session from getOAuthSessions: ",req.session);
+    console.log("req.sessionID from getOAuthSessions: ",req.sessionID);
+    console.log("User ID from session: from getOAuthSessions", user);
+    res.status(200).json({user});
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+}));
+
 // @description GET user info from func OAuthCallback
 // @route GET /api/cmuOAuthCallback
 // @access private
@@ -42,6 +57,13 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
       if(req.session.userId !== existingUser._id){
         console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
         req.session.userId = existingUser._id;
+
+        //! Save to the database
+        req.session.save();
+        console.log("req.session: ",req.session);
+        console.log("req.sessionID: ",req.sessionID);
+        //console.log("req.session.cookie: ",req.session.cookie);
+        
         console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
       }
       
@@ -62,6 +84,13 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
       if(req.session.userId !== newUser._id){
         console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
         req.session.userId = newUser._id;
+
+        //! Save to the database
+        req.session.save();
+        console.log("req.session: ",req.session);
+        console.log("req.sessionID: ",req.sessionID);
+        //console.log("req.session.cookie: ",req.session.cookie);
+
         console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
       }
 
@@ -100,7 +129,8 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
     throw new Error(`Invalid authorization code ${code}`);
   }
 
+  //res.status(200).json({ userId: req.session.userId });
   res.redirect(process.env.REDIRECT_URL_TO_HOMEPAGE);
 });
 
-export { OAuthCallback };
+export { OAuthCallback, getOAuthSessions };

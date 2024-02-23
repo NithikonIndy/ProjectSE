@@ -28,8 +28,10 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: false,
-      //secure: true,
+      secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
+      sameSite: 'strict',
+      domain:'https://backend-b1ep.onrender.com',
     },
     rolling: true,
     store: MongoStore.create({

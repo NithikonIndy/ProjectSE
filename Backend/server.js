@@ -47,7 +47,8 @@ app.use(cors({
 // pull sessionuserid
 app.get("/get-session", (req, res) => {
   const mySession = req.session.userId;
-  res.send(`Session value: ${mySession}`);
+  //res.send(`Session value: ${mySession}`);
+  res.status(200).json({mySession});
 });
 
 app.use("/", userRoutes);

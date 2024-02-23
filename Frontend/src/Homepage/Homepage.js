@@ -34,7 +34,7 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/cmuOAuthCallback/getSession", {
         withCredentials: true,
       });
       console.log("log: " ,response.data);

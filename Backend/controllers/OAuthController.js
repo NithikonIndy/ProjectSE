@@ -2,26 +2,6 @@ import asyncHandler from "express-async-handler";
 import { getOAuthAccessToken, getCMUBasicInfo } from "../OAuthFunct.js";
 import session from "express-session";
 import User from "../models/userModel.js";
-import express from 'express';
-
-const app = express();
-
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      path: '/',
-      httpOnly: false,
-      secure: false,
-      maxAge: parseInt(process.env.EXPIRE_TIME),
-      sameSite: 'strict',
-    },
-    rolling: true,
-    mongoUrl: process.env.MONGO_URL,
-  })
-);
 
 const getOAuthSessions = asyncHandler((async(req, res, next) => {
   try {

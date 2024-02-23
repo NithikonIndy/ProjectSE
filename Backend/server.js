@@ -27,9 +27,10 @@ app.use(
     saveUninitialized: false,
     cookie: {
       path: '/',
-      httpOnly: true,
+      httpOnly: false,
       secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
+      sameSite: 'strict',
     },
     rolling: true,
     store: MongoStore.create({
@@ -38,27 +39,20 @@ app.use(
   })
 );
 app.use(cors({
-  origin: 'http://localhost:5000',
+  origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
   credentials: true,
-  withCredentials: true,
 }));
-
 
 // pull sessionuserid
 app.get("/get-session", (req, res) => {
   const mySession = req.session.userId;
-  res.send(`Session value: ${mySession}`);
+  //res.send(`Session value: ${mySession}`);
+  res.status(200).json({mySession});
 });
-
-
-// Disable the "x-powered-by" header
-app.disable('x-powered-by');
-
 
 app.use("/", userRoutes);
 app.use("/api/blog", blogRouter);
 app.use("/api/comments", commentRouter);
-
 
 app.use(notfound);
 app.use(errorHandler);

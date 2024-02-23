@@ -34,7 +34,7 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/get-session", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
         withCredentials: true,
       });
       console.log("log: " ,response.data);

@@ -2,8 +2,6 @@ import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import session from "express-session";
 
-const test =req.getSession;
-
 const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
   const authenticatedUser = await req.session.userId;
   // log authenticated user id in session

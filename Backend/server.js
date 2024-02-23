@@ -14,7 +14,7 @@ dotenv.config();
 
 const port = process.env.PORT || 3000;
 const app = express();
-app.set('trust proxy', 1);
+// app.set('trust proxy', 1);
 
 connectDB();
 app.use(express.json());
@@ -25,7 +25,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       path: '/',
       httpOnly: false,

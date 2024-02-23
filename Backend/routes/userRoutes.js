@@ -13,7 +13,7 @@ import {
   deleteSession,
 
 } from "../controllers/userController.js";
-import { getAuthenticatedUser, getAuthenticatedAdmin, getSession, isAuthenticated } from "../middleware/authMiddleware.js";
+import {getUserID, getAuthenticatedUser, getAuthenticatedAdmin, getSession, isAuthenticated } from "../middleware/authMiddleware.js";
 import { OAuthCallback, getOAuthSessions } from "../controllers/OAuthController.js";
 import { getAllBlog } from "../controllers/blog-controller.js";
 
@@ -48,6 +48,7 @@ router.post("/deleteSession", deleteSession);
 router.get("/signIn", signIn);
 router.get("/test",getUserProfile);
 router.get("/Userid",getSession);
+router.get("/getuserid",getUserID);
 
 
 export default router;

@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
+import thissession from "express-session";
 import session from "express-session";
 
 const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
@@ -93,4 +94,9 @@ const isAuthenticated = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { getSession, getAuthenticatedUser, getAuthenticatedAdmin, isAuthenticated};
+const getUserID = async(req,res,next) => {
+  const authenticatedUser = await req.thissession;
+  console.log(authenticatedUser);
+}
+
+export { getUserID,getSession, getAuthenticatedUser, getAuthenticatedAdmin, isAuthenticated};

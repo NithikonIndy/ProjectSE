@@ -9,8 +9,9 @@ const getOAuthSessions = asyncHandler((async(req, res, next) => {
   try {
     const user = req.session.userId;
     //const user = req.session.userId;
-    console.log("req.session: ",req.session);
-    console.log("User ID from session:", user);
+    console.log("req.session from getOAuthSessions: ",req.session);
+    console.log("req.sessionID from getOAuthSessions: ",req.sessionID);
+    console.log("User ID from session: from getOAuthSessions", user);
     res.status(200).json({user});
   } catch (error) {
     console.log(error);
@@ -60,7 +61,8 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
         //! Save to the database
         req.session.save();
         console.log("req.session: ",req.session);
-        console.log("req.session.cookie: ",req.session.cookie);
+        console.log("req.sessionID: ",req.sessionID);
+        //console.log("req.session.cookie: ",req.session.cookie);
         
         console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);
       }
@@ -86,7 +88,8 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
         //! Save to the database
         req.session.save();
         console.log("req.session: ",req.session);
-        console.log("req.session.cookie: ",req.session.cookie);
+        console.log("req.sessionID: ",req.sessionID);
+        //console.log("req.session.cookie: ",req.session.cookie);
 
         console.log(`AFTER SET SESSION OF USER ID: ${req.session.userId} -> ${newUser._id}`);
       }

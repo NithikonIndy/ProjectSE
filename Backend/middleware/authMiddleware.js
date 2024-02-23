@@ -53,7 +53,7 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 
 const getSession = asyncHandler(async (req, res, next) => {
   try {
-    const user = req.session.userId; // Access session data directly without await
+    const user = await req.session; // Access session data directly without await
     console.log("req.session: ",req.session);
     console.log("req.session.userId: ",req.session.userId);
     res.status(200).json({user});

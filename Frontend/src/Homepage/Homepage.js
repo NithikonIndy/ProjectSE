@@ -21,18 +21,9 @@ const generateRandomNameForUserId = (userId, blogId) => {
 
 const Homepage = () => {
   const [blogText, setBlogText] = useState("");
-  //const [blogs, setBlogs] = useState([]);
-  //const [blogLikes, setBlogLikes] = useState({});
-  //const [postMessage, setPostMessage] = useState("");
   const navigate = useNavigate();
-  //const [editMode, setEditMode] = useState(false);
-  //const [editedBlogId, setEditedBlogId] = useState(null);
   const [users, setUsers] = useState([]);
   const [Blogs, SetBlogs] = useState([]);
-  //const [likespost, setLikespost] = useState([]);
-  //const [clickedBlogId, setClickedBlogId] = useState([]);
-  //const [blogdelete, setblogdelete] = useState([]);
-  //const [Edit, setEdit] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [blogsAccount, setBlogsAccount] = useState([]);
 
@@ -43,15 +34,12 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/cmuOAuthCallback/getSession", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
         withCredentials: true,
       });
       console.log("log: " ,response.data);
       console.log("log: " ,response.data.user);
-        if (!response.data.user || response.data.user === undefined) {
-          // navigate("https://backend-b1ep.onrender.com/logout")
-          await axios.post("https://backend-b1ep.onrender.com/deleteSession", {withCredentials: true});
-          console.log("await axios");
+        if (!response.data) {
           navigate("/");
         } else {
           setUsers([response.data.user]);

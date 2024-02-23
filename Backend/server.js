@@ -31,7 +31,7 @@ app.use(
       secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
       sameSite: 'strict',
-      domain:'https://backend-b1ep.onrender.com',
+      domain:'http://localhost:5000',
     },
     rolling: true,
     store: MongoStore.create({

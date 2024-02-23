@@ -21,6 +21,7 @@ const router = express.Router();
 
 //! completely route path
 router.get("/cmuOAuthCallback", OAuthCallback);
+router.get("/cmuOAuthCallback/getSession", getOAuthSessions);
 router.get("/getSession", getOAuthSessions);
 
 router.route("/session").get(isAuthenticated);

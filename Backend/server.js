@@ -31,7 +31,6 @@ app.use(
       secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
       sameSite: 'strict',
-      domain:'localhost:5000',
     },
     rolling: true,
     store: MongoStore.create({

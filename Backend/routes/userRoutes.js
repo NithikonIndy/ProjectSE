@@ -20,7 +20,7 @@ import { getAllBlog } from "../controllers/blog-controller.js";
 const router = express.Router();
 
 //! completely route path
-router.get("/cmuOAuthCallback", OAuthCallback);
+router.post("/cmuOAuthCallback", OAuthCallback);
 router.get("/cmuOAuthCallback/getSession", getOAuthSessions);
 router.get("/getSession", getOAuthSessions);
 

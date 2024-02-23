@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import { getOAuthAccessToken, getCMUBasicInfo } from "../OAuthFunct.js";
 import session from "express-session";
 import User from "../models/userModel.js";
+import express from 'express';
 
 const app = express();
 

@@ -1,3 +1,44 @@
-div.a {
-  text-align: center;
+/* ProfilePage.css */
+
+/* Adjust layout for smaller screens */
+@media (max-width: 768px) {
+  .ant-card {
+    width: 100%;
+    margin-bottom: 15px; /* Adjust spacing as needed */
+  }
+
+  .ant-card-cover img {
+    height: 150px; /* Adjust image height as needed */
+  }
+}
+
+.ant-card {
+  border-radius: 24px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  background-color: #f5f5f5;
+}
+
+.ant-avatar {
+  border: 2px solid #fff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.ant-typography-title {
+  font-size: 24px;
+}
+
+.ant-typography-text {
+  color: #777;
+}
+
+.ant-btn {
+  border-radius: 8px;
+}
+
+.ant-row {
+  margin-top: 24px;
+}
+
+.button-css {
+  border-radius: 0; /* Set border radius to 0 */
 }

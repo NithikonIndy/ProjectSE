@@ -1,6 +1,5 @@
 /* Ensure the header and search bar are properly aligned and responsive */
 .header {
-  display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0;
@@ -47,10 +46,9 @@
 }
 
 .container-icons {
-  display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px 0 20px;
+  padding: 0 10px 0 10px;
   gap: 20px;
 }
 

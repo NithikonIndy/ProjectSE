@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import { getOAuthAccessToken, getCMUBasicInfo } from "../OAuthFunct.js";
-import session from "express-session";
 import User from "../models/userModel.js";
 
 // const getOAuthSessions = asyncHandler((async(req, res, next) => {
@@ -187,6 +186,7 @@ const OAuthCallback = asyncHandler(async (req, res, next) => {
       existingUser = newUser;
     }
 
+    console.log("req.session: " ,req.session);
     // Check if user session is already set
     if (req.session.userId !== existingUser._id) {
       console.log(`BEFORE SET SESSION OF USER ID: ${req.session.userId} -> ${existingUser._id}`);

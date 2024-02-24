@@ -2,13 +2,14 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js";
-import { notfound, errorHandler } from "./middleware/errorMiddleware.js";
+import MongoStore from "connect-mongo";
 import session from "express-session";
+import cors from 'cors';
+import userRoutes from "./routes/userRoutes.js";
 import blogRouter from "./routes/blog-routes.js";
 import commentRouter from "./routes/comment-routes.js";
-import MongoStore from "connect-mongo";
-import cors from 'cors';
+import oauthRoutes from "./routes/oauthRoutes.js";
+import { notfound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 
@@ -39,24 +40,18 @@ app.use(
     }),
   })
 );
+
 app.use(cors({
   origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
   credentials: true,
 }));
 
-// pull sessionuserid
-app.get("/get-session", (req, res) => {
-  const mySession = req.session.userId;
-  //res.send(`Session value: ${mySession}`);
-  res.status(200).json({mySession});
-});
-
-app.use("/", userRoutes);
+app.use("/", oauthRoutes);
+app.use("/user", userRoutes);
 app.use("/api/blog", blogRouter);
 app.use("/api/comments", commentRouter);
 
 app.use(notfound);
 app.use(errorHandler);
 
-// app.get("/", (req, res) => res.send("Server is running"));
 app.listen(port, () => console.log(`server listening on ${port}`));

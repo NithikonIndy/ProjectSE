@@ -8,18 +8,19 @@ import Report from "../models/reportModel.js";
 // @access public
 const logout = asyncHandler(async (req, res, next) => {
   // log user go logout
-  console.log("user logged out page");
+  console.log("call logout");
+  console.log("req.sessionID" ,req.sessionID);
+  console.log("req.session.userId" ,req.session.userId);
 
   //! destroy cookies then redirect to sign in page page
   req.session.destroy(error => {
     if(error){
       next(error);
     }else{
-      console.log("Session was destroyed" , req.session);
+      console.log("Session was destroyed");
     }
   });
-
-  res.redirect("/signIn");
+  res.redirect("/user/signIn");
 });
 
 const deleteSession = asyncHandler(async (req, res, next) => {
@@ -94,19 +95,16 @@ const updateRole = asyncHandler(async (req, res, next) => {
 const home = asyncHandler(async (req, res, next) => {
   // log if user go to home page
   console.log("user go to home page");
-  res.send("Welcome to home page");
 });
 
 const dashboard = asyncHandler(async (req, res, next) => {
   // log if admin go to dashboard
   console.log("admin go to dashboard");
-  res.send("Welcome to dashboard");
 });
 
 const profile = asyncHandler(async (req, res, next) => {
   // log if user go to profile page
   console.log("user go to profile");
-  res.send("Welcome to profile page");
 });
 
 const signIn = asyncHandler(async (req, res, next) => {

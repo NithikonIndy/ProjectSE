@@ -20,29 +20,29 @@ import { getAllBlog } from "../controllers/blog-controller.js";
 const router = express.Router();
 
 //! completely route path
-router.get("/cmuOAuthCallback", OAuthCallback);
-router.get("/cmuOAuthCallback/getSession", getOAuthSessions);
-router.get("/getSession", getOAuthSessions);
-
+// router.get("/cmuOAuthCallback", OAuthCallback);
+// router.get("/cmuOAuthCallback/getSession", getOAuthSessions);
+// router.get("/getSession", getOAuthSessions);
 router.route("/session").get(isAuthenticated);
+
 router.route("/reportReasons").get(getReportReasons);
 router.route("/returnreportReasons").get(ReportReasons);
 
 //! implement in progress
-router
-  .route("/home")
-  .get(getAuthenticatedUser, getAllBlog);
-  //.get(getAuthenticatedUser, home);
-  //.get("/home", home);
+// router
+//   .route("/home")
+//   .get(getAuthenticatedUser, getAllBlog);
+
 router
   .route("/admin")
-  /*.get(getAuthenticatedAdmin, dashboard)*/
   .get(getAuthenticatedAdmin, getAllUsers)
   .patch(getAuthenticatedAdmin, updateRole)
+
 router
   .route("/profile")
   //.get(getAuthenticatedUser, profile)
   .get(getAuthenticatedUser, getUserProfile);
+
 router.get("/logout", logout);
 router.post("/deleteSession", deleteSession);
 router.get("/signIn", signIn);

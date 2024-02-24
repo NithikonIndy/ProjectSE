@@ -1,6 +1,5 @@
 import React from "react";
 import "./Header.css";
-import freebird from "./picture/freebird.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -34,7 +33,7 @@ const Header = () => (
         <FontAwesomeIcon icon={faUser} alt="profile-icon" />
       </Link>
 
-      <Link to="https://backend-b1ep.onrender.com/logout">
+      <Link to="https://backend-b1ep.onrender.com/user/logout">
         <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
       </Link>
     </div>

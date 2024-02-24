@@ -20,6 +20,14 @@ const MessageContainer = ({ message }) => (
   <div className="message-container">{message}</div>
 );
 
+
+
+
+
+
+
+
+
 const generateRandomNameForUserId = (userId, blogId) => {
   const seed = userId + blogId; // Use the user ID as the seed
   const config = {
@@ -272,6 +280,18 @@ const Homepage = () => {
     }
   };
 
+  const fetchTrendingBlogs = async () => {
+    try {
+        const response = await axios.get("http://localhost:3000/api/blog");
+        const sortedBlogs = response.data.blogs.sort((a, b) => b.likes.length - a.likes.length);
+        SetBlogs(sortedBlogs);
+    } catch (error) {
+        console.error("Error fetching trending blogs:", error);
+    }
+};
+
+
+
   useEffect(() => {
     fetchBlogs();
 
@@ -280,10 +300,24 @@ const Homepage = () => {
     }, 100);
   }, []);
 
+
+  const handleSortChange = (e) => {
+    const sortType = e.target.value;
+    if (sortType === "trending") {
+      fetchTrendingBlogs();
+    } else {
+      fetchBlogs();
+    }
+  };
   return (
     <div className="homepage">
       <Header />
-
+      <div class="sel sel--black-panther">
+      <select id="post-sort" className="trending-select"  onChange={handleSortChange}>
+      <option value="new">New</option>
+      <option value="trending">Trending</option>
+      </select>
+      </div>
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
           <textarea

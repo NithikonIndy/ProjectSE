@@ -20,12 +20,7 @@ import User from "../models/userModel.js";
 const getOAuthSessions = asyncHandler((async (req, res, next) => {
   try {
     if (req.session && req.session.userId) {
-      const user = await User.findById(req.session.userId);
-      if (user) {
-        res.status(200).json({ user });
-      } else {
-        console.error("User ID in session not found in database");
-      }
+        res.status(200).json({ user: req.session.userId });
     } else {
       // Handle case where no session or userId exists
       console.error("No session or userId found");

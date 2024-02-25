@@ -30,7 +30,7 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: false,
-      secure: true,
+      secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
       sameSite: 'lax',
     },
@@ -45,6 +45,7 @@ app.use(cors({
   origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
   credentials: true,
   allowedHeaders: 'set-cookie',
+  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
 }));
 
 app.use("/", oauthRoutes);

@@ -32,7 +32,7 @@ app.use(
       httpOnly: false,
       secure: true,
       maxAge: parseInt(process.env.EXPIRE_TIME),
-      sameSite: 'none',
+      sameSite: 'lax',
     },
     rolling: true,
     store: MongoStore.create({

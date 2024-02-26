@@ -44,7 +44,7 @@ app.use(
 app.use(cors({
   origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
   credentials: true,
-  allowedHeaders: 'set-cookie',
+  allowedHeaders: ['Content-Type', 'Authorization', 'set-cookie'],
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
   exposedHeaders: 'set-cookie',
 }));

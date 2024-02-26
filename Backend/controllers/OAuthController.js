@@ -23,6 +23,7 @@ const getOAuthSessions = asyncHandler((async (req, res, next) => {
     } else {
       // Handle case where no session or userId exists
       console.error("No session or userId found");
+      res.status(401).json({ message: req.session.userId });
     }
   } catch (error) {
     console.error(error);

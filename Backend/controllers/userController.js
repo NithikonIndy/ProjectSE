@@ -36,6 +36,13 @@ const deleteSession = asyncHandler(async (req, res, next) => {
   res.status(200).json({message: "Session was destroyed"});
 });
 
+const callSession = asyncHandler(async (req, res, next) => {
+  console.log("call callSession");
+  console.log("req.sessionID" ,req.sessionID);
+  console.log("req.session.userId" ,req.session.userId);
+  res.status(200).json({ user: req.session.userId });
+});
+
 // @description Get user profile
 // @route GET /profile
 // @access private
@@ -145,4 +152,5 @@ export {
   getReportReasons,
   ReportReasons,
   deleteSession,
+  callSession,
 };

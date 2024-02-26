@@ -11,7 +11,7 @@ import {
   getReportReasons,
   ReportReasons,
   deleteSession,
-
+  callSession,
 } from "../controllers/userController.js";
 import { getAuthenticatedUser, getAuthenticatedAdmin, getSession, isAuthenticated } from "../middleware/authMiddleware.js";
 import { OAuthCallback, getOAuthSessions } from "../controllers/OAuthController.js";
@@ -24,6 +24,7 @@ const router = express.Router();
 // router.get("/cmuOAuthCallback/getSession", getOAuthSessions);
 // router.get("/getSession", getOAuthSessions);
 router.route("/session").get(isAuthenticated);
+router.get("/callSession", callSession);
 
 router.route("/reportReasons").get(getReportReasons);
 router.route("/returnreportReasons").get(ReportReasons);

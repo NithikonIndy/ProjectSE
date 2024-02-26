@@ -46,6 +46,7 @@ app.use(cors({
   credentials: true,
   allowedHeaders: 'set-cookie',
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+  exposedHeaders: 'set-cookie',
 }));
 
 app.use("/", oauthRoutes);

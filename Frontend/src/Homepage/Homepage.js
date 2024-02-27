@@ -34,7 +34,7 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/cmuOAuthCallback/getSession", {
+      const response = await axios.get("http://localhost:3000/Userid", {
         withCredentials: true,
       });
         if (!response.data.user) {

@@ -44,13 +44,24 @@ app.use(
 app.use(cors({
   origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization', 'set-cookie'],
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-  exposedHeaders: 'set-cookie',
 }));
 
-app.use("/", oauthRoutes);
-app.use("/user", userRoutes);
+
+// pull sessionuserid
+app.get("/get-session", (req, res) => {
+  const mySession = req.session.userId;
+  res.send(`Session value: ${mySession}`);
+});
+
+
+
+
+
+
+
+
+
+app.use("/", userRoutes);
 app.use("/api/blog", blogRouter);
 app.use("/api/comments", commentRouter);
 

@@ -279,7 +279,6 @@ const Homepage = () => {
        <Header />
           <div className="homepage">
      
-          <h1>test{users}</h1>
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
           <textarea

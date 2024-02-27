@@ -19,7 +19,8 @@ const Header = () => {
   const [Show, Setshow] = useState([]);
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
-  const [seaechDescription,setSeaechDescription] = useState([]);
+  const [seaechDescription, setSeaechDescription] = useState([]);
+   const [highlightedDescription, setHighlightedDescription] = useState([]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -46,8 +47,8 @@ const Header = () => {
       const reversedBlogs = response.data.blogs.reverse();
       const SearchText = response.data.blogs.reverse();
       const vector = [];
-      
-      
+
+
       SearchText.forEach(item => {
         vector.push(item.description);
       });
@@ -89,22 +90,20 @@ const Header = () => {
 
   const Searchbar = (mainString, arrayToFind) => {
     const isFound = arrayToFind.some(description => description.includes(mainString));
-  
+
     if (isFound) {
       console.log(`${mainString} found in the descriptions.`);
     } else {
       console.log(`${mainString} not found in the descriptions.`);
     }
   };
-  
-  
+
+
+
   const handleSearch = () => {
-    
-    console.log('Search Text:', searchText);
-    console.log('String to Find:', seaechDescription);
     Searchbar(searchText, seaechDescription);
-  };
-  
+  }
+
 
 
   useEffect(() => {
@@ -127,8 +126,10 @@ const Header = () => {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch }>Search</button>
       </div>
+
+      
       <div className="container-icons">
 
         {/* Dropdown component */}

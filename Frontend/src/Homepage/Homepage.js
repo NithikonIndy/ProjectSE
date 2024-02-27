@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,18 +21,9 @@ const generateRandomNameForUserId = (userId, blogId) => {
 
 const Homepage = () => {
   const [blogText, setBlogText] = useState("");
-  //const [blogs, setBlogs] = useState([]);
-  //const [blogLikes, setBlogLikes] = useState({});
-  //const [postMessage, setPostMessage] = useState("");
   const navigate = useNavigate();
-  //const [editMode, setEditMode] = useState(false);
-  //const [editedBlogId, setEditedBlogId] = useState(null);
   const [users, setUsers] = useState([]);
   const [Blogs, SetBlogs] = useState([]);
-  //const [likespost, setLikespost] = useState([]);
-  //const [clickedBlogId, setClickedBlogId] = useState([]);
-  //const [blogdelete, setblogdelete] = useState([]);
-  //const [Edit, setEdit] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [blogsAccount, setBlogsAccount] = useState([]);
 
@@ -43,21 +34,34 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/cmuOAuthCallback/getSession", {
         withCredentials: true,
       });
-      console.log(response.data);
         if (!response.data.user) {
-          navigate("/");
+          console.log("!response.data.user");
+          // fetchLogOut();
+          // navigate("/");
         } else {
           setUsers([response.data.user]);
           fetchUserRole();
           
         }
+          console.log("This session user:", response.data.user);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
   };  
+
+  const fetchLogOut = async () => {
+    try {
+      const response = await axios.get("https://backend-b1ep.onrender.com/deleteSession", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchUserRole = async () => {
     try {
@@ -77,7 +81,7 @@ const Homepage = () => {
  
       handleAccountBlogs(reversedBlogs);
       SetBlogs(reversedBlogs);
-      //console.log("Blogs:", reversedBlogs);
+      console.log("Blogs:", reversedBlogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }

@@ -18,7 +18,7 @@ const ProfilePage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/Userid", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
         withCredentials: true,
       });
         if (!response.data.user) {
@@ -34,7 +34,7 @@ const ProfilePage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
+      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/session",{ withCredentials: true });
         setUserRole(role);
         //console.log("This session user role:" ,role);
         //console.log(userRole);

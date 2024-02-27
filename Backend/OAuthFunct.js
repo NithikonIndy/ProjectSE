@@ -2,6 +2,7 @@ import axios from "axios";
 
 
 async function getOAuthAccessToken(authorizationCode) {
+  console.log("authorizationCode from getOAuthAccessToken:", authorizationCode);
   try {
     const response = await axios.post(
       process.env.CMU_OAUTH_GET_TOKEN_URL,
@@ -19,6 +20,7 @@ async function getOAuthAccessToken(authorizationCode) {
         },
       }
     );
+    console.log("accessToken from getOAuthAccessToken:" ,response.data.access_token);
     console.log("Token : ",response.data.access_token);
     return response.data.access_token;
   } catch (error) {

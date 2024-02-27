@@ -58,7 +58,7 @@ const CommentPage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {withCredentials: true,});
+      const response = await axios.get("http://localhost:3000/Userid", {withCredentials: true,});
       if (!response.data.user) {
         navigate("/");
       } else {
@@ -74,7 +74,7 @@ const CommentPage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/session",{ withCredentials: true });
+      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
       setUserRole(role);
       //console.log(role);
       //console.log(userRole);
@@ -87,7 +87,7 @@ const CommentPage = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`https://backend-b1ep.onrender.com/api/comments/blogs/${blogIdforget}`);
+      const response = await axios.get(`http://localhost:3000/api/comments/blogs/${blogIdforget}`);
       //console.log(response.data.commentsList);
       //console.log(response.data.commentsList.length);
       const reverseCommentsList = response.data.commentsList.reverse();
@@ -101,7 +101,7 @@ const CommentPage = () => {
 
   const fetchBlog = async () => {
     try {
-      const response = await axios.get(`https://backend-b1ep.onrender.com/api/blog/${blogIdforget}`);
+      const response = await axios.get(`http://localhost:3000/api/blog/${blogIdforget}`);
       setBlog([response.data.blog]);
       handleAccountBlog(blogIdforget);
       fetchLikesPost();
@@ -114,7 +114,7 @@ const CommentPage = () => {
 
   const handleReportReasons = async() => {
     try {
-      const { data: fetchReasons } = await axios.get("https://backend-b1ep.onrender.com/reportReasons");
+      const { data: fetchReasons } = await axios.get("http://localhost:3000/reportReasons");
       console.log(fetchReasons);
       return fetchReasons;
     } catch (error) {
@@ -126,14 +126,14 @@ const CommentPage = () => {
     const reason = selectReason;
     console.log(`reason:`, reason);
     try {
-      await axios.post(`https://backend-b1ep.onrender.com/api/blog/${blogid}/report`, { reason }, { withCredentials: true });
+      await axios.post(`http://localhost:3000/api/blog/${blogid}/report`, { reason }, { withCredentials: true });
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleEditBlog = (blogId, editedText) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/blog/update/${blogId}`;
+    const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
     axios
       .put(apiurl, {
         user: users[0],
@@ -152,7 +152,7 @@ const CommentPage = () => {
 
   const handleAddComment = () => {
     axios
-      .post(`https://backend-b1ep.onrender.com/api/comments/blog/${blogIdforget}/add`, {
+      .post(`http://localhost:3000/api/comments/blog/${blogIdforget}/add`, {
         user: users[0],
         description: newComment,
       })
@@ -166,7 +166,7 @@ const CommentPage = () => {
   };
 
   const handleLikePost = async () => {
-    const apiUrl = `https://backend-b1ep.onrender.com/api/blog/${blogIdforget}/like`;
+    const apiUrl = `http://localhost:3000/api/blog/${blogIdforget}/like`;
     try {
       const response = await axios.put(apiUrl, { UserId : users[0] });
         if (response.data === "The post has been liked" || response.data === "The post has been disliked") {
@@ -180,7 +180,7 @@ const CommentPage = () => {
 
   const fetchLikesPost = async () => {
     try {
-      const response = await axios.get(`https://backend-b1ep.onrender.com/api/blog/${blogIdforget}`);
+      const response = await axios.get(`http://localhost:3000/api/blog/${blogIdforget}`);
       let i = 0;
       let end = response.data.blog.likes.length;
       const arrayLikes = [];
@@ -201,7 +201,7 @@ const CommentPage = () => {
   };
 
   const handleLikeComment = async (commentId) => {
-    const apiUrl = `https://backend-b1ep.onrender.com/api/comments/blog/${commentId}/like`;
+    const apiUrl = `http://localhost:3000/api/comments/blog/${commentId}/like`;
     try {
       const response = await axios.put(apiUrl, { userId: users[0] });
       if(response.data === "The comment has been liked" || response.data === "The comment has been disliked"){
@@ -214,7 +214,7 @@ const CommentPage = () => {
   };
 
   const handleDeleteBlog = (blogId) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/blog/${blogId}`;
+    const apiurl = `http://localhost:3000/api/blog/${blogId}`;
     axios
       .delete(apiurl)
       .then((response) => {
@@ -226,7 +226,7 @@ const CommentPage = () => {
   };
 
   const handleDeleteComment = (commentid) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/comments/blog/${commentid}`;
+    const apiurl = `http://localhost:3000/api/comments/blog/${commentid}`;
     axios
       .delete(apiurl)
       .then((response) => {
@@ -241,7 +241,7 @@ const CommentPage = () => {
   };
 
   const handleEditComment = (commentid, editedText) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/comments/update/${commentid}`;
+    const apiurl = `http://localhost:3000/api/comments/update/${commentid}`;
     axios
       .put(apiurl, {
         user: users[0],
@@ -262,7 +262,7 @@ const CommentPage = () => {
 
   const handleAccountBlog = async (blogid) => {
     try {
-      const { data: fetchAccountBlog } = await axios.get(`https://backend-b1ep.onrender.com/api/blog/${blogid}/account`);
+      const { data: fetchAccountBlog } = await axios.get(`http://localhost:3000/api/blog/${blogid}/account`);
       //console.log("Cmu account:", fetchAccount);
       // console.log("Blog account:", fetchAccountBlog);
       //return fetchAccountBlog;
@@ -277,7 +277,7 @@ const CommentPage = () => {
   const handleAccountComment = async (comments) => {
     try {
         const emailPromises = comments.map(async (comment) => {
-            const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/comments/blog/${comment.user}/account`);
+            const { data: email } = await axios.get(`http://localhost:3000/api/comments/blog/${comment.user}/account`);
             //console.log("handleAccountComment", comment.user);
             return email.email;
         });

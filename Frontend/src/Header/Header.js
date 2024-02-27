@@ -22,7 +22,7 @@ const Header = () => {
 
   const handlefetchreport = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/returnreportReasons", {
+      const response = await axios.get("http://localhost:3000/returnreportReasons", {
       });
       const reverseReport=response.data.reverse();
         if (!reverseReport) {
@@ -37,7 +37,7 @@ const Header = () => {
 
   const showreportblogBlogs = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
+      const response = await axios.get("http://localhost:3000/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
       
 
@@ -116,7 +116,7 @@ const Header = () => {
           <FontAwesomeIcon icon={faUser} alt="profile-icon" />
         </Link>
 
-      <Link to="https://backend-b1ep.onrender.com/user/logout">
+      <Link to="http://localhost:3000/user/logout">
         <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
       </Link>
     </div>

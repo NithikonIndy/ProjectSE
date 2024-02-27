@@ -114,18 +114,17 @@ export const deleteBlog = async (req , res, next) => {
     let user;
     let report;
     try{
-        blog = await Blog.findByIdAndDelete(id).populate("user").populate("comments");
+        blog =await Blog.findByIdAndDelete(id).populate("user").populate("comments");
         console.log(blog);
-
         if (!blog) {
             return res.status(404).json({ message: "Blog not found" });
         }else if(!comment){
             return res.status(404).json({ message: "Blog not found" });
         }
         await Comment.deleteMany({ _id: { $in: blog.comments.map(comment => comment._id) } });
+        
         await blog.user.blogs.pull(blog);
         await blog.user.updateOne({ $pull: { comments: { $in: blog.comments.map(comment => comment._id) } } });
-        await Report.deleteMany({ postId: id });
         await blog.user.save();
     }catch(err){
         return console.log(err);

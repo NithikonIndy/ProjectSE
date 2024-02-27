@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,12 +9,17 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { useLocation, redirect, useNavigate } from "react-router-dom";
+
 
 const Header = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [Blogs, SetBlogs] = useState([]);
   const [Reports, SetReports] = useState([]);
-  const [show, Setshow] = useState([]);
+  const [Show, Setshow] = useState([]);
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
+  const [seaechDescription,setSeaechDescription] = useState([]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -39,34 +44,74 @@ const Header = () => {
     try {
       const response = await axios.get("http://localhost:3000/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
+      const SearchText = response.data.blogs.reverse();
+      const vector = [];
+      
+      
+      SearchText.forEach(item => {
+        vector.push(item.description);
+      });
 
+      setSeaechDescription(vector);
 
       SetBlogs(reversedBlogs);
-      //console.log("Blogs:", reversedBlogs);
+      // console.log("Blogs:", SearchText);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
   };
 
-  const checkID = () => {
-    handlefetchreport();
-    showreportblogBlogs();
-    Blogs.forEach(blog => {
-      Reports.forEach(report => {
-        if (blog._id == report.postId) {
-          Setshow(blog);
+  const checkID = async () => {
+    await handlefetchreport();
+    await showreportblogBlogs();
+    const vector = [];
+
+    for (let index = 0; index < Blogs.length; index++) {
+      for (let indexreport = 0; indexreport < Reports.length; indexreport++) {
+        if (Blogs[index]._id == Reports[indexreport].postId) {
+          vector.push(Blogs[index]);
         }
-      });
-    });
-
-
-  }
+      }
+    }
+    Setshow(vector);
+  };
 
 
   const handleDropdownClick = () => {
     toggleDropdown();
     checkID();
   };
+
+  const onClickgetblogId = async (blogId) => {
+    navigate(`/post/${blogId}`);
+    window.location.reload(false);
+  };
+
+  const Searchbar = (mainString, arrayToFind) => {
+    const isFound = arrayToFind.some(description => description.includes(mainString));
+  
+    if (isFound) {
+      console.log(`${mainString} found in the descriptions.`);
+    } else {
+      console.log(`${mainString} not found in the descriptions.`);
+    }
+  };
+  
+  
+  const handleSearch = () => {
+    
+    console.log('Search Text:', searchText);
+    console.log('String to Find:', seaechDescription);
+    Searchbar(searchText, seaechDescription);
+  };
+  
+
+
+  useEffect(() => {
+    handleDropdownClick();
+
+  }, []);
+
 
   return (
     <div className="header">
@@ -76,9 +121,14 @@ const Header = () => {
       </div>
 
       <div className="container-search">
-        <input type="text" placeholder="Search..." />
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
       </div>
-
       <div className="container-icons">
 
         {/* Dropdown component */}
@@ -88,19 +138,17 @@ const Header = () => {
             <FontAwesomeIcon icon={faBell} alt="notify-icon" />
           </button>
           <div id="myDropdown" className="dropdown-content">
-            {Array.isArray(show) && show.length > 0 ? (
-              show.map((showblog, index) => (
-                <p key={index}>{show[index]}</p>
-              ))
-            ) : (
-              <p>No notifications</p>
-            )}
+            {Array.isArray(Show) &&
+              Show.map((blog) => (
+                <div key={blog._id}>
+
+                  <p onClick={() => onClickgetblogId(blog._id)}>
+                    <p>{blog.description}</p>
+                  </p>
+                </div>
+              ))}
           </div>
         </div>
-
-
-
-
 
         {/* Home icon */}
         <Link to="/home">
@@ -112,11 +160,12 @@ const Header = () => {
           <FontAwesomeIcon icon={faUser} alt="profile-icon" />
         </Link>
 
-      <Link to="http://localhost:3000/user/logout">
-        <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
-      </Link>
+        <Link to="http://localhost:3000/logout">
+          <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
+        </Link>
+      </div>
     </div>
-  </div>
-);
-  }
+  );
+
+}
 export default Header;

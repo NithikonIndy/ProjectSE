@@ -19,6 +19,7 @@
     "@mantine/nprogress": "^7.4.2",
     "@mantine/spotlight": "^7.4.2",
     "@mantine/tiptap": "^7.4.2",
+    "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.1.0",
     "@tabler/icons-react": "^2.46.0",
     "@testing-library/jest-dom": "^5.17.0",

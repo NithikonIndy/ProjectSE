@@ -1,6 +1,5 @@
 import React from "react";
 import "./Header.css";
-import freebird from "./picture/freebird.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faHome, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";

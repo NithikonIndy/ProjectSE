@@ -8,10 +8,10 @@ const LoginPage = () => {
     <div className="login-page">
       <Header />
 
-      <div className="login-content">
+      <div className="login-content" >
         <h1>CMU FreeBird</h1>
         <p>Anonymous Social For CPE</p>
-        <Link to="http://localhost:3000/signIn">
+        <Link to="https://backend-b1ep.onrender.com/signIn">
           <button>Sign In With CMU Account</button>
         </Link>
       </div>

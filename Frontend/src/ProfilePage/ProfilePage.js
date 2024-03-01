@@ -43,7 +43,7 @@ const ProfilePage = () => {
                 <Button className="button-css" block size="large" href="/YourBlog">Your Blog</Button>
               </Col>
               <Col span={12}>
-                <Button className="button-css" block size="large" href="/YourCom">Your Community</Button>
+                <Button className="button-css" block size="large" href="/YourCom">Your Comment</Button>
               </Col>
             </Row>
           </Card>

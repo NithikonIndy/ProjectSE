@@ -9,6 +9,7 @@ import axios from "axios";
 import { uniqueNamesGenerator, Config, animals } from "unique-names-generator";
 import Swal from "sweetalert2";
 import { Container } from "react-bootstrap";
+import { Select, Space } from 'antd';
 import {
   faBell,
   faHome,
@@ -313,10 +314,25 @@ const Homepage = () => {
     <div className="homepage">
       <Header />
       <div class="sel sel--black-panther">
-      <select id="post-sort" className="trending-select"  onChange={handleSortChange}>
-      <option value="new">New</option>
-      <option value="trending">Trending</option>
-      </select>
+          <Space
+        direction="vertical"
+        style={{
+          width: '100%',
+        }}
+      >
+        <Select
+          status="error"
+          style={{
+            width: '100%',
+          }}
+        />
+        <Select
+          status="warning"
+          style={{
+            width: '100%',
+          }}
+        />
+      </Space>
       </div>
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>

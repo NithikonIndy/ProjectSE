@@ -1,11 +1,15 @@
 import express from "express";
-import { OAuthCallback, getOAuthSessions } from "../controllers/OAuthController.js";
+import passport from "passport";
+import "../utils/passport.js";
 
-const router = express.Router();
+const oauthRouter = express.Router();
 
-router.get("/cmuOAuthCallback", OAuthCallback);
-router.get("/cmuOAuthCallback/getSession", getOAuthSessions);
-router.get("/getSession", getOAuthSessions);
-// router.route("/session").get(isAuthenticated);
+oauthRouter.route("/").get(passport.authenticate("oauth2"));
+oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"), (req, res) => {
+    console.log("sessionID: ",req.sessionID);
+    console.log(req.session);
+    console.log(req.user);
+    res.sendStatus(200);
+});
 
-export default router;
+export default oauthRouter;

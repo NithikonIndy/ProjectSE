@@ -167,7 +167,7 @@ export const report = async (req, res, next) => {
     try{
         const postId  = req.params.id;
         const { reason } = req.body;
-        const fromUser = await req.session.userId;
+        const fromUser = await req.user.id;
 
         // Check reasons is valid or not
         const allowedReason = Object.values(constants.reasons);

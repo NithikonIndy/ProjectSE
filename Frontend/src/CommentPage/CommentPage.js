@@ -58,23 +58,28 @@ const CommentPage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {withCredentials: true,});
-      if (!response.data.user) {
-        navigate("/");
-      } else {
-        setUsers([response.data.user]);
-        fetchUserRole();
-      }
-    } catch (error) {
-      console.error("Error fetching user session:", error);
+      const response = await axios.get("https://backend-b1ep.onrender.com/user/callSession", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+      console.log("log: " ,response.data.user);
+        if (!response.data.user) {
+          console.log("!response.data.user");
+          // fetchLogOut();
+          // navigate("/");
+        } else {
+          setUsers([response.data.user]);
+          fetchUserRole();
+        }
+          console.log("This session user:", response.data.user);
+      } catch (error) {
+        console.error("Error fetching user session:", error);
     }
-
-    console.log("FetchingSession");
-  };
+  };  
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/session",{ withCredentials: true });
+      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/user/session",{ withCredentials: true });
       setUserRole(role);
       //console.log(role);
       //console.log(userRole);

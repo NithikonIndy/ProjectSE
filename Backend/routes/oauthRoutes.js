@@ -9,7 +9,7 @@ oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"), (req
     console.log("sessionID: ",req.sessionID);
     console.log(req.session);
     console.log(req.user);
-    res.sendStatus(200);
+    res.redirect("http://localhost:5000/home");
 });
 
 export default oauthRouter;

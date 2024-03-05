@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,7 @@ import { Container } from "react-bootstrap";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const generateRandomNameForUserId = (userId, blogId) => {
-  const seed = userId + blogId; // Use the user ID as the seed
+  const seed = userId + blogId;
   const config = {
     dictionaries: [animals],
     seed: seed,
@@ -34,12 +34,12 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/cmuOAuthCallback/getSession", {
+      const response = await axios.get("http://localhost:3000/api/user/status", {
         withCredentials: true,
       });
       console.log("log: " ,response.data);
-      console.log("log: " ,response.data.user);
-        if (!response.data.user) {
+      console.log("log: " ,response.data._id);
+        if (!response.data) {
           console.log("!response.data.user");
           // fetchLogOut();
           // navigate("/");
@@ -55,7 +55,7 @@ const Homepage = () => {
 
   const fetchLogOut = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/deleteSession", {
+      const response = await axios.get("http://localhost:3000/api/user/deleteSession", {
         withCredentials: true,
       });
       console.log("log: " ,response.data);
@@ -66,7 +66,7 @@ const Homepage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
+      const { data: role } = await axios.get("http://localhost:3000/api/user/role",{ withCredentials: true });
         setUserRole(role);
         //console.log("This session user role:" ,role);
         //console.log(userRole);
@@ -149,7 +149,7 @@ const Homepage = () => {
     console.log(blogid);
     try {
       const { data: fetchReasons } = await axios.get(
-        "http://localhost:3000/reportReasons"
+        "http://localhost:3000/api/user/reportReasons"
       );
       console.log(fetchReasons);
 

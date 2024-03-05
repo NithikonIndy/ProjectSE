@@ -16,23 +16,39 @@ const ProfilePage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/Userid", {
+      const response = await axios.get("http://localhost:3000/api/user/status", {
         withCredentials: true,
       });
-        if (!response.data.user) {
-          navigate("/");
+      console.log("log: " ,response.data);
+      console.log("log: " ,response.data._id);
+        if (!response.data) {
+          console.log("!response.data.user");
+          // fetchLogOut();
+          // navigate("/");
         } else {
           setUsers([response.data.user]);
           fetchUserRole();
         }
+          console.log("This session user:", response.data.user);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
   };  
 
+  const fetchLogOut = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/user/deleteSession", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/session",{ withCredentials: true });
+      const { data: role } = await axios.get("http://localhost:3000/api/user/role",{ withCredentials: true });
         setUserRole(role);
         //console.log("This session user role:" ,role);
         //console.log(userRole);

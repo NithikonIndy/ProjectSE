@@ -22,7 +22,7 @@ const logout = asyncHandler(async (req, res, next) => {
     sameSite: 'lax',
   })
 
-  res.status(200).send({ message : "User logged out" });
+  res.redirect('/');
 });
 
 const deleteSession = asyncHandler(async (req, res, next) => {

@@ -58,31 +58,45 @@ const CommentPage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/Userid", {withCredentials: true,});
-      if (!response.data.user) {
-        navigate("/");
-      } else {
-        setUsers([response.data.user]);
-        fetchUserRole();
-      }
-    } catch (error) {
-      console.error("Error fetching user session:", error);
+      const response = await axios.get("http://localhost:3000/api/user/status", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+      console.log("log: " ,response.data._id);
+        if (!response.data) {
+          console.log("!response.data.user");
+          // fetchLogOut();
+          // navigate("/");
+        } else {
+          setUsers([response.data.user]);
+          fetchUserRole();
+        }
+          console.log("This session user:", response.data.user);
+      } catch (error) {
+        console.error("Error fetching user session:", error);
     }
+  };
 
-    console.log("FetchingSession");
+  const fetchLogOut = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/user/deleteSession", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
-      setUserRole(role);
-      //console.log(role);
-      //console.log(userRole);
-    } catch (error) {
-      console.error("Error fetching user role:", error);
-    }
-      
-    console.log("FetchingUserRole");
+      const { data: role } = await axios.get("http://localhost:3000/api/user/role",{ withCredentials: true });
+        setUserRole(role);
+        //console.log("This session user role:" ,role);
+        //console.log(userRole);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      }
   };
 
   const fetchComments = async () => {
@@ -114,7 +128,7 @@ const CommentPage = () => {
 
   const handleReportReasons = async() => {
     try {
-      const { data: fetchReasons } = await axios.get("http://localhost:3000/reportReasons");
+      const { data: fetchReasons } = await axios.get("http://localhost:3000/api/user/reportReasons");
       console.log(fetchReasons);
       return fetchReasons;
     } catch (error) {

@@ -12,7 +12,7 @@ import axios from "axios";
 import { useLocation, redirect, useNavigate } from "react-router-dom";
 
 
-const Header = () => {
+const Header = (props) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [Blogs, SetBlogs] = useState([]);
   const [Reports, SetReports] = useState([]);
@@ -20,7 +20,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
   const [seaechDescription, setSeaechDescription] = useState([]);
-   const [highlightedDescription, setHighlightedDescription] = useState([]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -56,7 +55,7 @@ const Header = () => {
       setSeaechDescription(vector);
 
       SetBlogs(reversedBlogs);
-      // console.log("Blogs:", SearchText);
+
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
@@ -88,20 +87,9 @@ const Header = () => {
     window.location.reload(false);
   };
 
-  const Searchbar = (mainString, arrayToFind) => {
-    const isFound = arrayToFind.some(description => description.includes(mainString));
-
-    if (isFound) {
-      console.log(`${mainString} found in the descriptions.`);
-    } else {
-      console.log(`${mainString} not found in the descriptions.`);
-    }
-  };
-
-
 
   const handleSearch = () => {
-    Searchbar(searchText, seaechDescription);
+    props.onSearch(searchText);
   }
 
 
@@ -124,12 +112,15 @@ const Header = () => {
           type="text"
           placeholder="Search..."
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+            handleSearch();
+          }}
         />
-        <button onClick={handleSearch }>Search</button>
       </div>
 
-      
+
+
       <div className="container-icons">
 
         {/* Dropdown component */}

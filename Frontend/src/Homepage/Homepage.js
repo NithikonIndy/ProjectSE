@@ -3,7 +3,7 @@ import { redirect, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faFlag, faEdit ,faComments,faTrash} from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp, faFlag, faEdit, faComments, faTrash, faVectorSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { uniqueNamesGenerator, animals } from "unique-names-generator";
 import Swal from "sweetalert2";
@@ -21,43 +21,56 @@ const generateRandomNameForUserId = (userId, blogId) => {
 
 const Homepage = () => {
   const [blogText, setBlogText] = useState("");
+  const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [Blogs, SetBlogs] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [blogsAccount, setBlogsAccount] = useState([]);
+  const [SearchId, setSearchId] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
+
+
 
   useEffect(() => {
     fetchSession();
     fetchBlogs();
   }, []);
 
+
+  const handleSearch = (searchText) => {
+    console.log("Searched text:", searchText);
+    setSearchText(searchText);
+    fetchBlogs(); // เรียกใช้ fetchBlogs เพื่ออัปเดตข้อมูลบล็อก
+  };
+  
+
   const fetchSession = async () => {
     try {
       const response = await axios.get("http://localhost:3000/Userid", {
         withCredentials: true,
       });
-        if (!response.data.user) {
-          console.log("!response.data.user");
-          // fetchLogOut();
-          // navigate("/");
-        } else {
-          setUsers([response.data.user]);
-          fetchUserRole();
-          
-        }
-          console.log("This session user:", response.data.user);
-      } catch (error) {
-        console.error("Error fetching user session:", error);
+      if (!response.data.user) {
+        console.log("!response.data.user");
+        // fetchLogOut();
+        // navigate("/");
+      } else {
+        setUsers([response.data.user]);
+        fetchUserRole();
+
+      }
+      console.log("This session user:", response.data.user);
+    } catch (error) {
+      console.error("Error fetching user session:", error);
     }
-  };  
+  };
 
   const fetchLogOut = async () => {
     try {
       const response = await axios.get("http://localhost:3000/deleteSession", {
         withCredentials: true,
       });
-      console.log("log: " ,response.data);
+      console.log("log: ", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -65,28 +78,31 @@ const Homepage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
-        setUserRole(role);
-        //console.log("This session user role:" ,role);
-        //console.log(userRole);
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-      }
+      const { data: role } = await axios.get("http://localhost:3000/session", { withCredentials: true });
+      setUserRole(role);
+      //console.log("This session user role:" ,role);
+      //console.log(userRole);
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
   };
 
   const fetchBlogs = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
- 
+  
+      const filteredBlogs = reversedBlogs.filter((blog) =>
+        Searchbar(searchText, blog.description)
+      );
+  
       handleAccountBlogs(reversedBlogs);
-      SetBlogs(reversedBlogs);
-      console.log("Blogs:", reversedBlogs);
+      setFilteredBlogs(filteredBlogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
   };
-
+  
   const handleAccountBlogs = async (blogs) => {
     try {
       const emailPromises = blogs.map(async (blog) => {
@@ -99,7 +115,7 @@ const Homepage = () => {
       console.log("User Emails:", userEmails);
     } catch (error) {
       console.log(error);
-    } 
+    }
   };
 
   const AlertDelete = (blogid) => {
@@ -204,9 +220,9 @@ const Homepage = () => {
   const onClicklikeblog = async (blogId) => {
     console.log("Clicked on blog with ID:", blogId);
     handleLikeBlog(blogId);
-     setTimeout(() => {
-       fetchBlogs();
-     }, 250);
+    setTimeout(() => {
+      fetchBlogs();
+    }, 250);
   };
 
   const handlePostBlog = async () => {
@@ -219,7 +235,7 @@ const Homepage = () => {
       })
       .catch((error) => {
         console.error("Error adding comment:", error);
-    });
+      });
     fetchBlogs();
   };
 
@@ -273,95 +289,108 @@ const Homepage = () => {
       fetchBlogs();
     }, 500);
   };
- 
+
+  const Searchbar = (mainString, arrayToFind) => {
+    const isFound = arrayToFind.includes(mainString);
+
+    if (isFound) {
+      // console.log(`${mainString} found in the descriptions.`);
+      return true;
+    } else {
+      // console.log(`${mainString} not found in the descriptions.`);
+      return false;
+    }
+  };
+  useEffect(() => {
+    fetchBlogs();
+  }, [searchText, users]);
+
   return (
     <div>
-       <Header />
-          <div className="homepage">
-     
-      <Container className="padding-container">
-        <div className="blog-section" style={{ position: "relative" }}>
-          <textarea
-            placeholder="Write your blog here..."
-            value={blogText}
-            onChange={(e) => setBlogText(e.target.value)}
-            rows="10"
-          />
+      <Header onSearch={handleSearch} />
+      <div className="homepage">
 
-          <button 
-            onClick={handlePostBlog}
-            style={{ position: "absolute", right: "12px", bottom: "30px" }}
-          >
-            Post Blog
-          </button>
-        </div>
+        <Container className="padding-container">
+          <div className="blog-section" style={{ position: "relative" }}>
+            <textarea
+              placeholder="Write your blog here..."
+              value={blogText}
+              onChange={(e) => setBlogText(e.target.value)}
+              rows="10"
+            />
+            <button
+              onClick={handlePostBlog}
+              style={{ position: "absolute", right: "12px", bottom: "30px" }}
+            >
+              Post Blog
+            </button>
+          </div>
+          {Array.isArray(filteredBlogs) &&
+            filteredBlogs.map((blog, index) => (
 
-        {Array.isArray(Blogs) &&
-          Blogs.map((blog, index) => (
+              <div key={blog._id} className="blog-item" >
+                <div className="flex-div">
+                  <FontAwesomeIcon icon={faUser} />
+                  <strong style={{ marginLeft: '6px' }} className="flex-div"><i>{generateRandomNameForUserId(blog.user, blog._id)}</i>
+                    {(userRole === "ADMIN") && (<i style={{ marginLeft: '20px' }} >{blogsAccount[index]}</i>)}
+                  </strong>
+                </div>
 
-            <div key={blog._id} className="blog-item" >
-              <div className="flex-div">
-                <FontAwesomeIcon icon={faUser} />
-                <strong style={{ marginLeft: '6px' }} className="flex-div"><i>{generateRandomNameForUserId(blog.user, blog._id)}</i>
-                  {(userRole === "ADMIN") && ( <i style={{ marginLeft: '20px' }} >{blogsAccount[index] }</i> )}              
-                </strong>
-              </div>
+                <hr class="solid"></hr>
+                <p>{blog.description}</p>
 
-              <hr class="solid"></hr>
-              <p>{blog.description}</p>
-
-              <div class="row">
-                <div className="blog-icons">
-                  <button onClick={() => onClicklikeblog(blog._id)}>
-                    <FontAwesomeIcon icon={faThumbsUp} />
-                    {blog.likes.length}
-                    &nbsp;
-                    Like
-                  </button>
-                  <button onClick={() => AlertReport(blog._id)}>
-                    <FontAwesomeIcon icon={faFlag} />
-                    &nbsp;
-                    Report
-                  </button>
-
-                  {blog.user === users[0] && (
-                    <button
-                      onClick={() => {
-                        AlertEdit(blog._id);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
+                <div class="row">
+                  <div className="blog-icons">
+                    <button onClick={() => onClicklikeblog(blog._id)}>
+                      <FontAwesomeIcon icon={faThumbsUp} />
+                      {blog.likes.length}
                       &nbsp;
-                      Edit
+                      Like
                     </button>
-                  )}
-                  <button onClick={() => {
-                    onClickgetblogId(blog._id);
-                  }}>
-                    <FontAwesomeIcon icon={faComments} />
-                    &nbsp;
-                    comment
-                  </button>
-
-
-                  {((blog.user === users[0]) || (userRole === "ADMIN")) && (
-                  <button
-                    onClick={() => {
-                      AlertDelete(blog._id);
-                    }}
-                  >
-                      <FontAwesomeIcon icon={faTrash} />
+                    <button onClick={() => AlertReport(blog._id)}>
+                      <FontAwesomeIcon icon={faFlag} />
                       &nbsp;
-                    Delete
-                  </button>
-                )}
+                      Report
+                    </button>
+
+                    {blog.user === users[0] && (
+                      <button
+                        onClick={() => {
+                          AlertEdit(blog._id);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                        &nbsp;
+                        Edit
+                      </button>
+                    )}
+                    <button onClick={() => {
+                      onClickgetblogId(blog._id);
+                    }}>
+                      <FontAwesomeIcon icon={faComments} />
+                      &nbsp;
+                      comment
+                    </button>
+
+
+                    {((blog.user === users[0]) || (userRole === "ADMIN")) && (
+                      <button
+                        onClick={() => {
+                          AlertDelete(blog._id);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                        &nbsp;
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
-             </div>
-            </div>
-          ))}
-      </Container>
-   
-    </div>
+            ))}
+        </Container>
+
+      </div>
     </div>
   );
 };

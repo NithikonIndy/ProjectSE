@@ -7,7 +7,7 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCa
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState("");
   const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
@@ -19,17 +19,18 @@ const ProfilePage = () => {
       const response = await axios.get("http://localhost:3000/api/user/status", {
         withCredentials: true,
       });
-      console.log("log: " ,response.data);
-      console.log("log: " ,response.data._id);
-        if (!response.data) {
-          console.log("!response.data.user");
-          // fetchLogOut();
-          // navigate("/");
-        } else {
-          setUsers([response.data.user]);
-          fetchUserRole();
-        }
-          console.log("This session user:", response.data.user);
+      console.log("log obj data: " ,response.data);
+      console.log("log userID: " ,response.data._id);
+      setUsers(response.data._id);
+      console.log("log users: " ,response.data._id);
+      fetchUserRole();        
+      // if (!response.data) {
+      //     console.log("!response.data.user");
+      //     // fetchLogOut();
+      //     // navigate("/");
+      // } else {
+      // }
+        console.log("This session user:", response.data.name);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }

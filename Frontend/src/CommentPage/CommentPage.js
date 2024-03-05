@@ -39,7 +39,7 @@ const generateRandomNameForUserId = (userId, blogId) => {
 };
 
 const CommentPage = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState("");
   const [userRole, setUserRole] = useState([]);
   const [blog, setBlog] = useState([]);
   const [listComment, setListComment] = useState([]);
@@ -61,21 +61,22 @@ const CommentPage = () => {
       const response = await axios.get("http://localhost:3000/api/user/status", {
         withCredentials: true,
       });
-      console.log("log: " ,response.data);
-      console.log("log: " ,response.data._id);
-        if (!response.data) {
-          console.log("!response.data.user");
-          // fetchLogOut();
-          // navigate("/");
-        } else {
-          setUsers([response.data.user]);
-          fetchUserRole();
-        }
-          console.log("This session user:", response.data.user);
+      console.log("log obj data: " ,response.data);
+      console.log("log userID: " ,response.data._id);
+      setUsers(response.data._id);
+      console.log("log users: " ,response.data._id);
+      fetchUserRole();        
+      // if (!response.data) {
+      //     console.log("!response.data.user");
+      //     // fetchLogOut();
+      //     // navigate("/");
+      // } else {
+      // }
+        console.log("This session user:", response.data.name);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
-  };
+  };  
 
   const fetchLogOut = async () => {
     try {
@@ -150,7 +151,7 @@ const CommentPage = () => {
     const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
     axios
       .put(apiurl, {
-        user: users[0],
+        user: users,
         description: editedText,
       })
       .then((response) => {
@@ -167,7 +168,7 @@ const CommentPage = () => {
   const handleAddComment = () => {
     axios
       .post(`http://localhost:3000/api/comments/blog/${blogIdforget}/add`, {
-        user: users[0],
+        user: users,
         description: newComment,
       })
       .then(() => {
@@ -182,7 +183,7 @@ const CommentPage = () => {
   const handleLikePost = async () => {
     const apiUrl = `http://localhost:3000/api/blog/${blogIdforget}/like`;
     try {
-      const response = await axios.put(apiUrl, { UserId : users[0] });
+      const response = await axios.put(apiUrl, { UserId : users });
         if (response.data === "The post has been liked" || response.data === "The post has been disliked") {
           fetchLikesPost();
         }
@@ -217,7 +218,7 @@ const CommentPage = () => {
   const handleLikeComment = async (commentId) => {
     const apiUrl = `http://localhost:3000/api/comments/blog/${commentId}/like`;
     try {
-      const response = await axios.put(apiUrl, { userId: users[0] });
+      const response = await axios.put(apiUrl, { userId: users });
       if(response.data === "The comment has been liked" || response.data === "The comment has been disliked"){
         fetchComments(commentId);
       }
@@ -258,7 +259,7 @@ const CommentPage = () => {
     const apiurl = `http://localhost:3000/api/comments/update/${commentid}`;
     axios
       .put(apiurl, {
-        user: users[0],
+        user: users,
         description: editedText,
       })
       .then((response) => {
@@ -357,7 +358,7 @@ const CommentPage = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           //console.log(blogs[0]._id);
-          //console.log(users[0]);
+          //console.log(users);
           const { value: reasons } = await Swal.fire({
             title: "Please select your reasons",
             input: "select",
@@ -446,7 +447,7 @@ const CommentPage = () => {
                   </div>
 
                   <div className="topright">
-                    {blog.user === users[0] && (
+                    {blog.user === users && (
                       <Button
                         className="logo-control"
                         onClick={() => {
@@ -462,7 +463,7 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    {/* {blog.user === users[0] && (
+                    {/* {blog.user === users && (
                       <Button
                         className="logo-control"
                         id={`deleteButton-${blog.user}`}
@@ -559,7 +560,7 @@ const CommentPage = () => {
                   </div>
 
                   <div className="topright">
-                    {comment.user === users[0] && (
+                    {comment.user === users && (
                       <Button
                         className="logo-control"
                         onClick={() => {
@@ -575,7 +576,7 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    {((comment.user === users[0]) || (userRole === "ADMIN")) && (
+                    {((comment.user === users) || (userRole === "ADMIN")) && (
                       <Button
                         className="logo-control"
                         onClick={() => {

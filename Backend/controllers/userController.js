@@ -12,7 +12,6 @@ const logout = asyncHandler(async (req, res, next) => {
   console.log("req.sessionID" ,req.sessionID);
   console.log("req.session.userId" ,req.session.userId);
 
-  //! destroy cookies then redirect to sign in page page
   req.session.destroy(error => {
     if(error){
       next(error);
@@ -24,7 +23,6 @@ const logout = asyncHandler(async (req, res, next) => {
 });
 
 const deleteSession = asyncHandler(async (req, res, next) => {
-  // destroy cookies 
   req.session.destroy(error => {
     if(error){
       next(error);
@@ -87,11 +85,9 @@ const getAllUsers = asyncHandler(async (req, res, next) => {
 const updateRole = asyncHandler(async (req, res, next) => {
   try{
     const { id, role } = req.body;
-
-    // update user role from request
     const updateUserRole = await User.findByIdAndUpdate(id, {role}, {new: true});
+
     res.send(updateUserRole);
-    // log updateUserRole information
     console.log(`updateUserRole: ${updateUserRole}`);
   }catch(error){
     throw new Error(`Can not update user role by: ${error}`);
@@ -100,17 +96,14 @@ const updateRole = asyncHandler(async (req, res, next) => {
 
 
 const home = asyncHandler(async (req, res, next) => {
-  // log if user go to home page
   console.log("user go to home page");
 });
 
 const dashboard = asyncHandler(async (req, res, next) => {
-  // log if admin go to dashboard
   console.log("admin go to dashboard");
 });
 
 const profile = asyncHandler(async (req, res, next) => {
-  // log if user go to profile page
   console.log("user go to profile");
 });
 

@@ -35,7 +35,7 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 
   try{
     if(!authenticatedAdmin || authenticatedAdmin === undefined || authenticatedAdmin === null || authenticatedAdmin.role !== 'ADMIN'){
-      res.redirect("https://65e8083d8eccdcc85147c292--rococo-granita-54314e.netlify.app/home");
+      res.redirect("https://freebirdcpe.netlify.app/home");
     }else{
       console.log(`${authenticatedAdmin.name} authenticated role to be ${authenticatedAdmin.role}`);
       res.status(200);

@@ -318,14 +318,13 @@ const Homepage = () => {
     }
   };
 
-  const handleSortChange = async (e) => {
-    const sortType = e.target.value;
+  const handleSortChange = async (sortType) => {
     if (sortType === "trending") {
-      await fetchTrendingBlogs();
+        await fetchTrendingBlogs();
     } else {
-      await fetchBlogs();
+        await fetchBlogs();
     }
-  };
+};
 
   const fetchTrendingBlogs = async () => {
     try {
@@ -356,7 +355,7 @@ const Homepage = () => {
           <Col span={6}></Col>
         </Row>
       </div>
-      
+
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
           <textarea

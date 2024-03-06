@@ -29,12 +29,12 @@ const Homepage = () => {
   const [blogsAccount, setBlogsAccount] = useState([]);
   const [SearchId, setSearchId] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
-  let fresh=0;
+  const ve=[];
 
   useEffect(() => {
-    if(fresh<=0){
+    if(ve.length<1){
       reload();
-      fresh++;
+      ve.push('1');
     }
     // reload();
     fetchBlogs();

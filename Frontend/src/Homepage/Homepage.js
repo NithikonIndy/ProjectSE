@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faFlag, faEdit, faComments, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp, faFlag, faEdit, faComments, faTrash, faVectorSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { uniqueNamesGenerator, animals } from "unique-names-generator";
 import Swal from "sweetalert2";
@@ -21,16 +21,25 @@ const generateRandomNameForUserId = (userId, blogId) => {
 
 const Homepage = () => {
   const [blogText, setBlogText] = useState("");
+  const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
-  const [users, setUsers] = useState("");
+  const [users, setUsers] = useState([]);
   const [Blogs, SetBlogs] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [blogsAccount, setBlogsAccount] = useState([]);
+  const [SearchId, setSearchId] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   useEffect(() => {
     fetchSession();
     fetchBlogs();
   }, []);
+
+  const handleSearch = (searchText) => {
+    console.log("Searched text:", searchText);
+    setSearchText(searchText);
+    fetchBlogs(); // เรียกใช้ fetchBlogs เพื่ออัปเดตข้อมูลบล็อก
+  };
 
   const fetchSession = async () => {
     try {
@@ -81,9 +90,12 @@ const Homepage = () => {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
 
-      handleAccountBlogs(reversedBlogs);
-      SetBlogs(reversedBlogs);
-      console.log("Blogs:", reversedBlogs);
+      const filteredBlogs = reversedBlogs.filter((blog) =>
+      Searchbar(searchText, blog.description)
+    );
+
+    handleAccountBlogs(reversedBlogs);
+    setFilteredBlogs(filteredBlogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
@@ -276,10 +288,22 @@ const Homepage = () => {
       fetchBlogs();
     }, 500);
   };
+  const Searchbar = (mainString, arrayToFind) => {
+    const isFound = arrayToFind.includes(mainString);
+
+    if (isFound) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  useEffect(() => {
+    fetchBlogs();
+  }, [searchText, users]);
 
   return (
     <div className="homepage">
-      <Header />
+      <Header onSearch={handleSearch} />
       <h1>HelloWorld</h1>
         <button onClick={fetchSession()}> button </button>
        <h1>test:{users}</h1>
@@ -301,8 +325,8 @@ const Homepage = () => {
           </button>
         </div>
         
-        {Array.isArray(Blogs) &&
-          Blogs.map((blog, index) => (
+        {Array.isArray(filteredBlogs) &&
+            filteredBlogs.map((blog, index) => (
 
             <div key={blog._id} className="blog-item" >
               <div className="flex-div">

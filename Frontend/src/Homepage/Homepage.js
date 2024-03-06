@@ -280,6 +280,9 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <Header />
+      <h1>HelloWorld</h1>
+        <button onClick={fetchSession()}> tt </button>
+       <h1>test:{users}</h1>
 
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
@@ -297,9 +300,7 @@ const Homepage = () => {
             Post Blog
           </button>
         </div>
-        <h1>HelloWorld</h1>
-        <button onClick={fetchSession()}> tt </button>
-       <h1>test:{users}</h1>
+        
         {Array.isArray(Blogs) &&
           Blogs.map((blog, index) => (
 

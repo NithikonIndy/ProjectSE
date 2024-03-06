@@ -32,9 +32,9 @@ const Homepage = () => {
   const fresh=0;
 
   useEffect(() => {
-    if(fresh<2){
+    if(fresh==0){
       reload();
-      fresh++;
+      fresh=2;
     }
     // reload();
     fetchBlogs();

@@ -9,7 +9,7 @@ oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"), (req
     console.log("sessionID: ",req.sessionID);
     console.log(req.session);
     console.log(req.user);
-    res.redirect("https://project-i1brgb6ao-latteas-projects.vercel.app/home");
+    res.redirect("https://project-se-il6e.vercel.app/home");
 });
 
 export default oauthRouter;

@@ -19,17 +19,9 @@ const port = process.env.PORT || 3000;
 const app = express();
 connectDB();
 
-// CORS headers ที่ใช้กับทุก request ที่เข้ามายัง Express server
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://project-se-gules.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
 // ตั้งค่า CORS ที่ใช้กับทุก route ของแอป
 app.use(cors({
-  origin: 'https://project-se-gules.vercel.app',
+  origin: 'https://project-se-eight.vercel.app',
   methods: 'GET, POST, PUT, DELETE, PATCH',
   credentials: true,
 }));

@@ -332,6 +332,7 @@ const Homepage = () => {
       console.error("Error fetching trending blogs:", error);
     }
   };
+  
   useEffect(() => {
     fetchBlogs();
   }, [searchText, users]);

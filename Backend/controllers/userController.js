@@ -109,6 +109,7 @@ const ReportReasons = async (req, res, next) => {
 };
 
 const status = asyncHandler(async (req, res, next) => {
+  console.log("Call from func status", req.user);
   return req.user ? res.send(req.user) : res.sendStatus(401);
 });
 

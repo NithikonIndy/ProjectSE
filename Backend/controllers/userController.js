@@ -37,6 +37,7 @@ const deleteSession = asyncHandler(async (req, res, next) => {
   res.status(200).json({message: "Session was destroyed"});
 });
 
+
 const getUserProfile = asyncHandler(async (req, res, next) => {
   try{
     const user = await User.findById(req.session.userId);
@@ -76,17 +77,14 @@ const updateRole = asyncHandler(async (req, res, next) => {
 
 const home = asyncHandler(async (req, res, next) => {
   console.log("user go to home page");
-  res.send("Welcome to home page");
 });
 
 const dashboard = asyncHandler(async (req, res, next) => {
   console.log("admin go to dashboard");
-  res.send("Welcome to dashboard");
 });
 
 const profile = asyncHandler(async (req, res, next) => {
   console.log("user go to profile");
-  res.send("Welcome to profile page");
 });
 
 const getReportReasons = async (req, res, next) => {

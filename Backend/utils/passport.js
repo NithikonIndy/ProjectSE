@@ -21,11 +21,11 @@ passport.deserializeUser(async(id, done) => {
 export default passport.use(
   new OAuth2Strategy(
     {
-      authorizationURL: "https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=wzYRm9XYn550dErgMmRETG799n0zGBGZ7SHKtsca&redirect_uri=https://backend-b1ep.onrender.com/cmuOAuthCallback&scope=cmuitaccount.basicinfo&state=xyz",
+      authorizationURL: "https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=wzYRm9XYn550dErgMmRETG799n0zGBGZ7SHKtsca&redirect_uri=http://localhost:3000/cmuOAuthCallback&scope=cmuitaccount.basicinfo&state=xyz",
       tokenURL: "https://oauth.cmu.ac.th/v1/GetToken.aspx",
       clientID: "wzYRm9XYn550dErgMmRETG799n0zGBGZ7SHKtsca",
       clientSecret: "4cfue2YSv6jUpK30CYS8kxrWzf3y7S0uhRMRBQ5g",
-      callbackURL: "https://backend-b1ep.onrender.com/cmuOAuthCallback",
+      callbackURL: "http://localhost:3000/cmuOAuthCallback",
     },
     async (accessToken, refreshToken, information, done) => {
       console.log("Access Token: ", accessToken);

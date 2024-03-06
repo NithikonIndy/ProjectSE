@@ -15,5 +15,4 @@ blogRouter.post("/:id/report",report);
 blogRouter.get("/:id/account",getBlogAccount);
 blogRouter.get("/blogsListAccounts/:id", getBlogsListAccount);
 
-
 export default blogRouter;

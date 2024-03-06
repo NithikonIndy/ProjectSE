@@ -6,7 +6,6 @@ const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
   const authenticatedUser = await req.session.userId;
 
   console.log(`Authenticated userId in session: ${authenticatedUser}`);
-  console.log("hello");
   try{
     if (!authenticatedUser || authenticatedUser === undefined) {
      res.status(401).redirect("/");
@@ -36,7 +35,7 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 
   try{
     if(!authenticatedAdmin || authenticatedAdmin === undefined || authenticatedAdmin === null || authenticatedAdmin.role !== 'ADMIN'){
-      res.redirect("https://project-se-gules.vercel.app/home");
+      res.redirect("http:localhost:5000/home");
     }else{
       console.log(`${authenticatedAdmin.name} authenticated role to be ${authenticatedAdmin.role}`);
       res.status(200);
@@ -47,19 +46,17 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
   }
 });
 
+//! not yet fixed
 const getSession = asyncHandler(async (req, res, next) => {
-  let user;
   try {
     const user = req.session;
     console.log("req.session: ",req.session);
-    // console.log("req.session.userId: ",req.session);
+    console.log("req.session.userId: ",req.session.userId);
     res.status(200).json({user});
   } catch (err) {
     console.error(err);
     return next(err);
   }
-  
-  res.status(200).json({ user });
 });
 
 // Filter the authenticated user role

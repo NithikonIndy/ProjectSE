@@ -7,11 +7,12 @@ const oauthRouter = express.Router();
 
 oauthRouter.route("/").get(passport.authenticate("oauth2"));
 
-oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"), (req, res) => {
+oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"), (req, res, next) => {
     console.log("sessionID: ",req.sessionID);
     console.log(req.session);
     console.log(req.user);
     res.redirect("https://project-se-eight.vercel.app/home");
+    next();
 });
 
 oauthRouter.route("/getID").get(getSession);

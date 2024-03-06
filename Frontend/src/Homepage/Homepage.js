@@ -63,23 +63,17 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
-        withCredentials: true,
-      });
-      console.log("log obj data: ", response.data);
-      setUsers(response.data._id);
-      fetchUserRole();
-      // if (!response.data) {
-      //     console.log("!response.data.user");
-      //     // fetchLogOut();
-      //     // navigate("/");
-      // } else {
-      // }
-      console.log("This session user:", response.data.name);
+        console.log('Before Axios Request');
+        const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status");
+        console.log('After Axios Request');
+        console.log("log obj data: ", response.data);
+        setUsers(response.data._id);
+        fetchUserRole();
+        console.log('This session user:', response.data.name);
     } catch (error) {
-      console.log(error);
+        console.log('Error fetching session:', error);
     }
-  };
+};
 
   const fetchLogOut = async () => {
     try {

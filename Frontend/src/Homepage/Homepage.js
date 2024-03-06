@@ -66,6 +66,9 @@ const Homepage = () => {
       console.log('Before Axios Request');
       const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
         withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
       console.log('After Axios Request');
       console.log("log obj data: ", response.data);
@@ -77,6 +80,7 @@ const Homepage = () => {
     }
   };
   
+
 
   const fetchLogOut = async () => {
     try {

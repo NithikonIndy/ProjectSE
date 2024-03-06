@@ -32,7 +32,7 @@ const Homepage = () => {
   let fresh=0;
 
   useEffect(() => {
-    while(fresh<3){
+    if(fresh<3){
       reload();
       fresh++;
     }

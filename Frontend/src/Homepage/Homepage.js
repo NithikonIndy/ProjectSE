@@ -32,7 +32,6 @@ const Homepage = () => {
 
   useEffect(() => {
     fetchBlogs();
-    window.location.reload();
   }, []);
 
   useEffect(() => {
@@ -46,6 +45,7 @@ const Homepage = () => {
   };
 
   const fetchSession = async () => {
+    window.location.reload();
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
         withCredentials: true,

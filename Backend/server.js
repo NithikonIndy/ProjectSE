@@ -10,17 +10,27 @@ import blogRouter from "./routes/blog-routes.js";
 import commentRouter from "./routes/comment-routes.js";
 import oauthRoutes from "./routes/oauthRoutes.js";
 import { notfound, errorHandler } from "./middleware/errorMiddleware.js";
+import passport from "passport";
+import "./utils/passport.js";
 
 dotenv.config();
 
 const port = process.env.PORT || 3000;
 const app = express();
-// app.set('trust proxy', 1);
-
 connectDB();
+
+app.use(cors({
+  origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
+  methods: ['GET', 'POST, PUT', 'DELETE', 'PATCH'],
+  credentials: true,
+  // exposedHeaders: 'set-cookie',
+  // allowedHeaders: ['Content-Type', 'Authorization', 'set-cookie'],
+}));
+
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.disable('x-powered-by');
 
 app.use(
   session({
@@ -41,16 +51,11 @@ app.use(
   })
 );
 
-app.use(cors({
-  origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization', 'set-cookie'],
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-  exposedHeaders: 'set-cookie',
-}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", oauthRoutes);
-app.use("/user", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/blog", blogRouter);
 app.use("/api/comments", commentRouter);
 

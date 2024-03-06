@@ -1,54 +1,22 @@
 import express from "express";
-import {
-  logout,
-  getUserProfile,
-  home,
-  dashboard,
-  getAllUsers,
-  updateRole,
-  profile,
-  signIn,
-  getReportReasons,
-  ReportReasons,
-  deleteSession,
-  callSession,
-} from "../controllers/userController.js";
-import { getAuthenticatedUser, getAuthenticatedAdmin, getSession, isAuthenticated } from "../middleware/authMiddleware.js";
-import { OAuthCallback, getOAuthSessions } from "../controllers/OAuthController.js";
-import { getAllBlog } from "../controllers/blog-controller.js";
+import { logout, getUserProfile, getAllUsers, updateRole, getReportReasons, ReportReasons, deleteSession, status } from "../controllers/userController.js";
+import { getAuthenticatedUser, getAuthenticatedAdmin, isAuthenticated } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
+const userRouter = express.Router();
 
-//! completely route path
-// router.get("/cmuOAuthCallback", OAuthCallback);
-// router.get("/cmuOAuthCallback/getSession", getOAuthSessions);
-// router.get("/getSession", getOAuthSessions);
-router.route("/session").get(isAuthenticated);
-router.get("/callSession", callSession);
+userRouter.route("/role").get(isAuthenticated);
+userRouter.route("/status").get(status);
 
-router.route("/reportReasons").get(getReportReasons);
-router.route("/returnreportReasons").get(ReportReasons);
+userRouter.route("/reportReasons").get(getReportReasons);
+userRouter.route("/returnreportReasons").get(ReportReasons);
 
-//! implement in progress
-// router
-//   .route("/home")
-//   .get(getAuthenticatedUser, getAllBlog);
-
-router
-  .route("/admin")
+userRouter.route("/dashboard")
   .get(getAuthenticatedAdmin, getAllUsers)
   .patch(getAuthenticatedAdmin, updateRole)
 
-router
-  .route("/profile")
-  //.get(getAuthenticatedUser, profile)
-  .get(getAuthenticatedUser, getUserProfile);
+userRouter.route("/profile").get(getAuthenticatedUser, getUserProfile);
 
-router.get("/logout", logout);
-router.post("/deleteSession", deleteSession);
-router.get("/signIn", signIn);
-router.get("/test",getUserProfile);
-router.get("/Userid",getSession);
+userRouter.route("/logout").get(logout);
+userRouter.route("/deleteSession").post(deleteSession);
 
-
-export default router;
+export default userRouter;

@@ -39,7 +39,7 @@ const generateRandomNameForUserId = (userId, blogId) => {
 };
 
 const CommentPage = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState("");
   const [userRole, setUserRole] = useState([]);
   const [blog, setBlog] = useState([]);
   const [listComment, setListComment] = useState([]);
@@ -58,41 +58,51 @@ const CommentPage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/user/callSession", {
+      const response = await axios.get("http://localhost:3000/api/user/status", {
         withCredentials: true,
       });
-      console.log("log: " ,response.data);
-      console.log("log: " ,response.data.user);
-        if (!response.data.user) {
-          console.log("!response.data.user");
-          // fetchLogOut();
-          // navigate("/");
-        } else {
-          setUsers([response.data.user]);
-          fetchUserRole();
-        }
-          console.log("This session user:", response.data.user);
+      console.log("log obj data: " ,response.data);
+      console.log("log userID: " ,response.data._id);
+      setUsers(response.data._id);
+      console.log("log users: " ,response.data._id);
+      fetchUserRole();        
+      // if (!response.data) {
+      //     console.log("!response.data.user");
+      //     // fetchLogOut();
+      //     // navigate("/");
+      // } else {
+      // }
+        console.log("This session user:", response.data.name);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
   };  
 
+  const fetchLogOut = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/user/deleteSession", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/user/session",{ withCredentials: true });
-      setUserRole(role);
-      //console.log(role);
-      //console.log(userRole);
-    } catch (error) {
-      console.error("Error fetching user role:", error);
-    }
-      
-    console.log("FetchingUserRole");
+      const { data: role } = await axios.get("http://localhost:3000/api/user/role",{ withCredentials: true });
+        setUserRole(role);
+        //console.log("This session user role:" ,role);
+        //console.log(userRole);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      }
   };
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`https://backend-b1ep.onrender.com/api/comments/blogs/${blogIdforget}`);
+      const response = await axios.get(`http://localhost:3000/api/comments/blogs/${blogIdforget}`);
       //console.log(response.data.commentsList);
       //console.log(response.data.commentsList.length);
       const reverseCommentsList = response.data.commentsList.reverse();
@@ -106,7 +116,7 @@ const CommentPage = () => {
 
   const fetchBlog = async () => {
     try {
-      const response = await axios.get(`https://backend-b1ep.onrender.com/api/blog/${blogIdforget}`);
+      const response = await axios.get(`http://localhost:3000/api/blog/${blogIdforget}`);
       setBlog([response.data.blog]);
       handleAccountBlog(blogIdforget);
       fetchLikesPost();
@@ -119,7 +129,7 @@ const CommentPage = () => {
 
   const handleReportReasons = async() => {
     try {
-      const { data: fetchReasons } = await axios.get("https://backend-b1ep.onrender.com/reportReasons");
+      const { data: fetchReasons } = await axios.get("http://localhost:3000/api/user/reportReasons");
       console.log(fetchReasons);
       return fetchReasons;
     } catch (error) {
@@ -131,17 +141,17 @@ const CommentPage = () => {
     const reason = selectReason;
     console.log(`reason:`, reason);
     try {
-      await axios.post(`https://backend-b1ep.onrender.com/api/blog/${blogid}/report`, { reason }, { withCredentials: true });
+      await axios.post(`http://localhost:3000/api/blog/${blogid}/report`, { reason }, { withCredentials: true });
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleEditBlog = (blogId, editedText) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/blog/update/${blogId}`;
+    const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
     axios
       .put(apiurl, {
-        user: users[0],
+        user: users,
         description: editedText,
       })
       .then((response) => {
@@ -157,8 +167,8 @@ const CommentPage = () => {
 
   const handleAddComment = () => {
     axios
-      .post(`https://backend-b1ep.onrender.com/api/comments/blog/${blogIdforget}/add`, {
-        user: users[0],
+      .post(`http://localhost:3000/api/comments/blog/${blogIdforget}/add`, {
+        user: users,
         description: newComment,
       })
       .then(() => {
@@ -171,9 +181,9 @@ const CommentPage = () => {
   };
 
   const handleLikePost = async () => {
-    const apiUrl = `https://backend-b1ep.onrender.com/api/blog/${blogIdforget}/like`;
+    const apiUrl = `http://localhost:3000/api/blog/${blogIdforget}/like`;
     try {
-      const response = await axios.put(apiUrl, { UserId : users[0] });
+      const response = await axios.put(apiUrl, { UserId : users });
         if (response.data === "The post has been liked" || response.data === "The post has been disliked") {
           fetchLikesPost();
         }
@@ -185,7 +195,7 @@ const CommentPage = () => {
 
   const fetchLikesPost = async () => {
     try {
-      const response = await axios.get(`https://backend-b1ep.onrender.com/api/blog/${blogIdforget}`);
+      const response = await axios.get(`http://localhost:3000/api/blog/${blogIdforget}`);
       let i = 0;
       let end = response.data.blog.likes.length;
       const arrayLikes = [];
@@ -206,9 +216,9 @@ const CommentPage = () => {
   };
 
   const handleLikeComment = async (commentId) => {
-    const apiUrl = `https://backend-b1ep.onrender.com/api/comments/blog/${commentId}/like`;
+    const apiUrl = `http://localhost:3000/api/comments/blog/${commentId}/like`;
     try {
-      const response = await axios.put(apiUrl, { userId: users[0] });
+      const response = await axios.put(apiUrl, { userId: users });
       if(response.data === "The comment has been liked" || response.data === "The comment has been disliked"){
         fetchComments(commentId);
       }
@@ -219,7 +229,7 @@ const CommentPage = () => {
   };
 
   const handleDeleteBlog = (blogId) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/blog/${blogId}`;
+    const apiurl = `http://localhost:3000/api/blog/${blogId}`;
     axios
       .delete(apiurl)
       .then((response) => {
@@ -231,7 +241,7 @@ const CommentPage = () => {
   };
 
   const handleDeleteComment = (commentid) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/comments/blog/${commentid}`;
+    const apiurl = `http://localhost:3000/api/comments/blog/${commentid}`;
     axios
       .delete(apiurl)
       .then((response) => {
@@ -246,10 +256,10 @@ const CommentPage = () => {
   };
 
   const handleEditComment = (commentid, editedText) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/comments/update/${commentid}`;
+    const apiurl = `http://localhost:3000/api/comments/update/${commentid}`;
     axios
       .put(apiurl, {
-        user: users[0],
+        user: users,
         description: editedText,
       })
       .then((response) => {
@@ -267,7 +277,7 @@ const CommentPage = () => {
 
   const handleAccountBlog = async (blogid) => {
     try {
-      const { data: fetchAccountBlog } = await axios.get(`https://backend-b1ep.onrender.com/api/blog/${blogid}/account`);
+      const { data: fetchAccountBlog } = await axios.get(`http://localhost:3000/api/blog/${blogid}/account`);
       //console.log("Cmu account:", fetchAccount);
       // console.log("Blog account:", fetchAccountBlog);
       //return fetchAccountBlog;
@@ -282,7 +292,7 @@ const CommentPage = () => {
   const handleAccountComment = async (comments) => {
     try {
         const emailPromises = comments.map(async (comment) => {
-            const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/comments/blog/${comment.user}/account`);
+            const { data: email } = await axios.get(`http://localhost:3000/api/comments/blog/${comment.user}/account`);
             //console.log("handleAccountComment", comment.user);
             return email.email;
         });
@@ -348,7 +358,7 @@ const CommentPage = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           //console.log(blogs[0]._id);
-          //console.log(users[0]);
+          //console.log(users);
           const { value: reasons } = await Swal.fire({
             title: "Please select your reasons",
             input: "select",
@@ -437,7 +447,7 @@ const CommentPage = () => {
                   </div>
 
                   <div className="topright">
-                    {blog.user === users[0] && (
+                    {blog.user === users && (
                       <Button
                         className="logo-control"
                         onClick={() => {
@@ -453,7 +463,7 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    {/* {blog.user === users[0] && (
+                    {/* {blog.user === users && (
                       <Button
                         className="logo-control"
                         id={`deleteButton-${blog.user}`}
@@ -550,7 +560,7 @@ const CommentPage = () => {
                   </div>
 
                   <div className="topright">
-                    {comment.user === users[0] && (
+                    {comment.user === users && (
                       <Button
                         className="logo-control"
                         onClick={() => {
@@ -566,7 +576,7 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    {((comment.user === users[0]) || (userRole === "ADMIN")) && (
+                    {((comment.user === users) || (userRole === "ADMIN")) && (
                       <Button
                         className="logo-control"
                         onClick={() => {

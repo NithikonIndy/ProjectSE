@@ -22,7 +22,7 @@ const generateRandomNameForUserId = (userId, blogId) => {
 const Homepage = () => {
   const [blogText, setBlogText] = useState("");
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState("");
   const [Blogs, SetBlogs] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [blogsAccount, setBlogsAccount] = useState([]);
@@ -34,20 +34,21 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/user/callSession", {
+      const response = await axios.get("http://localhost:3000/api/user/status", {
         withCredentials: true,
       });
-      console.log("log: " ,response.data);
-      console.log("log: " ,response.data.user);
-        if (!response.data.user) {
-          console.log("!response.data.user");
-          // fetchLogOut();
-          // navigate("/");
-        } else {
-          setUsers([response.data.user]);
-          fetchUserRole();
-        }
-          console.log("This session user:", response.data.user);
+      console.log("log obj data: " ,response.data);
+      console.log("log userID: " ,response.data._id);
+      setUsers(response.data._id);
+      console.log("log users: " ,response.data._id);
+      fetchUserRole();        
+      // if (!response.data) {
+      //     console.log("!response.data.user");
+      //     // fetchLogOut();
+      //     // navigate("/");
+      // } else {
+      // }
+        console.log("This session user:", response.data.name);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
@@ -55,7 +56,7 @@ const Homepage = () => {
 
   const fetchLogOut = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/deleteSession", {
+      const response = await axios.get("http://localhost:3000/api/user/deleteSession", {
         withCredentials: true,
       });
       console.log("log: " ,response.data);
@@ -66,7 +67,7 @@ const Homepage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/user/session",{ withCredentials: true });
+      const { data: role } = await axios.get("http://localhost:3000/api/user/role",{ withCredentials: true });
         setUserRole(role);
         //console.log("This session user role:" ,role);
         //console.log(userRole);
@@ -77,7 +78,7 @@ const Homepage = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
+      const response = await axios.get("http://localhost:3000/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
  
       handleAccountBlogs(reversedBlogs);
@@ -91,7 +92,7 @@ const Homepage = () => {
   const handleAccountBlogs = async (blogs) => {
     try {
       const emailPromises = blogs.map(async (blog) => {
-        const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/blog/blogsListAccounts/${blog.user}`);
+        const { data: email } = await axios.get(`http://localhost:3000/api/blog/blogsListAccounts/${blog.user}`);
         return email.email;
       });
 
@@ -149,7 +150,7 @@ const Homepage = () => {
     console.log(blogid);
     try {
       const { data: fetchReasons } = await axios.get(
-        "https://backend-b1ep.onrender.com/reportReasons"
+        "http://localhost:3000/api/user/reportReasons"
       );
       console.log(fetchReasons);
 
@@ -178,7 +179,7 @@ const Homepage = () => {
             try {
               const reason = fetchReasons[reasons];
               await axios.post(
-                `https://backend-b1ep.onrender.com/api/blog/${blogid}/report`,
+                `http://localhost:3000/api/blog/${blogid}/report`,
                 { reason },
                 { withCredentials: true }
               );
@@ -213,8 +214,8 @@ const Homepage = () => {
 
   const handlePostBlog = async () => {
     await axios
-      .post(`https://backend-b1ep.onrender.com/api/blog/add`, {
-        user: users[0],
+      .post(`http://localhost:3000/api/blog/add`, {
+        user: users,
         description: blogText,
       }).then(() => {
         setBlogText("");
@@ -228,11 +229,11 @@ const Homepage = () => {
   const handleLikeBlog = async (blogId) => {
     let temp = blogId;
     if (temp) {
-      const text = `https://backend-b1ep.onrender.com/api/blog/${temp}/like`;
+      const text = `http://localhost:3000/api/blog/${temp}/like`;
 
       try {
         const response = await axios.put(text, {
-          UserId: users[0],
+          UserId: users,
         });
         console.log(response.data);
       } catch (err) {
@@ -244,10 +245,10 @@ const Homepage = () => {
   };
 
   const handleEditBlog = (blogId, editedText) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/blog/update/${blogId}`;
+    const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
     axios
       .put(apiurl, {
-        user: users[0],
+        user: users,
         description: editedText,
       })
       .then((response) => {
@@ -262,7 +263,7 @@ const Homepage = () => {
   };
 
   const handleDeleteBlog = (blogId) => {
-    const apiurl = `https://backend-b1ep.onrender.com/api/blog/${blogId}`;
+    const apiurl = `http://localhost:3000/api/blog/${blogId}`;
     axios
       .delete(apiurl)
       .then((response) => {
@@ -325,7 +326,7 @@ const Homepage = () => {
                     Report
                   </button>
 
-                  {blog.user === users[0] && (
+                  {blog.user === users && (
                     <button
                       onClick={() => {
                         AlertEdit(blog._id);
@@ -345,7 +346,7 @@ const Homepage = () => {
                   </button>
 
 
-                  {((blog.user === users[0]) || (userRole === "ADMIN")) && (
+                  {((blog.user === users) || (userRole === "ADMIN")) && (
                   <button
                     onClick={() => {
                       AlertDelete(blog._id);

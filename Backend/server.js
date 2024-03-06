@@ -20,7 +20,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: ['https://freebirdcpe.netlify.app','https://backend-b1ep.onrender.com'],
+  origin: ['https://project-se-gules.vercel.app','https://backend-b1ep.onrender.com'],
   methods: ['GET', 'POST, PUT', 'DELETE', 'PATCH'],
   credentials: true,
   // exposedHeaders: 'set-cookie',

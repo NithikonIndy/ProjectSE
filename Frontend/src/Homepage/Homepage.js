@@ -92,7 +92,7 @@ const Homepage = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/blog");
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
   
       const filteredBlogs = reversedBlogs.filter((blog) =>
@@ -110,7 +110,7 @@ const Homepage = () => {
   const handleAccountBlogs = async (blogs) => {
     try {
       const emailPromises = blogs.map(async (blog) => {
-        const { data: email } = await axios.get(`http://localhost:3000/api/blog/blogsListAccounts/${blog.user}`);
+        const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/blog/blogsListAccounts/${blog.user}`);
         return email.email;
       });
 
@@ -196,7 +196,7 @@ const Homepage = () => {
             try {
               const reason = fetchReasons[reasons];
               await axios.post(
-                `http://localhost:3000/api/blog/${blogid}/report`,
+                `https://backend-b1ep.onrender.com/api/blog/${blogid}/report`,
                 { reason },
                 { withCredentials: true }
               );
@@ -246,7 +246,7 @@ const Homepage = () => {
   const handleLikeBlog = async (blogId) => {
     let temp = blogId;
     if (temp) {
-      const text = `http://localhost:3000/api/blog/${temp}/like`;
+      const text = `https://backend-b1ep.onrender.com/api/blog/${temp}/like`;
 
       try {
         const response = await axios.put(text, {
@@ -262,7 +262,7 @@ const Homepage = () => {
   };
 
   const handleEditBlog = (blogId, editedText) => {
-    const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
+    const apiurl = `https://backend-b1ep.onrender.com/api/blog/update/${blogId}`;
     axios
       .put(apiurl, {
         user: users,
@@ -280,7 +280,7 @@ const Homepage = () => {
   };
 
   const handleDeleteBlog = (blogId) => {
-    const apiurl = `http://localhost:3000/api/blog/${blogId}`;
+    const apiurl = `https://backend-b1ep.onrender.com/api/blog/${blogId}`;
     axios
       .delete(apiurl)
       .then((response) => {

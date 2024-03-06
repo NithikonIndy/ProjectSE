@@ -2,7 +2,6 @@ import React from 'react';
 import Header from "./Header.js";
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
-import back from "./picture/bgpicture.jpg";
 
 const LoginPage = () => {
   return (
@@ -12,7 +11,7 @@ const LoginPage = () => {
       <div className="login-content" >
         <h1>CMU FreeBird</h1>
         <p>Anonymous Social For CPE</p>
-        <Link to="http://localhost:3000/signIn">
+        <Link to="http://localhost:3000/">
           <button>Sign In With CMU Account</button>
         </Link>
       </div>

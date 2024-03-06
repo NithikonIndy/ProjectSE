@@ -9,7 +9,7 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCa
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState("");
   const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
@@ -18,23 +18,40 @@ const ProfilePage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/Userid", {
+      const response = await axios.get("http://localhost:3000/api/user/status", {
         withCredentials: true,
       });
-        if (!response.data.user) {
-          navigate("/");
-        } else {
-          setUsers([response.data.user]);
-          fetchUserRole();
-        }
+      console.log("log obj data: " ,response.data);
+      console.log("log userID: " ,response.data._id);
+      setUsers(response.data._id);
+      console.log("log users: " ,response.data._id);
+      fetchUserRole();        
+      // if (!response.data) {
+      //     console.log("!response.data.user");
+      //     // fetchLogOut();
+      //     // navigate("/");
+      // } else {
+      // }
+        console.log("This session user:", response.data.name);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
   };  
 
+  const fetchLogOut = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/user/deleteSession", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
+      const { data: role } = await axios.get("http://localhost:3000/api/user/role",{ withCredentials: true });
         setUserRole(role);
         //console.log("This session user role:" ,role);
         //console.log(userRole);

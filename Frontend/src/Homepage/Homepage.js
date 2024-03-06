@@ -11,7 +11,7 @@ import { Container } from "react-bootstrap";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const generateRandomNameForUserId = (userId, blogId) => {
-  const seed = userId + blogId; // Use the user ID as the seed
+  const seed = userId + blogId;
   const config = {
     dictionaries: [animals],
     seed: seed,
@@ -21,18 +21,9 @@ const generateRandomNameForUserId = (userId, blogId) => {
 
 const Homepage = () => {
   const [blogText, setBlogText] = useState("");
-  //const [blogs, setBlogs] = useState([]);
-  //const [blogLikes, setBlogLikes] = useState({});
-  //const [postMessage, setPostMessage] = useState("");
   const navigate = useNavigate();
-  //const [editMode, setEditMode] = useState(false);
-  //const [editedBlogId, setEditedBlogId] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState("");
   const [Blogs, SetBlogs] = useState([]);
-  //const [likespost, setLikespost] = useState([]);
-  //const [clickedBlogId, setClickedBlogId] = useState([]);
-  //const [blogdelete, setblogdelete] = useState([]);
-  //const [Edit, setEdit] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [blogsAccount, setBlogsAccount] = useState([]);
 
@@ -43,25 +34,40 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/Userid", {
+      const response = await axios.get("http://localhost:3000/api/user/status", {
         withCredentials: true,
       });
-      console.log(response.data);
-        if (!response.data.user) {
-          navigate("/");
-        } else {
-          setUsers([response.data.user]);
-          fetchUserRole();
-          
-        }
+      console.log("log obj data: " ,response.data);
+      console.log("log userID: " ,response.data._id);
+      setUsers(response.data._id);
+      console.log("log users: " ,response.data._id);
+      fetchUserRole();        
+      // if (!response.data) {
+      //     console.log("!response.data.user");
+      //     // fetchLogOut();
+      //     // navigate("/");
+      // } else {
+      // }
+        console.log("This session user:", response.data.name);
       } catch (error) {
         console.error("Error fetching user session:", error);
     }
   };  
 
+  const fetchLogOut = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/user/deleteSession", {
+        withCredentials: true,
+      });
+      console.log("log: " ,response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("http://localhost:3000/session",{ withCredentials: true });
+      const { data: role } = await axios.get("http://localhost:3000/api/user/role",{ withCredentials: true });
         setUserRole(role);
         //console.log("This session user role:" ,role);
         //console.log(userRole);
@@ -77,7 +83,7 @@ const Homepage = () => {
  
       handleAccountBlogs(reversedBlogs);
       SetBlogs(reversedBlogs);
-      //console.log("Blogs:", reversedBlogs);
+      console.log("Blogs:", reversedBlogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
@@ -141,9 +147,10 @@ const Homepage = () => {
   };
 
   const AlertReport = async (blogid) => {
+    console.log(blogid);
     try {
       const { data: fetchReasons } = await axios.get(
-        "http://localhost:3000/reportReasons"
+        "http://localhost:3000/api/user/reportReasons"
       );
       console.log(fetchReasons);
 
@@ -208,7 +215,7 @@ const Homepage = () => {
   const handlePostBlog = async () => {
     await axios
       .post(`http://localhost:3000/api/blog/add`, {
-        user: users[0],
+        user: users,
         description: blogText,
       }).then(() => {
         setBlogText("");
@@ -226,7 +233,7 @@ const Homepage = () => {
 
       try {
         const response = await axios.put(text, {
-          UserId: users[0],
+          UserId: users,
         });
         console.log(response.data);
       } catch (err) {
@@ -241,7 +248,7 @@ const Homepage = () => {
     const apiurl = `http://localhost:3000/api/blog/update/${blogId}`;
     axios
       .put(apiurl, {
-        user: users[0],
+        user: users,
         description: editedText,
       })
       .then((response) => {
@@ -271,9 +278,9 @@ const Homepage = () => {
   };
  
   return (
-    <div>
-       <Header />
-          <div className="homepage">
+    <div className="homepage">
+      <Header />
+
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
           <textarea
@@ -319,7 +326,7 @@ const Homepage = () => {
                     Report
                   </button>
 
-                  {blog.user === users[0] && (
+                  {blog.user === users && (
                     <button
                       onClick={() => {
                         AlertEdit(blog._id);
@@ -339,7 +346,7 @@ const Homepage = () => {
                   </button>
 
 
-                  {((blog.user === users[0]) || (userRole === "ADMIN")) && (
+                  {((blog.user === users) || (userRole === "ADMIN")) && (
                   <button
                     onClick={() => {
                       AlertDelete(blog._id);
@@ -356,7 +363,6 @@ const Homepage = () => {
           ))}
       </Container>
    
-    </div>
     </div>
   );
 };

@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import Blog from "../models/Blog.js";
 import Comment from "../models/Comment.js";
 import User from "../models/userModel.js";
+import ReportComment from "../models/reportCModel.js";
+import constants from "../utils/constants.js";
 
 export const getAllCommentByBlog = async (req, res, next) => {
     const BlogId = req.params.id;
@@ -100,6 +102,7 @@ export const deleteComment = async (req, res, next) => {
             await user.save();
         }
 
+        await ReportComment.deleteMany({ commentId: commentId });
     } catch (err) {
         return console.error(err);
     }
@@ -173,5 +176,30 @@ export const getCommentAccount = async (req, res, next) => {
         }
     }catch(error){
         console.log(error);
+    }
+};
+
+export const reportComment = async (req, res, next) => {
+    try {
+        const commentId  = req.params.id;
+        const { reason } = req.body;
+        const fromUser = await req.user.id;
+
+        const allowedReason = Object.values(constants.reasons);
+        if (!allowedReason.includes(reason)) {
+            return res.status(400).json({ error: "Invalid reason" });
+        }
+
+        const report = await ReportComment.create({
+            fromUser: fromUser,
+            commentId: commentId,
+            reason: reason,
+        });
+
+        console.log("Report:",report);
+        res.status(201).json({ message: "Report created successfully" });
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: "Error creating report" });
     }
 };

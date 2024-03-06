@@ -9,6 +9,7 @@ import { uniqueNamesGenerator, animals } from "unique-names-generator";
 import Swal from "sweetalert2";
 import { Container } from "react-bootstrap";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { Card, Avatar, Divider, Typography, Button, Col, Row } from 'antd';
 
 const generateRandomNameForUserId = (userId, blogId) => {
   const seed = userId + blogId;
@@ -343,6 +344,18 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <Header onSearch={handleSearch} />
+      <div style={{backgroundColor:"white",marginTop:"-18px"}}>
+        <Row>
+          <Col span={6}></Col>
+          <Col className="last" span={6} align="middle" style={{ fontSize: '20px', cursor: "pointer" }} onClick={() => handleSortChange('latest')}>
+            LATEST 
+          </Col>
+          <Col className="last" span={6} align="middle" style={{fontSize: '20px',cursor: "pointer"}} onClick={() => handleSortChange('trending')}>
+            TRENDING
+          </Col>
+          <Col span={6}></Col>
+        </Row>
+      </div>
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
           <textarea

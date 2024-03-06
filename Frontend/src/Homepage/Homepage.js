@@ -28,7 +28,7 @@ const Homepage = () => {
   const [blogsAccount, setBlogsAccount] = useState([]);
 
   useEffect(() => {
-    fetchSession();
+    // fetchSession();
     fetchBlogs();
   }, []);
 
@@ -297,7 +297,8 @@ const Homepage = () => {
             Post Blog
           </button>
         </div>
-
+        <button onClick={fetchSession()}> tt </button>
+       <h1>test:{users}</h1>
         {Array.isArray(Blogs) &&
           Blogs.map((blog, index) => (
 

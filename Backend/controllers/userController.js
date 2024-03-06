@@ -108,7 +108,19 @@ const ReportReasons = async (req, res, next) => {
 };
 
 const status = asyncHandler(async (req, res, next) => {
-  return req.user ? res.send(req.user) : res.sendStatus(401);
+  try {
+    if (req.user) {
+      // If req.user exists, send the user object in the response
+      return res.send(req.user);
+    } else {
+      // If req.user does not exist, send a 401 Unauthorized status
+      return res.sendStatus(401);
+    }
+  } catch (error) {
+    // Handle any unexpected errors that might occur during the execution
+    console.error('Error in status controller:', error);
+    return res.status(500).send('Internal Server Error');
+  }
 });
 
 export {

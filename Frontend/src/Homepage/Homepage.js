@@ -304,10 +304,36 @@ const Homepage = () => {
       fetchBlogs();
     }, 500);
   };
- 
+
+  const handleSortChange = async (e) => {
+    const sortType = e.target.value;
+    if (sortType === "trending") {
+        await fetchTrendingBlogs();
+    } else {
+        await fetchBlogs();
+    }
+};
+
+const fetchTrendingBlogs = async () => {
+    try {
+        const response = await axios.get("http://localhost:3000/api/blog");
+        const sortedBlogs = response.data.blogs.sort((a, b) => b.likes.length - a.likes.length);
+        setFilteredBlogs(sortedBlogs); // ใช้ setFilteredBlogs แทน SetBlogs
+    } catch (error) {
+        console.error("Error fetching trending blogs:", error);
+    }
+};
+
   return (
     <div className="homepage">
       <Header onSearch={handleSearch} />
+
+      <div class="sel sel--black-panther">
+        <select id="post-sort" className="trending-select"  onChange={handleSortChange}>
+          <option value="new">New</option>
+          <option value="trending">Trending</option>
+        </select>
+      </div>
 
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>

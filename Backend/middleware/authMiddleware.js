@@ -35,7 +35,7 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 
   try{
     if(!authenticatedAdmin || authenticatedAdmin === undefined || authenticatedAdmin === null || authenticatedAdmin.role !== 'ADMIN'){
-      res.redirect("https://65e815ab346bf9d2bfaf39d4--sunny-capybara-082670.netlify.app");
+      res.redirect("https://project-se-gules.vercel.app");
     }else{
       console.log(`${authenticatedAdmin.name} authenticated role to be ${authenticatedAdmin.role}`);
       res.status(200);

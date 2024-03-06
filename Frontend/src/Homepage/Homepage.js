@@ -336,12 +336,12 @@ const fetchTrendingBlogs = async () => {
   return (
     <div >
       <Header onSearch={handleSearch} />
-      <div class="sel sel--black-panther">
-      <select id="post-sort" className="trending-select"  onChange={handleSortChange}>
+      <div class="trending">
+      <select id="post-sort" class="trending-select" onChange={handleSortChange}>
       <option value="new">New</option>
       <option value="trending">Trending</option>
       </select>
-      </div>
+    </div>
       <div className="homepage">
 
         <Container className="padding-container">

@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 
 //! not yet fixed
 const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
-  const authenticatedUser = await req.session.user.id;
+  const authenticatedUser = await req.user.id;
 
   console.log(`Authenticated userId in session: ${authenticatedUser}`);
   try{
@@ -27,7 +27,7 @@ const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
 
 //! not yet fixed
 const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
-  const authenticatedUser = await req.session.user.id;
+  const authenticatedUser = await req.user.id;
 
   console.log(`Authenticated userId in session: ${authenticatedUser}`);
 

@@ -304,10 +304,6 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <Header onSearch={handleSearch} />
-      <h1>HelloWorld</h1>
-        <button onClick={fetchSession()}> button </button>
-       <h1>test:{users}</h1>
-
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
           <textarea

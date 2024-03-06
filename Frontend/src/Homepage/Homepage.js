@@ -29,7 +29,7 @@ const Homepage = () => {
   const [blogsAccount, setBlogsAccount] = useState([]);
   const [SearchId, setSearchId] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const fresh=0;
+  let fresh=0;
 
   useEffect(() => {
     if(fresh==0){

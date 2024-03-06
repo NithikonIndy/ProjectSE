@@ -16,7 +16,7 @@ const ProfilePage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/user/status", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
         withCredentials: true,
       });
       console.log("log obj data: " ,response.data);
@@ -38,7 +38,7 @@ const ProfilePage = () => {
 
   const fetchLogOut = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/user/deleteSession", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/deleteSession", {
         withCredentials: true,
       });
       console.log("log: " ,response.data);
@@ -49,7 +49,7 @@ const ProfilePage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("http://localhost:3000/api/user/role",{ withCredentials: true });
+      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/api/user/role",{ withCredentials: true });
         setUserRole(role);
         //console.log("This session user role:" ,role);
         //console.log(userRole);

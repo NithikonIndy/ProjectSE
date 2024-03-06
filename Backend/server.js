@@ -19,7 +19,6 @@ const port = process.env.PORT || 3000;
 const app = express();
 connectDB();
 
-// ตั้งค่า CORS ที่ใช้กับทุก route ของแอป
 app.use(cors({
   origin: ['https://project-se-eight.vercel.app','https://oauth.cmu.ac.th/v1/Login.aspx?continue=CPE%20Free%20Bird'],
   methods: 'GET, POST, PUT, DELETE, PATCH',

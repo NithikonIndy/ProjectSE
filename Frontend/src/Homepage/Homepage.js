@@ -63,7 +63,7 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/userID", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/getID", {
         withCredentials: true,
       });
       console.log("log obj data: ", response.data);

@@ -32,9 +32,9 @@ const Homepage = () => {
   const fresh=0;
 
   useEffect(() => {
-    if(fresh>1){
+    if(fresh<2){
       reload();
-      fresh=2;
+      fresh++;
     }
     // reload();
     fetchBlogs();
@@ -50,6 +50,7 @@ const Homepage = () => {
       localStorage.setItem('reloaded', 'true');
       window.location.reload();
     }
+    console.log("reload");
   };
 
   const handleSearch = (searchText) => {

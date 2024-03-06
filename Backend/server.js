@@ -23,8 +23,8 @@ app.use(cors({
   origin: ['https://project-se-gules.vercel.app','https://backend-b1ep.onrender.com'],
   methods: ['GET', 'POST, PUT', 'DELETE', 'PATCH'],
   credentials: true,
-  // exposedHeaders: 'set-cookie',
-  // allowedHeaders: ['Content-Type', 'Authorization', 'set-cookie'],
+  exposedHeaders: 'set-cookie',
+  allowedHeaders: ['Content-Type', 'Authorization', 'set-cookie'],
 }));
 
 app.use(cookieParser());
@@ -40,9 +40,9 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: false,
-      secure: false,
+      secure: true,
       maxAge: parseInt(process.env.EXPIRE_TIME),
-      sameSite: 'lax',
+      sameSite: 'none',
     },
     rolling: true,
     store: MongoStore.create({

@@ -29,9 +29,14 @@ const Homepage = () => {
   const [blogsAccount, setBlogsAccount] = useState([]);
   const [SearchId, setSearchId] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const fresh=0;
 
   useEffect(() => {
-    reload();
+    if(fresh>0){
+      reload();
+      fresh=2;
+    }
+    // reload();
     fetchBlogs();
     fetchSession();
   }, []);

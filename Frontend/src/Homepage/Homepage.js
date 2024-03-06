@@ -33,7 +33,7 @@ const Homepage = () => {
   useEffect(() => {
     reload();
     fetchBlogs();
-  
+    fetchSession();
   }, []);
 
   // useEffect(() => {

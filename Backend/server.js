@@ -25,6 +25,8 @@ app.use(cors({
   credentials: true,
 }));
 
+app.enable('trust proxy')
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,9 +40,9 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: false,
-      secure: false,
+      secure: true,
       maxAge: parseInt(process.env.EXPIRE_TIME),
-      sameSite: 'lax',
+      sameSite: 'none',
     },
     rolling: true,
     store: MongoStore.create({

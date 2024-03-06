@@ -40,7 +40,7 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: false,
-      secure: true,
+      secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
       sameSite: 'none',
     },

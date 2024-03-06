@@ -20,7 +20,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
+  origin: ['https://project-317yg7n9o-latteas-projects.vercel.app','https://backend-b1ep.onrender.com'],
   methods: ['GET', 'POST, PUT', 'DELETE', 'PATCH'],
   credentials: true,
 }));

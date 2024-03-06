@@ -13,7 +13,7 @@ oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"//), (r
     // console.log(req.user);
     // res.redirect("https://project-se-eight.vercel.app/home");
 //}
-,{successRedirect: "https://project-se-eight.vercel.app/home"}));
+,{successRedirect: "https://freebirdcpe.vercel.app/home"}));
 
 oauthRouter.route("/getID").get(getSession);
 

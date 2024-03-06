@@ -121,6 +121,22 @@ hr.solid{
   border-top: 1.5px solid #4396FF;
 }
 
+.ant-dropdown-link {
+  border-bottom: none; /* กำหนด border-bottom เป็น none เพื่อลบขีดเส้นใต้ */
+}
+
+
+.last{
+  transition: border-bottom 0.1s ease;
+}
+.last:hover{
+  color:#2CD5BD;
+  border-bottom: #2CD5BD 3px solid ;
+}
+
+
+
+
 
 
 

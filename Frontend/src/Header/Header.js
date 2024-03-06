@@ -11,7 +11,44 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useLocation, redirect, useNavigate } from "react-router-dom";
+import { DownOutlined } from '@ant-design/icons';
+import { Dropdown, Space } from 'antd';
 
+const items = [
+
+  {
+    label: <a href="https://www.antgroup.com">1st menu item1st menu item1st menu item1st menu item </a>,
+    key: '0',
+  },
+  {
+    label: <a href="https://www.aliyun.com">2nd menu item</a>,
+    key: '1',
+  },
+  
+  ,
+  {
+    label: '3rd menu item',
+    key: '3',
+  },
+  {
+    label: '3rd menu item',
+    key: '3',
+  },
+  {
+    label: '3rd menu item',
+    key: '3',
+  },
+  {
+    label: '3rd menu item',
+    key: '3',
+  },
+  {
+    label: '3rd menu item',
+    key: '3',
+  },
+
+    
+];
 
 const Header = (props) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -128,27 +165,26 @@ const Header = (props) => {
       </div>
 
 
-
+    
       <div className="container-icons">
-
         {/* Dropdown component */}
+        <Dropdown menu={{ items }} arrow={{ pointAtCenter: true }}>
         <div className={`dropdown ${isDropdownOpen ? "show" : ""}`}>
-          <button onClick={handleDropdownClick} className="dropbtn">
-            {/* Bell icon */}
             <FontAwesomeIcon icon={faBell} alt="notify-icon" />
-          </button>
           <div id="myDropdown" className="dropdown-content">
             {Array.isArray(Show) &&
               Show.map((blog) => (
                 <div key={blog._id}>
 
-                  <p onClick={() => onClickgetblogId(blog._id)}>
+                  <p onClick={() => onClickgetblogId(blog._id)}> 
                     <p>{blog.description}</p>
                   </p>
                 </div>
               ))}
           </div>
         </div>
+        </Dropdown>
+
 
         {/* Home icon */}
         <Link to="/home">

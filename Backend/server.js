@@ -12,6 +12,7 @@ import oauthRoutes from "./routes/oauthRoutes.js";
 import { notfound, errorHandler } from "./middleware/errorMiddleware.js";
 import passport from "passport";
 import "./utils/passport.js";
+import bodyParser from "body-parser";
 
 dotenv.config();
 

@@ -31,8 +31,8 @@ const Homepage = () => {
   const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   useEffect(() => {
-    fetchSession();
     fetchBlogs();
+    window.location.reload();
   }, []);
 
   useEffect(() => {

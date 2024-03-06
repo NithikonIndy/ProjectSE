@@ -1,11 +1,11 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
-import session from "express-session";
 
 const getAuthenticatedUser = asyncHandler(async (req, res, next) => {
   const authenticatedUser = await req.session.userId;
   // log authenticated user id in session
   console.log(`Authenticated userId in session: ${authenticatedUser}`);
+  console.log("hello");
   try{
     if (!authenticatedUser || authenticatedUser === undefined) {
      res.status(401).redirect("/signIn");
@@ -51,15 +51,15 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 });
 
 const getSession = asyncHandler(async (req, res, next) => {
+  let user;
   try {
-    const user = req.session; // Access session data directly without await
-    console.log("req.session: ",req.session);
-    console.log("req.session.userId: ",req.session.userId);
-    res.status(200).json({user});
+    user = req.session.userId; // Access session data directly without await
   } catch (err) {
     console.error(err);
     return next(err); // Pass the error to the next middleware
   }
+  
+  res.status(200).json({ user });
 });
 
 // Filter the authenticated user role
@@ -69,7 +69,7 @@ const isAuthenticated = asyncHandler(async (req, res, next) => {
   console.log("pass condition have session");
   try{
     if (!sessionId || sessionId === undefined || sessionId === null) {
-      res.status(401).json("Can't find sessionId:", sessionId);
+      res.status(401).json("Can find sessionId:", sessionId);
       console.log("don't pass condition type session");
     }else{
       const user = await User.findById(sessionId);
@@ -92,6 +92,4 @@ const isAuthenticated = asyncHandler(async (req, res, next) => {
   }
 });
 
-
-
-export {getSession, getAuthenticatedUser, getAuthenticatedAdmin, isAuthenticated};
+export { getSession, getAuthenticatedUser, getAuthenticatedAdmin, isAuthenticated};

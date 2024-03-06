@@ -7,6 +7,8 @@ import axios from "axios";
 
 const { Title, Text } = Typography;
 
+
+
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);

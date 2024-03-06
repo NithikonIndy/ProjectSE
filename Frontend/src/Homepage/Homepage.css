@@ -138,5 +138,49 @@ hr.solid{
 
 
 
+.trending {
+  position: relative;
+  display: inline-block;
+  width: 200px; /* Adjust as needed */
+}
 
+.trending::after {
+  content: '\25BC';
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  color: #333;
+  pointer-events: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+.trending-select {
+  width: 100%;
+  padding: 8px 32px 8px 12px; /* Adjust as needed */
+  border: none; /* Removes default border */
+  border-bottom: 1px solid #ccc; /* Minimal bottom border */
+  background-color: transparent; /* Keeps the background clean */
+  -webkit-appearance: none; /* Removes default styling for WebKit browsers */
+  -moz-appearance: none;    /* Removes default styling for Firefox browsers */
+  appearance: none;         /* Removes default styling */
+  font-size: 16px; /* Adjust as needed */
+  color: #333; /* Text color */
+}
+
+.trending-select:focus {
+  outline: none;
+  border-bottom-color: #333; /* Changes bottom border color on focus */
+}
+
+/* Change arrow direction when select is open */
+.trending-select:focus + .trending::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.trending-select option {
+  padding: 10px;
+  background: white; /* Background of options */
+  color: #333; /* Text color of options */
+}
 

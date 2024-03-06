@@ -31,12 +31,21 @@ const Homepage = () => {
   const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   useEffect(() => {
+    reload();
     fetchBlogs();
+  
   }, []);
 
-  useEffect(() => {
-    fetchSession();
-  }, []);
+  // useEffect(() => {
+  //   fetchSession();
+  // }, []);
+
+  const reload = () => {
+    if (!localStorage.getItem('reloaded')) {
+      localStorage.setItem('reloaded', 'true');
+      window.location.reload();
+    }
+  };
 
   const handleSearch = (searchText) => {
     console.log("Searched text:", searchText);
@@ -45,7 +54,6 @@ const Homepage = () => {
   };
 
   const fetchSession = async () => {
-    window.location.reload();
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
         withCredentials: true,

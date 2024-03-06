@@ -23,11 +23,10 @@ const Homepage = () => {
   const [blogText, setBlogText] = useState("");
   const navigate = useNavigate();
   const [users, setUsers] = useState("");
-  const [Blogs, SetBlogs] = useState([]);
+  //const [Blogs, SetBlogs] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [blogsAccount, setBlogsAccount] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [SearchId, setSearchId] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   useEffect(() => {
@@ -89,13 +88,12 @@ const Homepage = () => {
       const reversedBlogs = response.data.blogs.reverse();
  
       handleAccountBlogs(reversedBlogs);
-      SetBlogs(reversedBlogs);
+      //SetBlogs(reversedBlogs);
       console.log("Blogs:", reversedBlogs);
 
       const filteredBlogs = reversedBlogs.filter((blog) =>
         Searchbar(searchText, blog.description)
       );
-      handleAccountBlogs(reversedBlogs);
       setFilteredBlogs(filteredBlogs);
 
     } catch (error) {
@@ -332,7 +330,6 @@ const Homepage = () => {
           filteredBlogs.map((blog, index) => (
         // {Array.isArray(Blogs) &&
           // Blogs.map((blog, index) => (
-
             <div key={blog._id} className="blog-item" >
               <div className="flex-div">
                 <FontAwesomeIcon icon={faUser} />

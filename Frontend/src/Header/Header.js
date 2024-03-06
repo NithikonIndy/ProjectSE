@@ -131,6 +131,8 @@ const Header = (props) => {
 
       <div className="container-icons">
 
+
+
         {/* Dropdown component */}
         <div className={`dropdown ${isDropdownOpen ? "show" : ""}`}>
           <button onClick={handleDropdownClick} className="dropbtn">
@@ -143,7 +145,9 @@ const Header = (props) => {
                 <div key={blog._id}>
 
                   <p onClick={() => onClickgetblogId(blog._id)}>
-                    <p>{blog.description}</p>
+                    <p></p>
+                    <p style={{ textAlign: 'center' }}>{blog.description}</p>
+
                   </p>
                 </div>
               ))}

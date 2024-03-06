@@ -43,6 +43,11 @@ const ProfilePage = () => {
       } catch (error) {
         console.error("Error fetching user role:", error);
       }
+      const userblog = () =>{
+        // try{
+        //   const response = await axios.get("")
+        // }
+      }
   };
 
   return (

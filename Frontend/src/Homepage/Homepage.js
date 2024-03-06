@@ -35,8 +35,12 @@ const Homepage = () => {
 
     // reload();
     fetchBlogs();
-    fetchSession();
+    //fetchSession();
   }, []);
+
+  useEffect(() => {
+    fetchSession();
+  },[users])
 
   // useEffect(() => {
   //   fetchSession();
@@ -332,7 +336,7 @@ const Homepage = () => {
       console.error("Error fetching trending blogs:", error);
     }
   };
-  
+
   useEffect(() => {
     fetchBlogs();
   }, [searchText, users]);

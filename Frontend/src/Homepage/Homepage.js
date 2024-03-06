@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Homepage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faFlag, faEdit ,faComments,faTrash} from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp, faFlag, faEdit, faComments, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { uniqueNamesGenerator, animals } from "unique-names-generator";
 import Swal from "sweetalert2";
@@ -34,32 +34,32 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/Userid", {
         withCredentials: true,
       });
-      console.log("log obj data: " ,response.data);
-      console.log("log userID: " ,response.data._id);
+      console.log("log obj data: ", response.data);
+      // console.log("log userID: ", response.data._id);
       setUsers(response.data._id);
-      console.log("log users: " ,response.data._id);
-      fetchUserRole();        
+      // console.log("log users: ", response.data._id);
+      fetchUserRole();
       // if (!response.data) {
       //     console.log("!response.data.user");
       //     // fetchLogOut();
       //     // navigate("/");
       // } else {
       // }
-        console.log("This session user:", response.data.name);
-      } catch (error) {
-        console.error("Error fetching user session:", error);
+      console.log("This session user:", response.data.name);
+    } catch (error) {
+      console.error("Error fetching user session:", error);
     }
-  };  
+  };
 
   const fetchLogOut = async () => {
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/user/deleteSession", {
         withCredentials: true,
       });
-      console.log("log: " ,response.data);
+      console.log("log: ", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -67,20 +67,20 @@ const Homepage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/api/user/role",{ withCredentials: true });
-        setUserRole(role);
-        //console.log("This session user role:" ,role);
-        //console.log(userRole);
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-      }
+      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/api/user/role", { withCredentials: true });
+      setUserRole(role);
+      //console.log("This session user role:" ,role);
+      //console.log(userRole);
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
   };
 
   const fetchBlogs = async () => {
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
- 
+
       handleAccountBlogs(reversedBlogs);
       SetBlogs(reversedBlogs);
       console.log("Blogs:", reversedBlogs);
@@ -101,7 +101,7 @@ const Homepage = () => {
       console.log("User Emails:", userEmails);
     } catch (error) {
       console.log(error);
-    } 
+    }
   };
 
   const AlertDelete = (blogid) => {
@@ -207,9 +207,9 @@ const Homepage = () => {
   const onClicklikeblog = async (blogId) => {
     console.log("Clicked on blog with ID:", blogId);
     handleLikeBlog(blogId);
-     setTimeout(() => {
-       fetchBlogs();
-     }, 250);
+    setTimeout(() => {
+      fetchBlogs();
+    }, 250);
   };
 
   const handlePostBlog = async () => {
@@ -222,7 +222,7 @@ const Homepage = () => {
       })
       .catch((error) => {
         console.error("Error adding comment:", error);
-    });
+      });
     fetchBlogs();
   };
 
@@ -276,7 +276,7 @@ const Homepage = () => {
       fetchBlogs();
     }, 500);
   };
- 
+
   return (
     <div className="homepage">
       <Header />
@@ -290,7 +290,7 @@ const Homepage = () => {
             rows="10"
           />
 
-          <button 
+          <button
             onClick={handlePostBlog}
             style={{ position: "absolute", right: "12px", bottom: "30px" }}
           >
@@ -305,7 +305,7 @@ const Homepage = () => {
               <div className="flex-div">
                 <FontAwesomeIcon icon={faUser} />
                 <strong style={{ marginLeft: '6px' }} className="flex-div"><i>{generateRandomNameForUserId(blog.user, blog._id)}</i>
-                  {(userRole === "ADMIN") && ( <i style={{ marginLeft: '20px' }} >{blogsAccount[index] }</i> )}              
+                  {(userRole === "ADMIN") && (<i style={{ marginLeft: '20px' }} >{blogsAccount[index]}</i>)}
                 </strong>
               </div>
 
@@ -347,22 +347,22 @@ const Homepage = () => {
 
 
                   {((blog.user === users) || (userRole === "ADMIN")) && (
-                  <button
-                    onClick={() => {
-                      AlertDelete(blog._id);
-                    }}
-                  >
+                    <button
+                      onClick={() => {
+                        AlertDelete(blog._id);
+                      }}
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                       &nbsp;
-                    Delete
-                  </button>
-                )}
+                      Delete
+                    </button>
+                  )}
+                </div>
               </div>
-             </div>
             </div>
           ))}
       </Container>
-   
+
     </div>
   );
 };

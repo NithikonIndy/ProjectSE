@@ -46,12 +46,11 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
   }
 });
 
-//! not yet fixed
 const getSession = asyncHandler(async (req, res, next) => {
   try {
     const user = req.session;
     console.log("req.session: ",req.session);
-    console.log("req.session.userId: ",req.session.userId);
+    // console.log("req.session.userId: ",req.session);
     res.status(200).json({user});
   } catch (err) {
     console.error(err);

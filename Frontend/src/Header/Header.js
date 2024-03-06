@@ -160,7 +160,7 @@ const Header = (props) => {
           <FontAwesomeIcon icon={faUser} alt="profile-icon" />
         </Link>
 
-        <Link to="https://backend-b1ep.onrender.com/logout">
+        <Link to="https://backend-b1ep.onrender.com/api/userlogout">
           <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
         </Link>
       </div>

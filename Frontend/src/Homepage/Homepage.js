@@ -35,6 +35,10 @@ const Homepage = () => {
     fetchBlogs();
   }, []);
 
+  useEffect(() => {
+    fetchSession();
+  }, []);
+
   const handleSearch = (searchText) => {
     console.log("Searched text:", searchText);
     setSearchText(searchText);

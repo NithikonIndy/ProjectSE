@@ -6,7 +6,7 @@
   margin: 0;
   width: 100%;
   background-color: #fefefe;
-  height: 170px; /* ปรับความสูงของ Header */
+  height: 150px; /* ปรับความสูงของ Header */
   overflow: hidden; /* จำเป็นต้องใส่เพื่อที่จะแสดงขอบโค้งถูกต้อง */
   margin-bottom: 1px;
   border-bottom: 1px solid rgb(221, 217, 217);

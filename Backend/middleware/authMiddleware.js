@@ -51,6 +51,7 @@ const getSession = asyncHandler(async (req, res, next) => {
     const user = req.session;
     console.log("req.session: ",req.sessions);
     console.log("req.user: ",req.user);
+   
     // console.log("req.session.userId: ",req.session);
     res.status(200).json({user});
   } catch (err) {
@@ -58,6 +59,8 @@ const getSession = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 });
+
+
 
 // Filter the authenticated user role
 const isAuthenticated = asyncHandler(async (req, res, next) => {

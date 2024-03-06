@@ -39,8 +39,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       path: '/',
-      httpsOnly: true,
-      secure: true,
+      httpsOnly: false,
+      secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
       sameSite: 'none',
     },

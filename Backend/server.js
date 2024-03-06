@@ -20,7 +20,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: ['https://project-se-eight.vercel.app','https://oauth.cmu.ac.th/', 'https://backend-b1ep.onrender.com'],
+  origin: ['https://freebirdcpe.vercel.app','https://oauth.cmu.ac.th/', 'https://backend-b1ep.onrender.com'],
   methods: 'GET, POST, PUT, DELETE, PATCH',
   credentials: true,
 }));

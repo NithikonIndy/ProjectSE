@@ -26,11 +26,18 @@ const Homepage = () => {
   const [Blogs, SetBlogs] = useState([]);
   const [userRole, setUserRole] = useState("");
   const [blogsAccount, setBlogsAccount] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [SearchId, setSearchId] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   useEffect(() => {
     fetchSession();
     fetchBlogs();
   }, []);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [searchText, users]);
 
   const fetchSession = async () => {
     try {
@@ -84,8 +91,31 @@ const Homepage = () => {
       handleAccountBlogs(reversedBlogs);
       SetBlogs(reversedBlogs);
       console.log("Blogs:", reversedBlogs);
+
+      const filteredBlogs = reversedBlogs.filter((blog) =>
+        Searchbar(searchText, blog.description)
+      );
+      handleAccountBlogs(reversedBlogs);
+      setFilteredBlogs(filteredBlogs);
+
     } catch (error) {
       console.error("Error fetching blogs:", error);
+    }
+  };
+
+  const handleSearch = (searchText) => {
+    console.log("Searched text:", searchText);
+    setSearchText(searchText);
+    fetchBlogs();
+  };
+
+  const Searchbar = (mainString, arrayToFind) => {
+    const isFound = arrayToFind.includes(mainString);
+
+    if (isFound) {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -279,7 +309,7 @@ const Homepage = () => {
  
   return (
     <div className="homepage">
-      <Header />
+      <Header onSearch={handleSearch} />
 
       <Container className="padding-container">
         <div className="blog-section" style={{ position: "relative" }}>
@@ -298,8 +328,10 @@ const Homepage = () => {
           </button>
         </div>
 
-        {Array.isArray(Blogs) &&
-          Blogs.map((blog, index) => (
+        {Array.isArray(filteredBlogs) &&
+          filteredBlogs.map((blog, index) => (
+        // {Array.isArray(Blogs) &&
+          // Blogs.map((blog, index) => (
 
             <div key={blog._id} className="blog-item" >
               <div className="flex-div">

@@ -8,36 +8,57 @@ import {
   faRightFromBracket,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import _ from "lodash";
 
-const Header = () => (
-  <div className="header">
-    <div className="container-logo">
-      <span className="free">Free</span>
-      <span className="bird">Bird</span>
+const Header = (props) => {
+  const [searchText, setSearchText] = useState("");
+
+  const debouncedSearch = _.debounce((searchText) => {
+    props.onSearch(searchText);
+  }, 500);
+
+  const handleSearch = (e) => {
+    const searchText = e.target.value;
+    setSearchText(searchText);
+    debouncedSearch(searchText);
+  };
+
+  return (
+    <div className="header">
+      <div className="container-logo">
+        <span className="free">Free</span>
+        <span className="bird">Bird</span>
+      </div>
+
+      <div className="container-search">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchText}
+          onChange={handleSearch}
+        />
+      </div>
+
+      <div className="container-icons">
+        <Link to="/home">
+          <FontAwesomeIcon icon={faBell} alt="notify-icon" />
+        </Link>
+
+        <Link to="/home">
+          <FontAwesomeIcon icon={faHome} alt="home-icon" />
+        </Link>
+
+        <Link to="/profile">
+          <FontAwesomeIcon icon={faUser} alt="profile-icon" />
+        </Link>
+
+        <Link to="http://localhost:3000/api/user/logout">
+          <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
+        </Link>
+      </div>
     </div>
-
-    <div className="container-search">
-      <input type="text" placeholder="Search..." />
-    </div>
-
-    <div className="container-icons">
-      <Link to="/home">
-        <FontAwesomeIcon icon={faBell} alt="notify-icon" />
-      </Link>
-
-      <Link to="/home">
-        <FontAwesomeIcon icon={faHome} alt="home-icon" />
-      </Link>
-
-      <Link to="/profile">
-        <FontAwesomeIcon icon={faUser} alt="profile-icon" />
-      </Link>
-
-      <Link to="http://localhost:3000/api/user/logout">
-        <FontAwesomeIcon icon={faRightFromBracket} alt="logout-icon" />
-      </Link>
-    </div>
-  </div>
-);
+  );
+};
 
 export default Header;

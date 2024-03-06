@@ -77,7 +77,7 @@ const Homepage = () => {
       // }
       console.log("This session user:", response.data.name);
     } catch (error) {
-      console.error("Error fetching user session:", error);
+      console(error);
     }
   };
 

@@ -98,6 +98,7 @@ const Homepage = () => {
   
       handleAccountBlogs(reversedBlogs);
       setFilteredBlogs(filteredBlogs);
+      
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
@@ -294,10 +295,8 @@ const Homepage = () => {
     const isFound = arrayToFind.includes(mainString);
 
     if (isFound) {
-      // console.log(`${mainString} found in the descriptions.`);
       return true;
     } else {
-      // console.log(`${mainString} not found in the descriptions.`);
       return false;
     }
   };

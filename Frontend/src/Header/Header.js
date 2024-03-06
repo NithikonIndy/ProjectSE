@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import _ from 'lodash';
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -88,9 +89,19 @@ const Header = (props) => {
   };
 
 
-  const handleSearch = () => {
+  // const handleSearch = () => {
+  //   props.onSearch(searchText);
+  // }
+
+  const debouncedSearch = _.debounce((searchText) => {
     props.onSearch(searchText);
-  }
+  }, 500); // ปรับเป็นตามความต้องการ
+
+  const handleSearch = (e) => {
+    const searchText = e.target.value;
+    setSearchText(searchText);
+    debouncedSearch(searchText);
+  };
 
 
 
@@ -112,10 +123,7 @@ const Header = (props) => {
           type="text"
           placeholder="Search..."
           value={searchText}
-          onChange={(e) => {
-            setSearchText(e.target.value);
-            handleSearch();
-          }}
+          onChange={handleSearch}
         />
       </div>
 

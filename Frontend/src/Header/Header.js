@@ -28,7 +28,7 @@ const Header = (props) => {
 
   const handlefetchreport = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/returnreportReasons", {
+      const response = await axios.get("https://backend-b1ep.onrender.com/returnreportReasons", {
       });
       const reverseReport = response.data.reverse();
       if (!reverseReport) {
@@ -43,7 +43,7 @@ const Header = (props) => {
 
   const showreportblogBlogs = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/blog");
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
       const reversedBlogs = response.data.blogs.reverse();
       const SearchText = response.data.blogs.reverse();
       const vector = [];

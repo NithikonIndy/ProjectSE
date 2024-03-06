@@ -49,6 +49,10 @@ app.use(
       secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+      sameSite: 'none',
+>>>>>>> parent of d7de2f5 (old)
 =======
       sameSite: 'none',
 >>>>>>> parent of d7de2f5 (old)
@@ -73,8 +77,12 @@ app.use(notfound);
 app.use(errorHandler);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // app.get("/", (req, res) => res.send("Server is running"));
 app.listen(port, () => console.log(`server listening on ${port}`));
+=======
+app.listen(port, () => console.log(`server listening on ${port}`));
+>>>>>>> parent of d7de2f5 (old)
 =======
 app.listen(port, () => console.log(`server listening on ${port}`));
 >>>>>>> parent of d7de2f5 (old)

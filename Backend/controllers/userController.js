@@ -37,6 +37,7 @@ const deleteSession = asyncHandler(async (req, res, next) => {
   res.status(200).json({message: "Session was destroyed"});
 });
 
+
 const getUserProfile = asyncHandler(async (req, res, next) => {
   try{
     const user = await User.findById(req.session.userId);

@@ -3,9 +3,7 @@ import Blog from "../models/Blog.js";
 import Comment from "../models/Comment.js";
 import User from "../models/userModel.js";
 import Report from "../models/reportModel.js";
-
 import constants from "../utils/constants.js";
-
 
 export const getAllBlog = async ( req, res, next) => {
     let blogs;
@@ -95,14 +93,12 @@ export const getById = async (req, res , next) => {
     let blog;
     try{
         blog = await Blog.findById(id);
-        console.log( blog.user.blogs);
     }catch(err){
         return console.log(err);
     }
     if(!blog){
         return res.status(404).json({message:"No Blog Found"});
     }
-    
     return res.status(200).json({ blog });
 }
 
@@ -110,16 +106,11 @@ export const deleteBlog = async (req , res, next) => {
     const id = req.params.id;
 
     let blog;
-    let comment;
-    let user;
-    let report;
     try{
         blog = await Blog.findByIdAndDelete(id).populate("user").populate("comments");
         console.log(blog);
 
         if (!blog) {
-            return res.status(404).json({ message: "Blog not found" });
-        }else if(!comment){
             return res.status(404).json({ message: "Blog not found" });
         }
         await Comment.deleteMany({ _id: { $in: blog.comments.map(comment => comment._id) } });
@@ -140,14 +131,13 @@ export const getByUserId = async (req , res , next) => {
     const userId =req.params.id;
     let userBlogs;
     try{
-        userBlogs = await User.findById(userId).populate("Blog");
+        userBlogs = await User.findById(userId).populate("blogs");
     }catch(err){
         return console.log(err);
     }
     if(!userBlogs){
         return res.status(404).json({message:"No Blog Found"});
     }
-    
     return res.status(200).json({blogs:userBlogs});
 };
 

@@ -81,7 +81,7 @@ export const deleteComment = async (req, res, next) => {
     let user;
     try {
         // Find the comment by ID and populate the 'blog' field
-        comment = await Comment.findByIdAndDelete(commentId).populate("Blog");
+        comment = await Comment.findByIdAndDelete(commentId).populate("blog");
         if (!comment) {
             return res.status(404).json({ message: "CommentBlog not found" });
         }

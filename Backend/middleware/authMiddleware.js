@@ -35,7 +35,7 @@ const getAuthenticatedAdmin = asyncHandler(async (req, res, next) => {
 
   try{
     if(!authenticatedAdmin || authenticatedAdmin === undefined || authenticatedAdmin === null || authenticatedAdmin.role !== 'ADMIN'){
-      res.redirect("http:localhost:5000/home");
+      res.redirect("https://project-i1brgb6ao-latteas-projects.vercel.app/home");
     }else{
       console.log(`${authenticatedAdmin.name} authenticated role to be ${authenticatedAdmin.role}`);
       res.status(200);

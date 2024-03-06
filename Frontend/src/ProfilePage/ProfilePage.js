@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Header/Header.js";
 import "./ProfilePage.css";
-import { Card, Avatar, Divider, Typography, Button } from 'antd';
-import { Col, Row } from 'antd';
-import { Link } from "react-router-dom";
+import { Card, Avatar, Divider, Typography, Button, Col, Row } from 'antd';
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const { Title, Text } = Typography;
 

@@ -7,7 +7,6 @@ import './App.css';
 import ProfilePage from './ProfilePage/ProfilePage';
 import Header from './Header/Header';
 import YourBlog from "./ProfilePage/YourBlog";
-import YourCOm from "./ProfilePage/YourCom";
 import YourCom from './ProfilePage/YourCom';
 
 function App() {

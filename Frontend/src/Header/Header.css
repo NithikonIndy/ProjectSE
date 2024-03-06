@@ -6,7 +6,7 @@
   margin: 0;
   width: 100%;
   background-color: #fefefe;
-  height: 170px; /* ปรับความสูงของ Header */
+  height: 100px; /* ปรับความสูงของ Header */
   overflow: hidden; /* จำเป็นต้องใส่เพื่อที่จะแสดงขอบโค้งถูกต้อง */
   margin-bottom: 1px;
   border-bottom: 1px solid rgb(221, 217, 217);
@@ -63,45 +63,3 @@
 .container-icons svg path{
   fill: #2CD5BD;
 }
-
-/* Add this to your CSS file or style block */
-
-/* Style for the dropdown container */
-.dropdown {
-  display: inline-block;
-  position: relative;
-}
-
-/* Style for the dropdown button */
-.dropbtn {
-  padding: 10px;
-  background-color: #fefefe;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-/* Style for the dropdown content (hidden by default) */
-.dropdown-content {
-  display: none;
-  position: fixed;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-/* Show the dropdown content when the dropdown container is hovered over */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* Style for the dropdown items */
-.dropdown-content a {
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-
-

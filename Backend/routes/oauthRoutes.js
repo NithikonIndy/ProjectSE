@@ -1,0 +1,15 @@
+import express from "express";
+import passport from "passport";
+import "../utils/passport.js";
+
+const oauthRouter = express.Router();
+
+oauthRouter.route("/").get(passport.authenticate("oauth2"));
+oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"), (req, res) => {
+    console.log("sessionID: ",req.sessionID);
+    console.log(req.session);
+    console.log(req.user);
+    res.redirect("https://project-se-gules.vercel.app/home");
+});
+
+export default oauthRouter;

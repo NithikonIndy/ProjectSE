@@ -34,7 +34,7 @@ const Homepage = () => {
   useEffect(() => {
     if(ve.length<1){
       reload();
-      ve.push('1');
+      ve.push('2');
     }
     // reload();
     fetchBlogs();

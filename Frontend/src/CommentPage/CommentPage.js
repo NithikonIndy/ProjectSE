@@ -54,7 +54,7 @@ const CommentPage = () => {
     fetchSession();
     fetchBlog();
     fetchComments();
-  },[]);
+  }, []);
 
   const fetchSession = async () => {
     try {
@@ -127,7 +127,7 @@ const CommentPage = () => {
     console.log("FetchingBlog");
   };
 
-  const handleReportReasons = async() => {
+  const handleReportReasons = async () => {
     try {
       const { data: fetchReasons } = await axios.get("https://backend-b1ep.onrender.com/api/user/reportReasons");
       console.log(fetchReasons);
@@ -200,8 +200,8 @@ const CommentPage = () => {
       let end = response.data.blog.likes.length;
       const arrayLikes = [];
 
-      while(i < end){
-        if(response.data.blog._id == blogIdforget){
+      while (i < end) {
+        if (response.data.blog._id == blogIdforget) {
           arrayLikes.push(response.data.blog.likes[i]);
         }
         i++;
@@ -222,7 +222,7 @@ const CommentPage = () => {
       if(response.data === "The comment has been liked" || response.data === "The comment has been disliked"){
         fetchComments(commentId);
       }
-      console.log("handleLikeComment" ,response.data);
+      console.log("handleLikeComment", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -238,6 +238,9 @@ const CommentPage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
+      setTimeout(() => {
+        onClickGotoHome();
+      }, 100);
   };
 
   const handleDeleteComment = (commentid) => {
@@ -253,6 +256,7 @@ const CommentPage = () => {
     setTimeout(() => {
       fetchComments();
     }, 500);
+   
   };
 
   const handleEditComment = (commentid, editedText) => {
@@ -291,19 +295,19 @@ const CommentPage = () => {
 
   const handleAccountComment = async (comments) => {
     try {
-        const emailPromises = comments.map(async (comment) => {
-            const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/comments/blog/${comment.user}/account`);
-            //console.log("handleAccountComment", comment.user);
-            return email.email;
-        });
-        const userEmails = await Promise.all(emailPromises);
-        setCommentAccount(userEmails);
-        console.log("Comment account:", userEmails);
-    } catch (error) { 
-        console.log("Error fetching account:", error);
+      const emailPromises = comments.map(async (comment) => {
+        const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/comments/blog/${comment.user}/account`);
+        //console.log("handleAccountComment", comment.user);
+        return email.email;
+      });
+      const userEmails = await Promise.all(emailPromises);
+      setCommentAccount(userEmails);
+      console.log("Comment account:", userEmails);
+    } catch (error) {
+      console.log("Error fetching account:", error);
     }
-};
-  
+  };
+
   const AlertDelete = (blogid) => {
     Swal.fire({
       title: " blog Firmly to delete?",
@@ -340,13 +344,15 @@ const CommentPage = () => {
           icon: "success",
         });
         handleDeleteComment(commentid);
+        
       }
     });
+    
   };
 
   const AlertReport = async (blogid) => {
-      const fetchReasons = await handleReportReasons();
-      console.log(blogid);
+    const fetchReasons = await handleReportReasons();
+    console.log(blogid);
 
       Swal.fire({
         title: "Firmly to report?",
@@ -420,13 +426,18 @@ const CommentPage = () => {
             text: `Your comment has been edited.`,
             icon: "success",
           });
-          console.log("edit comment text's: ",editedText);
+          console.log("edit comment text's: ", editedText);
           handleEditComment(commentid, editedText);
         }
       }
     });
   };
-  
+
+  const onClickGotoHome = async () => {
+    navigate(`/home`);
+    // console.log("click get blog id:", blogId);
+  };
+
   return (
     <div className="comment-page">
       <Header />
@@ -441,9 +452,9 @@ const CommentPage = () => {
                   <div className="flex-div">
                     <FontAwesomeIcon icon={faUser} />
                     <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
-                    { userRole === "ADMIN" && (
+                    {userRole === "ADMIN" && (
                       <strong style={{ marginLeft: '10px' }}>{blogAccount}</strong>
-                    )} 
+                    )}
                   </div>
 
                   <div className="topright">
@@ -463,7 +474,7 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    {/* {blog.user === users && (
+                    {blog.user === users && (
                       <Button
                         className="logo-control"
                         id={`deleteButton-${blog.user}`}
@@ -478,7 +489,7 @@ const CommentPage = () => {
                         &nbsp;
                         Delete
                       </Button>
-                    )} */}
+                    )}
                   </div>
                 </CardHeader>
 
@@ -493,14 +504,14 @@ const CommentPage = () => {
                           handleLikePost();
                         }}
                       >
-                        <FontAwesomeIcon icon={faThumbsUp} className="margin-right"/>
+                        <FontAwesomeIcon icon={faThumbsUp} className="margin-right" />
                         {listLikePost.length}
                         &nbsp;
                         Like
                       </Button>
                     </p>
 
-                    {/* <p>
+                     {/* <p>
                       <Button className="logo-control">
                         <FontAwesomeIcon icon={faComments} />
                         { {blog.comments.length} }
@@ -524,7 +535,7 @@ const CommentPage = () => {
             </Card>
           ))}
 
-        {/*<CommentInput />*/}
+        {<CommentInput />}
         <Card className="adjust-width">
           <CardBody>
             <CardText className="text-padding adjust-height">
@@ -543,7 +554,7 @@ const CommentPage = () => {
             </CardFooter>
           </CardBody>
         </Card>
-        
+
         {/* Comment List */}
         {Array.isArray(listComment) &&
           listComment.map((comment, index) => (
@@ -553,9 +564,9 @@ const CommentPage = () => {
                   <div className="flex-div">
                     <FontAwesomeIcon icon={faUser} />
                     <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(comment.user, comment.blog)}</i></strong>
-                    
+
                     {(userRole === "ADMIN") && (
-                      <p style={{ marginLeft: '6px' }} >{commentAccount[index] }</p>
+                      <p style={{ marginLeft: '6px' }} >{commentAccount[index]}</p>
                     )}
                   </div>
 
@@ -602,7 +613,7 @@ const CommentPage = () => {
                       }}
                       style={{ backgroundColor: '#2CD5BD', color: 'white' }}
                     >
-                      <FontAwesomeIcon icon={faThumbsUp} className="margin-right"/>
+                      <FontAwesomeIcon icon={faThumbsUp} className="margin-right" />
                       {comment.likes.length}
                       &nbsp;
                       Like

@@ -12,7 +12,6 @@ oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"), (req
     console.log(req.session);
     console.log(req.user);
     res.redirect("https://project-se-eight.vercel.app/home");
-    next();
 });
 
 oauthRouter.route("/getID").get(getSession);

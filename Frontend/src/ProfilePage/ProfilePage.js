@@ -32,6 +32,7 @@ const ProfilePage = () => {
       // }
         console.log("This session user:", response.data.name);
       } catch (error) {
+        navigate("/")
         console.error("Error fetching user session:", error);
     }
   };  

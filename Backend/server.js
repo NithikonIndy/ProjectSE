@@ -31,6 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.disable('x-powered-by');
 
+app.set('trust proxy', 1);
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

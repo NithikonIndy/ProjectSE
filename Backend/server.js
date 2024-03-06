@@ -20,7 +20,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: ['https://project-se-eight.vercel.app','https://oauth.cmu.ac.th/v1/Login.aspx?continue=CPE%20Free%20Bird', 'https://backend-b1ep.onrender.com'],
+  origin: ['https://project-se-eight.vercel.app','https://oauth.cmu.ac.th/', 'https://backend-b1ep.onrender.com'],
   methods: 'GET, POST, PUT, DELETE, PATCH',
   credentials: true,
 }));
@@ -40,7 +40,7 @@ app.use(
       httpOnly: false,
       secure: false,
       maxAge: parseInt(process.env.EXPIRE_TIME),
-      sameSite: 'none',
+      sameSite: 'lax',
     },
     rolling: true,
     store: MongoStore.create({

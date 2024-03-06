@@ -92,7 +92,8 @@ const Homepage = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
+      // const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
+      const response =await axios.get(`https://backend-b1ep.onrender.com/api/blog`);
       const reversedBlogs = response.data.blogs.reverse();
   
       const filteredBlogs = reversedBlogs.filter((blog) =>

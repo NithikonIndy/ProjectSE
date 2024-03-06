@@ -39,10 +39,10 @@ app.use(
     saveUninitialized: false,
     cookie: {
       path: '/',
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       maxAge: parseInt(process.env.EXPIRE_TIME),
-      sameSite: 'lax',
+      sameSite: 'none',
     },
     rolling: true,
     store: MongoStore.create({

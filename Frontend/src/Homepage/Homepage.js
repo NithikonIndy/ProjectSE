@@ -28,7 +28,7 @@ const Homepage = () => {
   const [blogsAccount, setBlogsAccount] = useState([]);
 
   useEffect(() => {
-    // fetchSession();
+    fetchSession();
     fetchBlogs();
   }, []);
 
@@ -281,7 +281,7 @@ const Homepage = () => {
     <div className="homepage">
       <Header />
       <h1>HelloWorld</h1>
-        <button onClick={fetchSession()}> tt </button>
+        <button onClick={fetchSession()}> button </button>
        <h1>test:{users}</h1>
 
       <Container className="padding-container">

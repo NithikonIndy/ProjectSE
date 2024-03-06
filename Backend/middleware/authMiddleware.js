@@ -50,6 +50,7 @@ const getSession = asyncHandler(async (req, res, next) => {
   try {
     const user = req.session;
     console.log("req.session: ",req.sessions);
+    console.log("req.user: ",req.user);
     // console.log("req.session.userId: ",req.session);
     res.status(200).json({user});
   } catch (err) {

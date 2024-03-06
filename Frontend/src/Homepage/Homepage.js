@@ -29,13 +29,10 @@ const Homepage = () => {
   const [blogsAccount, setBlogsAccount] = useState([]);
   const [SearchId, setSearchId] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const ve=[];
+
 
   useEffect(() => {
-    if(ve.length<1){
-      reload();
-      ve.push('2');
-    }
+
     // reload();
     fetchBlogs();
     fetchSession();
@@ -48,7 +45,7 @@ const Homepage = () => {
   const reload = () => {
     // if (!localStorage.getItem('reloaded')) {
     //   localStorage.setItem('reloaded', 'true');
-     
+
     // }
     window.location.reload();
     console.log("reload");
@@ -110,11 +107,11 @@ const Homepage = () => {
       const reversedBlogs = response.data.blogs.reverse();
 
       const filteredBlogs = reversedBlogs.filter((blog) =>
-      Searchbar(searchText, blog.description)
-    );
+        Searchbar(searchText, blog.description)
+      );
 
-    handleAccountBlogs(reversedBlogs);
-    setFilteredBlogs(filteredBlogs);
+      handleAccountBlogs(reversedBlogs);
+      setFilteredBlogs(filteredBlogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
@@ -316,6 +313,25 @@ const Homepage = () => {
       return false;
     }
   };
+
+  const handleSortChange = async (e) => {
+    const sortType = e.target.value;
+    if (sortType === "trending") {
+      await fetchTrendingBlogs();
+    } else {
+      await fetchBlogs();
+    }
+  };
+
+  const fetchTrendingBlogs = async () => {
+    try {
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/blog");
+      const sortedBlogs = response.data.blogs.sort((a, b) => b.likes.length - a.likes.length);
+      setFilteredBlogs(sortedBlogs); // ใช้ setFilteredBlogs แทน SetBlogs
+    } catch (error) {
+      console.error("Error fetching trending blogs:", error);
+    }
+  };
   useEffect(() => {
     fetchBlogs();
   }, [searchText, users]);
@@ -339,9 +355,16 @@ const Homepage = () => {
             Post Blog
           </button>
         </div>
-        
+
+        <div class="sel sel--black-panther">
+          <select id="post-sort" className="trending-select" onChange={handleSortChange}>
+            <option value="new">New</option>
+            <option value="trending">Trending</option>
+          </select>
+        </div>
+
         {Array.isArray(filteredBlogs) &&
-            filteredBlogs.map((blog, index) => (
+          filteredBlogs.map((blog, index) => (
 
             <div key={blog._id} className="blog-item" >
               <div className="flex-div">

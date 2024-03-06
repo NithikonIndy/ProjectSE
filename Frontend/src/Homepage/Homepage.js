@@ -34,8 +34,8 @@ const Homepage = () => {
 
   const fetchSession = async () => {
     try {
-      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/Userid", {
-        withCredentials: true,
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
+        // withCredentials: true,
       });
       console.log("log obj data: ", response.data);
       // console.log("log userID: ", response.data._id);

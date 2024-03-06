@@ -9,7 +9,7 @@ oauthRouter.route("/cmuOAuthCallback").get(passport.authenticate("oauth2"), (req
     console.log("sessionID: ",req.sessionID);
     console.log(req.session);
     console.log(req.user);
-    res.redirect("https://freebirdcpe.netlify.app/home");
+    res.redirect("https://65e815ab346bf9d2bfaf39d4--sunny-capybara-082670.netlify.app");
 });
 
 export default oauthRouter;

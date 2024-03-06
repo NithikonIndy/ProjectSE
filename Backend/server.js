@@ -20,7 +20,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: ['http://localhost:5000','https://backend-b1ep.onrender.com'],
+  origin: ['https://65e8083d8eccdcc85147c292--rococo-granita-54314e.netlify.app','https://backend-b1ep.onrender.com'],
   methods: ['GET', 'POST, PUT', 'DELETE', 'PATCH'],
   credentials: true,
   // exposedHeaders: 'set-cookie',

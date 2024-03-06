@@ -12,6 +12,7 @@ import oauthRoutes from "./routes/oauthRoutes.js";
 import { notfound, errorHandler } from "./middleware/errorMiddleware.js";
 import passport from "passport";
 import "./utils/passport.js";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.disable('x-powered-by');
+app.use(bodyParser.json());
 
 app.set('trust proxy', 1);
 

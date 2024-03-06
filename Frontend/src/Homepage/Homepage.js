@@ -45,17 +45,14 @@ const Homepage = () => {
       });
       console.log("log obj data: " ,response.data);
       console.log("log userID: " ,response.data._id);
+
       setUsers(response.data._id);
       console.log("log users: " ,response.data._id);
+
       fetchUserRole();        
-      // if (!response.data) {
-      //     console.log("!response.data.user");
-      //     // fetchLogOut();
-      //     // navigate("/");
-      // } else {
-      // }
-        console.log("This session user:", response.data.name);
+      console.log("This session user:", response.data.name);
       } catch (error) {
+        navigate("/")
         console.error("Error fetching user session:", error);
     }
   };  

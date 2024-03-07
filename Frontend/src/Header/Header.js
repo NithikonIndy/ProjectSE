@@ -21,6 +21,7 @@ const Header = (props) => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
   const [seaechDescription, setSeaechDescription] = useState([]);
+  const [userRole,setUserRole]= useState("");
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -103,9 +104,22 @@ const Header = (props) => {
     debouncedSearch(searchText);
   };
 
+  const fetchSession = async () => {
+    try {
+      const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
+        withCredentials: true,
+      });
+      setUserRole(response.data.role);
+      console.log("This session user:", response.data.name);
+    } catch (error) {
+      console.error("Error fetching user session:", error);
+    }
+  };
+
 
 
   useEffect(() => {
+    fetchSession();
     handleDropdownClick();
 
   }, []);
@@ -132,6 +146,7 @@ const Header = (props) => {
       <div className="container-icons">
 
         {/* Dropdown component */}
+        {(userRole === "ADMIN") && (
         <div className={`dropdown ${isDropdownOpen ? "show" : ""}`}>
           <button onClick={handleDropdownClick} className="dropbtn">
             {/* Bell icon */}
@@ -140,6 +155,7 @@ const Header = (props) => {
           <div id="myDropdown" className="dropdown-content">
             {Array.isArray(Show) &&
               Show.map((blog) => (
+                
                 <div key={blog._id}>
 
                   <p onClick={() => onClickgetblogId(blog._id)}>
@@ -148,8 +164,10 @@ const Header = (props) => {
                   </p>
                 </div>
               ))}
+
           </div>
         </div>
+       )} 
 
         {/* Home icon */}
         <Link to="/home">

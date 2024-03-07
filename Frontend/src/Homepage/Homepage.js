@@ -77,6 +77,7 @@ const Homepage = () => {
       fetchUserRole();
       console.log('This session user:', response.data.name);
     } catch (error) {
+      navigate("/")
       console.log('Error fetching session:', error);
     }
   };

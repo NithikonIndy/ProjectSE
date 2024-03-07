@@ -4,6 +4,7 @@ import Comment from "../models/Comment.js";
 import User from "../models/userModel.js";
 import Report from "../models/reportModel.js";
 import constants from "../utils/constants.js";
+import ReportComment from "../models/reportCModel.js";
 
 export const getAllBlog = async ( req, res, next) => {
     let blogs;
@@ -117,6 +118,7 @@ export const deleteBlog = async (req , res, next) => {
         await blog.user.blogs.pull(blog);
         await blog.user.updateOne({ $pull: { comments: { $in: blog.comments.map(comment => comment._id) } } });
         await Report.deleteMany({ postId: id });
+        await ReportComment.deleteMany({ commentId: { $in: blog.comments.map(comment => comment._id) }});
         await blog.user.save();
     }catch(err){
         return console.log(err);

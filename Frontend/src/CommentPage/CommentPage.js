@@ -74,6 +74,7 @@ const CommentPage = () => {
       // }
         console.log("This session user:", response.data.name);
       } catch (error) {
+        navigate("/")
         console.error("Error fetching user session:", error);
     }
   };  
@@ -142,6 +143,16 @@ const CommentPage = () => {
     console.log(`reason:`, reason);
     try {
       await axios.post(`https://backend-b1ep.onrender.com/api/blog/${blogid}/report`, { reason }, { withCredentials: true });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleReportComment = async (commentId, selectReason) => {
+    const reason = selectReason;
+    console.log(`reason:`, reason);
+    try {
+      await axios.post(`https://backend-b1ep.onrender.com/api/comments/${commentId}/reportComment`, { reason }, { withCredentials: true });
     } catch (error) {
       console.error(error);
     }
@@ -384,6 +395,46 @@ const CommentPage = () => {
       });
   };
 
+  const AlertReportComment = async (commentId) => {
+    console.log(commentId);
+    const fetchReasons = await handleReportReasons();
+
+    Swal.fire({
+      title: "Firmly to report?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, report it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log(commentId);
+        console.log(users);
+        const { value: reasons } = await Swal.fire({
+          title: "Please select your reasons",
+          input: "select",
+          inputOptions: fetchReasons,
+          inputPlaceholder: "Please select your reasons",
+          showCancelButton: true,
+          inputValidator: (result) => {
+            console.log("inputValidator:", result);
+            return !result && "You need to select the reason!";
+          },
+        });
+        if (reasons) {
+          // fetch the POST reasons from the backend
+          console.log(`reasons[${reasons}]`);
+          await handleReportComment(commentId, fetchReasons[reasons])
+          Swal.fire({
+            title: "Report!",
+            text: `Your report reason[${reasons}] has submitted.`,
+            icon: "success",
+          });
+        }
+      }
+    });
+  };
+
   const AlertEdit = (blogid) => {
     Swal.fire({
       title: "Enter text",
@@ -608,18 +659,19 @@ const CommentPage = () => {
                       Like
                     </Button>
                   </div>
-                  {/*
+
                   <Button
                     className="logo-control"
                     onClick={() => {
                       AlertReport(comment._id);
+                      AlertReportComment(comment.id);
                     }}
                   >
                     <FontAwesomeIcon icon={faFlag} />
                     &nbsp;
                     Report
                   </Button>
-                  */}
+
                 </CardFooter>
               </CardBody>
             </Card>

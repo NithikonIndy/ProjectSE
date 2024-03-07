@@ -54,37 +54,37 @@ const CommentPage = () => {
     fetchSession();
     fetchBlog();
     fetchComments();
-  },[]);
+  }, []);
 
   const fetchSession = async () => {
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
         withCredentials: true,
       });
-      console.log("log obj data: " ,response.data);
-      console.log("log userID: " ,response.data._id);
+      console.log("log obj data: ", response.data);
+      console.log("log userID: ", response.data._id);
       setUsers(response.data._id);
-      console.log("log users: " ,response.data._id);
-      fetchUserRole();        
+      console.log("log users: ", response.data._id);
+      fetchUserRole();
       // if (!response.data) {
       //     console.log("!response.data.user");
       //     // fetchLogOut();
       //     // navigate("/");
       // } else {
       // }
-        console.log("This session user:", response.data.name);
-      } catch (error) {
-        navigate("/")
-        console.error("Error fetching user session:", error);
+      console.log("This session user:", response.data.name);
+    } catch (error) {
+      navigate("/")
+      console.error("Error fetching user session:", error);
     }
-  };  
+  };
 
   const fetchLogOut = async () => {
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/user/deleteSession", {
         withCredentials: true,
       });
-      console.log("log: " ,response.data);
+      console.log("log: ", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -92,13 +92,13 @@ const CommentPage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/api/user/role",{ withCredentials: true });
-        setUserRole(role);
-        //console.log("This session user role:" ,role);
-        //console.log(userRole);
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-      }
+      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/api/user/role", { withCredentials: true });
+      setUserRole(role);
+      //console.log("This session user role:" ,role);
+      //console.log(userRole);
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
   };
 
   const fetchComments = async () => {
@@ -128,7 +128,7 @@ const CommentPage = () => {
     console.log("FetchingBlog");
   };
 
-  const handleReportReasons = async() => {
+  const handleReportReasons = async () => {
     try {
       const { data: fetchReasons } = await axios.get("https://backend-b1ep.onrender.com/api/user/reportReasons");
       console.log(fetchReasons);
@@ -194,11 +194,11 @@ const CommentPage = () => {
   const handleLikePost = async () => {
     const apiUrl = `https://backend-b1ep.onrender.com/api/blog/${blogIdforget}/like`;
     try {
-      const response = await axios.put(apiUrl, { UserId : users });
-        if (response.data === "The post has been liked" || response.data === "The post has been disliked") {
-          fetchLikesPost();
-        }
-        console.log("handleLikePost" ,response.data);
+      const response = await axios.put(apiUrl, { UserId: users });
+      if (response.data === "The post has been liked" || response.data === "The post has been disliked") {
+        fetchLikesPost();
+      }
+      console.log("handleLikePost", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -211,8 +211,8 @@ const CommentPage = () => {
       let end = response.data.blog.likes.length;
       const arrayLikes = [];
 
-      while(i < end){
-        if(response.data.blog._id == blogIdforget){
+      while (i < end) {
+        if (response.data.blog._id == blogIdforget) {
           arrayLikes.push(response.data.blog.likes[i]);
         }
         i++;
@@ -230,10 +230,10 @@ const CommentPage = () => {
     const apiUrl = `https://backend-b1ep.onrender.com/api/comments/blog/${commentId}/like`;
     try {
       const response = await axios.put(apiUrl, { userId: users });
-      if(response.data === "The comment has been liked" || response.data === "The comment has been disliked"){
+      if (response.data === "The comment has been liked" || response.data === "The comment has been disliked") {
         fetchComments(commentId);
       }
-      console.log("handleLikeComment" ,response.data);
+      console.log("handleLikeComment", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -249,7 +249,7 @@ const CommentPage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
-      gotohome();
+    gotohome();
   };
 
   const handleDeleteComment = (commentid) => {
@@ -303,23 +303,23 @@ const CommentPage = () => {
 
   const handleAccountComment = async (comments) => {
     try {
-        const emailPromises = comments.map(async (comment) => {
-            const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/comments/blog/${comment.user}/account`);
-            //console.log("handleAccountComment", comment.user);
-            return email.email;
-        });
-        const userEmails = await Promise.all(emailPromises);
-        setCommentAccount(userEmails);
-        console.log("Comment account:", userEmails);
-    } catch (error) { 
-        console.log("Error fetching account:", error);
+      const emailPromises = comments.map(async (comment) => {
+        const { data: email } = await axios.get(`https://backend-b1ep.onrender.com/api/comments/blog/${comment.user}/account`);
+        //console.log("handleAccountComment", comment.user);
+        return email.email;
+      });
+      const userEmails = await Promise.all(emailPromises);
+      setCommentAccount(userEmails);
+      console.log("Comment account:", userEmails);
+    } catch (error) {
+      console.log("Error fetching account:", error);
     }
-};
+  };
   const gotohome = () => {
     navigate(`/home`);
   };
 
-  
+
   const AlertDelete = (blogid) => {
     Swal.fire({
       title: " blog Firmly to delete?",
@@ -361,43 +361,43 @@ const CommentPage = () => {
   };
 
   const AlertReport = async (blogid) => {
-      const fetchReasons = await handleReportReasons();
-      console.log(blogid);
+    const fetchReasons = await handleReportReasons();
+    console.log(blogid);
 
-      Swal.fire({
-        title: "Firmly to report?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, report it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          //console.log(blogs[0]._id);
-          //console.log(users);
-          const { value: reasons } = await Swal.fire({
-            title: "Please select your reasons",
-            input: "select",
-            inputOptions: fetchReasons,
-            inputPlaceholder: "Please select your reasons",
-            showCancelButton: true,
-            inputValidator: (result) => {
-              console.log("inputValidator:", result);
-              return !result && "You need to select the reason!";
-            },
+    Swal.fire({
+      title: "Firmly to report?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, report it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        //console.log(blogs[0]._id);
+        //console.log(users);
+        const { value: reasons } = await Swal.fire({
+          title: "Please select your reasons",
+          input: "select",
+          inputOptions: fetchReasons,
+          inputPlaceholder: "Please select your reasons",
+          showCancelButton: true,
+          inputValidator: (result) => {
+            console.log("inputValidator:", result);
+            return !result && "You need to select the reason!";
+          },
+        });
+        if (reasons) {
+          // fetch the POST reasons from the backend
+          console.log(`reasons[${reasons}]`);
+          await handleReport(blogid, fetchReasons[reasons])
+          Swal.fire({
+            title: "Report!",
+            text: `Your report reason[${reasons}] has submitted.`,
+            icon: "success",
           });
-          if (reasons) {
-            // fetch the POST reasons from the backend
-            console.log(`reasons[${reasons}]`);
-            await handleReport(blogid, fetchReasons[reasons])
-            Swal.fire({
-              title: "Report!",
-              text: `Your report reason[${reasons}] has submitted.`,
-              icon: "success",
-            });
-          }
         }
-      });
+      }
+    });
   };
 
   const AlertReportComment = async (commentId) => {
@@ -476,13 +476,13 @@ const CommentPage = () => {
             text: `Your comment has been edited.`,
             icon: "success",
           });
-          console.log("edit comment text's: ",editedText);
+          console.log("edit comment text's: ", editedText);
           handleEditComment(commentid, editedText);
         }
       }
     });
   };
-  
+
   return (
     <div className="comment-page">
       <Header />
@@ -497,9 +497,9 @@ const CommentPage = () => {
                   <div className="flex-div">
                     <FontAwesomeIcon icon={faUser} />
                     <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(blog.user, blog._id)}</i></strong>
-                    { userRole === "ADMIN" && (
+                    {userRole === "ADMIN" && (
                       <strong style={{ marginLeft: '10px' }}>{blogAccount}</strong>
-                    )} 
+                    )}
                   </div>
 
                   <div className="topright">
@@ -519,7 +519,7 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    {/* {blog.user === users && (
+                    {blog.user === users && (
                       <Button
                         className="logo-control"
                         id={`deleteButton-${blog.user}`}
@@ -534,7 +534,7 @@ const CommentPage = () => {
                         &nbsp;
                         Delete
                       </Button>
-                    )} */}
+                    )}
                   </div>
                 </CardHeader>
 
@@ -549,7 +549,7 @@ const CommentPage = () => {
                           handleLikePost();
                         }}
                       >
-                        <FontAwesomeIcon icon={faThumbsUp} className="margin-right"/>
+                        <FontAwesomeIcon icon={faThumbsUp} className="margin-right" />
                         {listLikePost.length}
                         &nbsp;
                         Like
@@ -599,7 +599,7 @@ const CommentPage = () => {
             </CardFooter>
           </CardBody>
         </Card>
-        
+
         {/* Comment List */}
         {Array.isArray(listComment) &&
           listComment.map((comment, index) => (
@@ -609,14 +609,14 @@ const CommentPage = () => {
                   <div className="flex-div">
                     <FontAwesomeIcon icon={faUser} />
                     <strong style={{ marginLeft: '6px' }}><i>{generateRandomNameForUserId(comment.user, comment.blog)}</i></strong>
-                    
+
                     {(userRole === "ADMIN") && (
-                      <p style={{ marginLeft: '6px' }} >{commentAccount[index] }</p>
+                      <p style={{ marginLeft: '6px' }} >{commentAccount[index]}</p>
                     )}
                   </div>
 
                   <div className="topright">
-                    
+
 
                     {((comment.user === users) || (userRole === "ADMIN")) && (
                       <Button
@@ -638,7 +638,20 @@ const CommentPage = () => {
                 <CardFooter>
                   <div className="flex-div">
 
-                  {comment.user === users && (
+                    <Button
+                      onClick={() => {
+                        handleLikeComment(comment.id);
+                        console.log("Comment id", comment.id);
+                      }}
+                      style={{ backgroundColor: '#2CD5BD', color: 'white' }}
+                    >
+                      <FontAwesomeIcon icon={faThumbsUp} className="margin-right" />
+                      {comment.likes.length}
+                      &nbsp;
+                      Like
+                    </Button>
+
+                    {comment.user === users && (
                       <Button
                         className="logo-control"
                         onClick={() => {
@@ -654,18 +667,6 @@ const CommentPage = () => {
                       </Button>
                     )}
 
-                    <Button
-                      onClick={() => {
-                        handleLikeComment(comment.id);
-                        console.log("Comment id", comment.id);
-                      }}
-                      style={{ backgroundColor: '#2CD5BD', color: 'white' }}
-                    >
-                      <FontAwesomeIcon icon={faThumbsUp} className="margin-right"/>
-                      {comment.likes.length}
-                      &nbsp;
-                      Like
-                    </Button>
                   </div>
 
                   <Button

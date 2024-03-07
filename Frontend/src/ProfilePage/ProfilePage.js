@@ -90,10 +90,10 @@ const ProfilePage = () => {
             <Divider />
             <Row justify="center">
               <Col span={12}>
-                <Button className="button-css" block size="large" href="/YourBlog">Your Blog {userBlog.length}</Button>
+                <Button className="button-css" block size="large" >Your Blog {userBlog.length}</Button>
               </Col>
               <Col span={12}>
-                <Button className="button-css" block size="large" href="/YourCom">Your Comment {userComment.length}</Button>
+                <Button className="button-css" block size="large" >Your Comment {userComment.length}</Button>
               </Col>
             </Row>
           </Card>

@@ -249,6 +249,7 @@ const CommentPage = () => {
       .catch((error) => {
         console.error("Error deleting resource", error);
       });
+      gotohome();
   };
 
   const handleDeleteComment = (commentid) => {
@@ -314,6 +315,10 @@ const CommentPage = () => {
         console.log("Error fetching account:", error);
     }
 };
+  const gotohome = () => {
+    navigate(`/home`);
+  };
+
   
   const AlertDelete = (blogid) => {
     Swal.fire({
@@ -611,21 +616,7 @@ const CommentPage = () => {
                   </div>
 
                   <div className="topright">
-                    {comment.user === users && (
-                      <Button
-                        className="logo-control"
-                        onClick={() => {
-                          AlertEditComment(comment.id);
-                          setTimeout(() => {
-                            fetchBlog();
-                          }, 1000);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                        &nbsp;
-                        Edit
-                      </Button>
-                    )}
+                    
 
                     {((comment.user === users) || (userRole === "ADMIN")) && (
                       <Button
@@ -646,6 +637,23 @@ const CommentPage = () => {
 
                 <CardFooter>
                   <div className="flex-div">
+
+                  {comment.user === users && (
+                      <Button
+                        className="logo-control"
+                        onClick={() => {
+                          AlertEditComment(comment.id);
+                          setTimeout(() => {
+                            fetchBlog();
+                          }, 1000);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                        &nbsp;
+                        Edit
+                      </Button>
+                    )}
+
                     <Button
                       onClick={() => {
                         handleLikeComment(comment.id);

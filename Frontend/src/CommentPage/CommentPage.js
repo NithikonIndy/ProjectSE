@@ -672,7 +672,6 @@ const CommentPage = () => {
                   <Button
                     className="logo-control"
                     onClick={() => {
-                      AlertReport(comment._id);
                       AlertReportComment(comment.id);
                     }}
                   >

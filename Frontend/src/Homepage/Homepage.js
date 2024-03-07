@@ -373,12 +373,7 @@ const Homepage = () => {
           </button>
         </div>
 
-        <div class="sel sel--black-panther">
-          <select id="post-sort" className="trending-select" onChange={handleSortChange}>
-            <option value="new">New</option>
-            <option value="trending">Trending</option>
-          </select>
-        </div>
+        
 
         {Array.isArray(filteredBlogs) &&
           filteredBlogs.map((blog, index) => (

@@ -1,14 +1,21 @@
 import Header from "../Header/Header.js";
 import "./ProfilePage.css"
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Card, Avatar, Divider, Typography, Button, Col, Row } from 'antd';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
+
+const { Title, Text } = Typography;
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState("");
+  const [usersID, setUsersID] = useState("");
   const [userRole, setUserRole] = useState("");
+  const [userBlog,setUserBlog] = useState([]);
+  const [userComment,setUserComment] = useState([]);
+  const [userName,setUserName] = useState("");
+  const [useremail,setUserEmail] = useState("");
 
   useEffect(() => {
     fetchSession();
@@ -19,29 +26,23 @@ const ProfilePage = () => {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/user/status", {
         withCredentials: true,
       });
-      console.log("log obj data: " ,response.data);
-      console.log("log userID: " ,response.data._id);
-      setUsers(response.data._id);
-      console.log("log users: " ,response.data._id);
-      fetchUserRole();        
-      // if (!response.data) {
-      //     console.log("!response.data.user");
-      //     // fetchLogOut();
-      //     // navigate("/");
-      // } else {
-      // }
-        console.log("This session user:", response.data.name);
-      } catch (error) {
-        console.error("Error fetching user session:", error);
+      setUsersID(response.data._id);
+      setUserBlog(response.data.blogs);
+      setUserComment(response.data.comments);
+      setUserName(response.data.name);
+      setUserEmail(response.data.email);
+      console.log("This session user:", response.data.name);
+    } catch (error) {
+      console.error("Error fetching user session:", error);
     }
-  };  
+  };
 
   const fetchLogOut = async () => {
     try {
       const response = await axios.get("https://backend-b1ep.onrender.com/api/user/deleteSession", {
         withCredentials: true,
       });
-      console.log("log: " ,response.data);
+      console.log("log: ", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -49,63 +50,55 @@ const ProfilePage = () => {
 
   const fetchUserRole = async () => {
     try {
-      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/api/user/role",{ withCredentials: true });
-        setUserRole(role);
-        //console.log("This session user role:" ,role);
-        //console.log(userRole);
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-      }
+      const { data: role } = await axios.get("https://backend-b1ep.onrender.com/api/user/role", { withCredentials: true });
+      setUserRole(role);
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
   };
 
-  return (
-    <div className="profile-page">
-      <Header />
-      <div className="vh-100" style={{ backgroundColor: '#9de2ff' }}>
-      <MDBContainer>
-        <MDBRow className="justify-content-center">
-          <MDBCol md="9" lg="7" xl="5" className="mt-5">
-            <MDBCard style={{ borderRadius: '15px' }}>
-              <MDBCardBody className="p-4">
-                <div className="d-flex text-black">
-                  <div className="flex-shrink-0">
-                    <MDBCardImage
-                      style={{ width: '180px', borderRadius: '10px' }}
-                      src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp'
-                      alt='Generic placeholder image'
-                      fluid />
-                  </div>
-                  <div className="flex-grow-1 ms-3">
-                    <MDBCardTitle>Danny McLoan</MDBCardTitle>
-                    <MDBCardText>Senior Journalist</MDBCardText>
 
-                    <div className="d-flex justify-content-start rounded-3 p-2 mb-2"
-                      style={{ backgroundColor: '#efefef' }}>
-                      <div>
-                        <p className="small text-muted mb-1">Articles</p>
-                        <p className="mb-0">41</p>
-                      </div>
-                      <div className="px-3">
-                        <p className="small text-muted mb-1">Followers</p>
-                        <p className="mb-0">976</p>
-                      </div>
-                      <div>
-                        <p className="small text-muted mb-1">Rating</p>
-                        <p className="mb-0">8.5</p>
-                      </div>
-                    </div>
-                    <div className="d-flex pt-1">
-                      <MDBBtn outline className="me-1 flex-grow-1">Chat</MDBBtn>
-                      <MDBBtn className="flex-grow-1">Follow</MDBBtn>
-                    </div>
-                  </div>
-                </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
-    </div>
+  return (
+    <div>
+      <Header />
+      <Row justify="center" style={{ marginTop: "80px" }}>
+        <Col span={8} align="middle">
+          <Card
+            style={{
+              width: "100%",
+              borderRadius: "16px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"
+            }}
+            cover={
+              <img
+                alt="example"
+                src="https://wallpaperaccess.com/full/4382314.jpg"
+                style={{
+                  height: "200px",
+                  objectFit: "cover",
+                  borderRadius: "16px 16px 0 0"
+                }}
+              />
+            }
+          >
+            <Avatar size={64} src="https://wallpaperaccess.com/full/4382314.jpg" style={{ position: "absolute", top: "120px", left: "50%", transform: "translate(-50%, -50%)" }} />
+            <Divider />
+            <Card.Meta
+              title={<Title level={3}>{userName}</Title>}
+              description={<Text>{useremail}</Text>}
+            />
+            <Divider />
+            <Row justify="center">
+              <Col span={12}>
+                <Button className="button-css" block size="large" href="/YourBlog">Your Blog {userBlog.length}</Button>
+              </Col>
+              <Col span={12}>
+                <Button className="button-css" block size="large" href="/YourCom">Your Comment {userComment.length}</Button>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };
